@@ -1,0 +1,133 @@
+title: Patvar utca
+widget_dimensions: [119, 120]
+widget_size: [1, 1]
+widget_margins: [4, 4]
+columns: 3
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+    namespace: default
+
+clock:
+  widget_type: clock
+  widget_style: "background: white"
+  date_style: "color: black"
+  time_style: "color: green"
+  date_format_country: "hu"
+  date_format_options:
+    weekday: "long"
+    day: "numeric"
+    month: "numeric"
+
+sample_weather:
+  widget_type: weather
+  widget_size: [2, 2]
+  title: Today
+  show_forecast: 0
+  prefer_icons: 1
+  forecast_title: Tomorrow
+  sensors:
+    icon: sensor.dark_sky_icon
+    temperature: sensor.dark_sky_temperature
+    humidity: sensor.dark_sky_humidity
+    pressure: sensor.dark_sky_pressure
+    wind_speed: sensor.dark_sky_wind_speed
+    wind_bearing: sensor.dark_sky_wind_bearing
+    forecast_icon: sensor.dark_sky_icon_1
+    forecast_temperature_min: sensor.dark_sky_daily_low_temperature_1
+    forecast_temperature_max: sensor.dark_sky_daily_high_temperature_1
+
+light_nl1:
+  widget_type: switch
+  icon_on: mdi-lightbulb-on-outline
+  icon_off: mdi-lightbulb-outline
+  title: Nappali 1
+  entity: switch.nl1r1_1
+
+light_nl2:
+  widget_type: switch
+  icon_on: mdi-lightbulb-on-outline
+  icon_off: mdi-lightbulb-outline
+  title: Nappali 2
+  entity: switch.nl2r1_2
+
+light_nl3:
+  widget_type: switch
+  icon_on: mdi-lightbulb-on-outline
+  icon_off: mdi-lightbulb-outline
+  title: Nappali 3
+  entity: switch.nl3r1_3
+
+light_el1:
+  widget_type: switch
+  icon_on: mdi-lightbulb-on-outline
+  icon_off: mdi-lightbulb-outline
+  title: Etkezo 1
+  entity: switch.el1r1_5
+
+light_el2:
+  widget_type: switch
+  icon_on: mdi-lightbulb-on-outline
+  icon_off: mdi-lightbulb-outline
+  title: Etkezo 2
+  entity: switch.el2r1_6
+
+light_el3:
+  widget_type: switch
+  icon_on: mdi-lightbulb-on-outline
+  icon_off: mdi-lightbulb-outline
+  title: Etkezo 3
+  entity: switch.el3r1_7
+
+pir_nappali:
+  widget_type: icon
+  entity: binary_sensor.np1
+  icons:
+    "on":
+       icon: mdi-account-circle
+    "off":
+       icon: mdi-account-circle-outline
+  title: Nappali
+  
+pir_etkezo:
+  widget_type: icon
+  entity: binary_sensor.ep1
+  icons:
+    "on":
+       icon: mdi-account-circle
+    "off":
+       icon: mdi-account-circle-outline
+  title: Etkezo
+
+all_etkezo:
+  widget_type: switch
+  entity: group.kitchen
+  title: Etkezo
+  icon_off: mdi-toggle-switch-off-outline
+  icon_on: mdi-toggle-switch
+
+all_nappali:
+  widget_type: switch
+  entity: group.living_room
+  title: Nappali
+  icon_off: mdi-toggle-switch-off-outline
+  icon_on: mdi-toggle-switch
+
+home_cinema:
+   widget_type: media_player
+   entity: media_player.hometheater
+   title: Home-Theater
+   step: 5
+
+layout:
+   - sample_weather(3x2)
+   - 
+   - home_cinema(3x2)
+   - 
+   - pir_nappali, ,pir_etkezo
+   - all_etkezo(3x1) 
+   - light_el1, light_el2, light_el3
+   - all_nappali(3x1)
+   - light_nl1, light_nl2, light_nl3
+

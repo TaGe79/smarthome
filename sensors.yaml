@@ -1,0 +1,31 @@
+  - platform: time_date
+    display-options:
+      - 'time'
+      - 'date'
+
+  - platform: darksky
+    api_key: c9d28654f52c0edfe1d214efdc4c0c79
+    language: hu
+    units: si
+    forecast: [1,2,3]
+    update_interval: '00:05'
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+      - temperature
+      - wind_speed
+      - wind_bearing
+      - cloud_cover
+      - humidity
+      - pressure
+      - moon_phase
+      - precip_type
+      - precip_probability
+      - precip_accumulation
+      - precip_intensity
+      - visibility
+      - hourly_summary
+      - uv_index
+      - temperature_high
+      - temperature_low

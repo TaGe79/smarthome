@@ -1,0 +1,116 @@
+- id: ep1_lights_on
+  alias: EP1 lights on
+  trigger:
+  - entity_id: binary_sensor.ep1
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - service: timer.start
+    entity_id: timer.timer_ep1_lights
+  - service: switch.turn_on
+    entity_id: switch.el1r1_5
+    data:
+      entity_id: el1r5
+  - service: switch.turn_on
+    entity_id: switch.el2r1_6
+    data:
+      entity_id: el2r6
+  - service: switch.turn_on
+    entity_id: switch.el3r1_7
+    data:
+      entity_id: el3r7
+
+- id: ep1_lights_off
+  alias: EP1 lights off
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.timer_ep1_lights
+  condition:
+  - condition: state
+    entity_id: binary_sensor.ep1
+    state: 'off'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.el1r1_5
+  - service: switch.turn_off
+    entity_id: switch.el2r1_6
+  - service: switch.turn_off
+    entity_id: switch.el3r1_7
+#
+# N A P P A L I  1
+#
+- id: np1_lights_on
+  alias: NP1 lights on
+  trigger:
+  - entity_id: binary_sensor.np1
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - service: timer.start
+    entity_id: timer.timer_np1_lights
+  - service: switch.turn_on
+    entity_id: switch.nl1r1_1
+    data:
+      entity_id: nl1r1
+  - service: switch.turn_on
+    entity_id: switch.nl2r1_2
+    data:
+      entity_id: nl2r2
+- id: np1_lights_off
+  alias: NP1 lights off
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.timer_np1_lights
+  condition:
+  - condition: state
+    entity_id: binary_sensor.np1
+    state: 'off'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.nl1r1_1
+  - service: switch.turn_off
+    entity_id: switch.nl2r1_2
+#
+# N A P P A L I  2
+#
+- id: np2_lights_on
+  alias: NP2 lights on
+  trigger:
+  - entity_id: binary_sensor.np2
+    from: 'off'
+    platform: state
+    to: 'on'
+  action:
+  - service: timer.start
+    entity_id: timer.timer_np2_lights
+  - service: switch.turn_on
+    entity_id: switch.nl3r1_3
+    data:
+      entity_id: nl3r3
+  - service: switch.turn_on
+    entity_id: switch.nl2r1_2
+    data:
+      entity_id: nl2r2
+
+- id: np2_lights_off
+  alias: NP2 lights off
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.timer_np2_lights
+  condition:
+  - condition: state
+    entity_id: binary_sensor.np2
+    state: 'off'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.nl3r1_3
+  - service: switch.turn_off
+    entity_id: switch.nl2r1_2

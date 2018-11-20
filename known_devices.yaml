@@ -1,0 +1,97 @@
+
+tamas_iphone:
+  hide_if_away: false
+  icon:
+  mac: 50:BC:96:C5:89:F4
+  name: Tamás
+  gravatar: tgergel@gmail.com
+  track: true
+
+dalma_iphone:
+  hide_if_away: false
+  icon:
+  mac: 70:3E:AC:16:7D:DC
+  name: Dalma
+  picture:
+  track: true
+
+home_theater:
+  hide_if_away: false
+  icon:
+  mac: 00:05:CD:AA:46:14
+  name: 0005cdaa4614
+  picture:
+  track: false
+
+b47c9cb07c16:
+  hide_if_away: false
+  icon:
+  mac: B4:7C:9C:B0:7C:16
+  name: b47c9cb07c16
+  picture:
+  track: false
+
+60c54797043e:
+  hide_if_away: false
+  icon:
+  mac: 60:C5:47:97:04:3E
+  name: 60c54797043e
+  picture:
+  track: false
+
+csongor_iphone:
+  hide_if_away: false
+  icon:
+  mac: 78:D7:5F:B0:80:EC
+  name: Csongor
+  picture:
+  track: true
+
+kicsi_ipad:
+  hide_if_away: false
+  icon:
+  mac: 5C:96:9D:0F:B0:A3
+  name: kicsi iPad
+  picture:
+  track: false
+
+0c5101bcb82a:
+  hide_if_away: false
+  icon:
+  mac: 0C:51:01:BC:B8:2A
+  name: 0c5101bcb82a
+  picture:
+  track: false
+
+bcec5de6b170:
+  hide_if_away: false
+  icon:
+  mac: BC:EC:5D:E6:B1:70
+  name: bcec5de6b170
+  picture:
+  track: false
+
+csilla_iphone:
+  hide_if_away: false
+  icon:
+  mac: C4:98:80:9F:70:96
+  name: Csilla
+  picture:
+  track: true
+
+b827eb614476:
+  hide_if_away: false
+  icon:
+  mac: B8:27:EB:61:44:76
+  name: b827eb614476
+  picture:
+  track: false
+
+
+6c5697f8d744:
+  hide_if_away: false
+  icon:
+  mac: 6C:56:97:F8:D7:44
+  name: 6c5697f8d744
+  picture:
+  track: true

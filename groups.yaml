@@ -1,0 +1,34 @@
+csalad:
+    name: Család
+    icon: mdi:account-group
+    entities:
+      - device_tracker.csilla_iphone
+      - device_tracker.dalma_iphone
+      - device_tracker.csongor_iphone
+      - device_tracker.tamas_iphone
+
+downstairs:
+    name: Also szint
+    entities:
+      - group.kitchen
+      - group.living_room
+    
+redony:
+    name: Redöny
+    entities:
+      - switch.ro1_fr2_4
+      - switch.ro1_lr2_2
+      - switch.ro2_fr2_1
+      - switch.ro2_lr2_3
+kitchen:
+    name: Konyha    
+    entities:
+      - switch.el1r1_5
+      - switch.el2r1_6
+      - switch.el3r1_7
+living_room:
+    name: Nappali
+    entities:
+      - switch.nl1r1_1
+      - switch.nl2r1_2
+      - switch.nl3r1_3

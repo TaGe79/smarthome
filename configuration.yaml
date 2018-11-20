@@ -1,0 +1,147 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 47.440449
+  longitude: 19.032424
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 17
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Budapest
+  # Customization file
+  customize: !include customize.yaml
+
+  customize_glob:
+    "sensor.dark_sky_*":
+      hidden: true
+
+    "timer.timer_*":
+      hidden: true
+
+    "binary_sensor.*p*":
+      hidden: true
+
+zone:
+  - name: Home
+    latitude: 47.440449
+    longitude: 19.032424
+    radius: 50
+    icon: mdi:account-multiple
+  - name: WorldQuant
+    latitude: 47.505235
+    longitude: 19.050571
+    radius: 50
+    icon: mdi:factory
+  - name: Osztrak Iskola
+    latitude: 47.498961
+    longitude: 19.011734
+    radius: 50
+    icon: mdi:school
+  - name: Tamasi
+    latitude: 47.492178
+    longitude: 19.004202
+    radius: 50
+    icon: mdi:school
+    
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: homeassistant
+  username: Grafana
+  password: Grafana
+  max_retries: 3
+  default_measurement: state
+
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 192.168.0.100-200
+    home_interval: 10
+    exclude:
+     - 192.168.0.107
+     - 192.168.0.199
+     - 192.168.0.151
+     - 192.168.0.166
+     - 192.168.0.186
+     - 192.168.0.126  
+#  - platform: icloud
+#    username: !secret tamas_icloud_user
+#    password: !secret tamas_icloud_password
+#    gps_accuracy_threshold: 200
+#    account_name: Tamas
+#  - platform: icloud
+#    username: !secret csongor_icloud_user
+#    password: !secret csongor_icloud_password
+#    gps_accuracy_threshold: 200
+#    account_name: Csongor
+
+
+# Track the sun
+sun:
+
+# Weather prediction
+weather:
+  - platform: darksky
+    api_key: c9d28654f52c0edfe1d214efdc4c0c79
+
+
+sensor: !include sensors.yaml
+binary_sensor: !include binary_sensors.yaml
+switch: !include switches.yaml
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+# cloud:
+
+no_ip:
+  domain: gergely.ddns.net
+  username: tgergel+noip@gmail.com
+  password: guddy5-fEbrab-wihmep
+
+media_player:
+  - platform: denonavr
+    host: 192.168.0.151
+    name: Home-Theater
+    show_all_sources: True
+
+timer: !include timers.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml

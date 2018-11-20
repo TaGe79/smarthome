@@ -1,0 +1,13 @@
+  - platform: rpi_gpio
+    invert_logic: true
+    ports:
+      5: EL1-R1_5
+      6: EL2-R1_6
+      13: EL3-R1_7
+      23: NL1-R1_1
+      24: NL2-R1_2
+      25: NL3-R1_3
+      19: RO2_F-R2_1
+      26: RO1_L-R2_2
+      16: RO2_L-R2_3
+      20: RO1_F-R2_4
