@@ -44,7 +44,7 @@ csongor_iphone:
   icon:
   mac: 78:D7:5F:B0:80:EC
   name: Csongor
-  picture:
+  gravatar: csongor.gergely@icloud.com
   track: true
 
 kicsi_ipad:
