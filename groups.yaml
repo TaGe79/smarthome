@@ -15,6 +15,7 @@ downstairs:
     
 redony:
     name: Redöny
+    control: hidden
     entities:
       - switch.ro1_fr2_4
       - switch.ro1_lr2_2
