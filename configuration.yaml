@@ -23,6 +23,12 @@ homeassistant:
     "binary_sensor.*p*":
       hidden: true
 
+logger:
+  default: info
+  logs:
+    pydeconz: debug
+    homeassistant.components.deconz: debug
+
 zone:
   - name: Home
     latitude: 47.440449

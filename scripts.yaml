@@ -1,0 +1,28 @@
+kitchen_schutter_up:
+  alias: Konyha Fel
+  sequence:
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro1_lr2_2
+   - service: switch: turn_on
+     data:
+       entity_id: switch.ro1_fr2_4
+kitchen_schutter_stop:
+  alias: Konyha Stop
+  sequence:
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro1_lr2_2
+   - service: switch: turn_off
+     data:
+       entity_id: switch.ro1_fr2_4
+kitchen_schutter_down:
+  alias: Konyha Le
+  sequence:
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro1_fr2_4
+   - service: switch: turn_on
+     data:
+       entity_id: switch.ro1_lr2_2
+     
