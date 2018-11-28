@@ -1,3 +1,10 @@
+default_view:
+    entities:
+      - group.csalad
+      - group.downstairs
+      - group.kitchen
+      - group.living_room
+
 csalad:
     name: Család
     icon: mdi:account-group
@@ -17,16 +24,20 @@ redony:
     name: Redöny
     control: hidden
     entities:
-      - switch.ro1_fr2_4
-      - switch.ro1_lr2_2
-      - switch.ro2_fr2_1
-      - switch.ro2_lr2_3
+      - script.kitchen_schutter_up
+      - script.kitchen_schutter_stop
+      - script.kitchen_schutter_down
+      - script.livingroom_schutter_up
+      - script.livingroom_schutter_stop
+      - script.livingroom_schutter_down
+
 kitchen:
     name: Konyha    
     entities:
       - switch.el1r1_5
       - switch.el2r1_6
       - switch.el3r1_7
+
 living_room:
     name: Nappali
     entities:

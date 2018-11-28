@@ -7,11 +7,11 @@
   binary_sensor.teraszajto:
     device_class: door
 
-  switch.ro2_fr2_1:
-    friendly_name: Nappali-Fel
-  
-  switch.ro2_lr2_3:  
+  switch.ro2_lr2_1:
     friendly_name: Nappali-Le
+  
+  switch.ro2_fr2_3:  
+    friendly_name: Nappali-Fel
 
   switch.ro1_fr2_4:
     friendly_name: Konyha-Fel
