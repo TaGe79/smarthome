@@ -1,7 +1,6 @@
 
 tamas_iphone:
   hide_if_away: false
-  icon:
   mac: 50:BC:96:C5:89:F4
   name: Tamás
   gravatar: tgergel@gmail.com
@@ -9,7 +8,6 @@ tamas_iphone:
 
 dalma_iphone:
   hide_if_away: false
-  icon:
   mac: 70:3E:AC:16:7D:DC
   name: Dalma
   gravatar: dalma.gergely@icloud.com
@@ -93,5 +91,13 @@ b827eb614476:
   icon:
   mac: 6C:56:97:F8:D7:44
   name: 6c5697f8d744
+  picture:
+  track: true
+
+d830625af187:
+  hide_if_away: false
+  icon:
+  mac: D8:30:62:5A:F1:87
+  name: d830625af187
   picture:
   track: true
