@@ -3,6 +3,7 @@ widget_dimensions: [120, 120]
 widget_size: [1, 1]
 widget_margins: [5, 5]
 columns: 8
+
 global_parameters:
     use_comma: 0
     precision: 1
@@ -114,28 +115,41 @@ all_nappali:
 
 tamas_presence:
   widget_type: device_tracker
-  title: Tamás
   device: tamas_iphone
-
-csongor_presence:
-  widget_type: device_tracker
-  title: Csongor
-  device: csongor_iphone
-
-dalma_presence:
-  widget_type: device_tracker
-  title: Dalma
-  device: dalma_iphone
-
+  title: Tamás
+  
 csilla_presence:
   widget_type: device_tracker
-  title: Csilla
   device: csilla_iphone
+  title: Csilla
+  
+csongor_presence:
+  widget_type: device_tracker
+  device: csongor_iphone
+  title: Csongor
+  
+dalma_presence:
+  widget_type: device_tracker
+  device: dalma_iphone
+  title: Dalma
+  
+cim:
+  widget_type: label
+  text: Patvar utca 4
 
+fali_feny:
+    widget_type: light
+    entity: light.fal
+    title: Fal
+    on_attributes:
+        brightness: 100
+        rgb_color: 128, 34, 56
+        
 layout:
+   - cim(4x1)
    - tamas_presence, csongor_presence, dalma_presence, csilla_presence
    - clock(2x1), sample_weather(2x2)
    - pir_nappali, pir_etkezo
    - all_etkezo, light_el1, light_el2, light_el3
    - all_nappali, light_nl1, light_nl2, light_nl3
-
+   - fali_feny

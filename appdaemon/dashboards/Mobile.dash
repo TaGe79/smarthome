@@ -38,6 +38,12 @@ sample_weather:
     forecast_temperature_min: sensor.dark_sky_daily_low_temperature_1
     forecast_temperature_max: sensor.dark_sky_daily_high_temperature_1
 
+redonyok:
+    widget_type: navigate
+    title: Redőnyök
+    icon: mdi-window-closed
+    url: /redony
+    
 light_nl1:
   widget_type: switch
   icon_on: mdi-lightbulb-on-outline
@@ -123,11 +129,12 @@ home_cinema:
 layout:
    - sample_weather(3x2)
    - 
-   - home_cinema(3x2)
-   - 
-   - pir_nappali, ,pir_etkezo
+   - redonyok(3x1)
    - all_etkezo(3x1) 
    - light_el1, light_el2, light_el3
    - all_nappali(3x1)
    - light_nl1, light_nl2, light_nl3
+   - home_cinema(3x2)
+   - 
+   - pir_nappali, ,pir_etkezo
 

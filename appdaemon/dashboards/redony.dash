@@ -1,0 +1,73 @@
+title: Redonyok
+widget_dimensions: [120, 60]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 2
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 1
+    namespace: default
+    
+konyha:
+    widget_type: label
+    title2: Konyha
+    widget_style: "padding-top: 20px; background: white;"
+    title2_style: "color: black; font-size: 14pt;"
+    
+nappali: 
+    widget_type: label
+    title2: Nappali
+    widget_style: "padding-top: 20px; background: white;"
+    title2_style: "color: black; font-size: 14pt;"
+    
+konyha_fel:
+    widget_type: script
+    entity: script.kitchen_schutter_up
+    icon_on: mdi-arrow-up-bold
+    icon_off: mdi-arrow-up-bold-outline
+    
+konyha_stop:
+    widget_type: script
+    entity: script.kitchen_schutter_stop
+    icon_on: mdi-stop
+    icon_off: mdi-crop-square
+    
+konyha_le:
+    widget_type: script
+    entity: script.kitchen_schutter_down
+    icon_on: mdi-arrow-down-bold
+    icon_off: mdi-arrow-down-bold-outline
+
+nappali_fel:
+    widget_type: script
+    entity: script.livingroom_schutter_up
+    icon_on: mdi-arrow-up-bold
+    icon_off: mdi-arrow-up-bold-outline
+    
+nappali_stop:
+    widget_type: script
+    entity: script.livingroom_schutter_stop
+    icon_on: mdi-stop
+    icon_off: mdi-crop-square
+    
+nappali_le:
+    widget_type: script
+    entity: script.livingroom_schutter_down
+    icon_on: mdi-arrow-down-bold
+    icon_off: mdi-arrow-down-bold-outline
+    
+back:
+    widget_type: navigate
+    title: Vissza
+    dashboard: Mobile
+    
+layout:
+  - nappali, konyha
+  - nappali_fel(1x2), konyha_fel(1x2)
+  -
+  - nappali_stop(1x2), konyha_stop(1x2)
+  -
+  - nappali_le(1x2), konyha_le(1x2)
+  - 
+  - back(2x2)
