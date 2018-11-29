@@ -1,4 +1,5 @@
 default_view:
+    view: true
     entities:
       - group.csalad
       - group.downstairs
