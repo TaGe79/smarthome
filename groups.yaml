@@ -1,6 +1,11 @@
 default_view:
     view: true
     entities:
+      - binary_sensor.teraszajto
+      - sensor.dark_sky_icon
+      - sensor.dark_sky_precip_accumulation
+      - sensor.dark_sky_summary_3
+      - sensor.dark_sky_temperature
       - group.csalad
       - group.downstairs
       - group.kitchen
