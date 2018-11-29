@@ -112,8 +112,28 @@ all_nappali:
   icon_off: mdi-toggle-switch-off-outline
   icon_on: mdi-toggle-switch
 
+tamas_presence:
+  widget_type: device_tracker
+  title: Tamás
+  device: tamas_iphone
+
+csongor_presence:
+  widget_type: device_tracker
+  title: Csongor
+  device: csongor_iphone
+
+dalma_presence:
+  widget_type: device_tracker
+  title: Dalma
+  device: dalma_iphone
+
+csilla_presence:
+  widget_type: device_tracker
+  title: Csilla
+  device: csilla_iphone
 
 layout:
+   - tamas_presence, csongor_presence, dalma_presence, csilla_presence
    - clock(2x1), sample_weather(2x2)
    - pir_nappali, pir_etkezo
    - all_etkezo, light_el1, light_el2, light_el3
