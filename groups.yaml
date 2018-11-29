@@ -5,6 +5,7 @@ default_view:
       - group.downstairs
       - group.kitchen
       - group.living_room
+      - group.redony
 
 csalad:
     name: Család
