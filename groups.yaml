@@ -3,15 +3,23 @@ default_view:
     entities:
       - binary_sensor.teraszajto
       - sensor.dark_sky_icon
-      - sensor.dark_sky_precip_accumulation
-      - sensor.dark_sky_summary_3
-      - sensor.dark_sky_temperature
+      - group.idojaras
       - group.csalad
       - group.downstairs
       - group.kitchen
       - group.living_room
       - group.redony
+      - light.fal
+      - light.plafon
 
+idojaras:
+    name: Időjárás
+    entities:
+      - sensor.dark_sky_precip_accumulation
+      - sensor.dark_sky_summary_3
+      - sensor.dark_sky_temperature
+      - weather.dark_sky
+      
 csalad:
     name: Család
     icon: mdi:account-group
