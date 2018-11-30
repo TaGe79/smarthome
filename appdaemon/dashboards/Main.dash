@@ -138,13 +138,15 @@ cim:
   text: Patvar utca 4
 
 fali_feny:
-    widget_type: light
+    widget_type: rgblight
     entity: light.fal
     title: Fal
-    on_attributes:
-        brightness: 100
-        rgb_color: 128, 34, 56
         
+plafon_feny:
+    widget_type: rgblight
+    entity: light.plafon
+    title: Plafon
+
 layout:
    - cim(4x1)
    - tamas_presence, csongor_presence, dalma_presence, csilla_presence
@@ -152,4 +154,4 @@ layout:
    - pir_nappali, pir_etkezo
    - all_etkezo, light_el1, light_el2, light_el3
    - all_nappali, light_nl1, light_nl2, light_nl3
-   - fali_feny
+   - fali_feny, plafon_feny
