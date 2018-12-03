@@ -11,7 +11,17 @@ default_view:
       - group.redony
       - light.fal
       - light.plafon
-      - group.all_automations
+      - group.automata_lampak
+
+automata_lampak:
+    name: Automata lámpák
+    entities:
+      - automation.ep1_lights_off
+      - automation.ep1_lights_on
+      - automation.np1_lights_on
+      - automation.np1_lights_off
+      - automation.np2_lights_on
+      - automation.mp2_lights_off
 
 idojaras:
     name: Időjárás
