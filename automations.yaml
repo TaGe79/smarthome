@@ -135,6 +135,6 @@
     entity_id: group.csalad
     from: 'not_home'
     to: 'home'
-  action
+  action:
   - service: switch.turn_on
     entity_id: group.all_switches
