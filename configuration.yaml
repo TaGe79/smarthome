@@ -123,7 +123,7 @@ sun:
 # Weather prediction
 weather:
   - platform: darksky
-    api_key: c9d28654f52c0edfe1d214efdc4c0c79
+    api_key: !secret dark_sky_api
 
 
 sensor: !include sensors.yaml
@@ -138,8 +138,8 @@ tts:
 
 no_ip:
   domain: gergely.ddns.net
-  username: tgergel+noip@gmail.com
-  password: guddy5-fEbrab-wihmep
+  username: !secret ddns_user
+  password: !secret ddns_password
 
 media_player:
   - platform: denonavr
