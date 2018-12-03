@@ -23,6 +23,8 @@ homeassistant:
     "binary_sensor.*p*":
       hidden: true
 
+ios:
+
 logger:
   default: info
   logs:
