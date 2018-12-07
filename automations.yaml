@@ -137,4 +137,4 @@
     to: 'home'
   action:
   - service: switch.turn_on
-    entity_id: group.all_switches
+    entity_id: group.downstairs
