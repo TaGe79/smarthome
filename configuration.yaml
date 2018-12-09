@@ -20,8 +20,8 @@ homeassistant:
     "timer.timer_*":
       hidden: true
 
-    "binary_sensor.*p*":
-      hidden: true
+#    "binary_sensor.*p*":
+#      hidden: true
 
 ios:
 
