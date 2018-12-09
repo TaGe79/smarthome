@@ -139,12 +139,17 @@
   - service: switch.turn_on
     entity_id: group.downstairs
 
+#
+# H A L O S Z O B A I   F O L Y O S O
+#
 - id: halo_folyoso_mozgas
   alias: Háló folyosó
   initial_state: 'on'
   trigger:
-  - platform: template
-    value_template: '{{ states.binary_sensor.tradfri_motion_sensor_.state == on }}'
+  - platform: state
+    entity_id: 'binary_sensor.tradfri_motion_sensor_'
+    from: 'off'
+    to: 'on'
   condition:
   - condition: state
     entity_id: light.halofolyoso
