@@ -4,3 +4,5 @@ timer_np1_lights:
   duration: '00:01:45'
 timer_np2_lights:
   duration: '00:00:45'
+timer_halo_folyoso_ki:
+  duration: '00:00:30'
