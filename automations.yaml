@@ -143,10 +143,8 @@
   alias: Háló folyosó
   initial_state: 'on'
   trigger:
-  - platform: event
-    entity_id: binary_sensor.tradfri_motion_sensor_
-    from: 'off'
-    to: 'on'
+  - platform: template
+    value_template: '{{ states.binary_sensor.tradfri_motion_sensor_.state == on }}'
   condition:
   - condition: state
     entity_id: light.halofolyoso
