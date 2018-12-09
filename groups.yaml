@@ -70,3 +70,16 @@ living_room:
       - switch.nl1r1_1
       - switch.nl2r1_2
       - switch.nl3r1_3
+
+sensors:
+    view: true
+    entities:
+      - binary_sensor.ep1
+      - binary_sensor.np1
+      - binary_sensor.np2
+      - binary_sensor.presence_2_2
+      - binary_sensor.tradfri_motion_sensor_
+      - binary_sensor.vpir_konyha_mootion
+      - sensor.lightlevel_6
+      - sensor.temperature_3_2
+      - sensor.fsm_state_konyha_mootion
