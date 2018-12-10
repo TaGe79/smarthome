@@ -79,6 +79,7 @@ redonyok:
       - switch.ro1_fr2_4
       - switch.ro2_lr2_1
       - switch.ro2_fr2_3
+
 sensors:
     view: true
     entities:
@@ -86,7 +87,7 @@ sensors:
       - binary_sensor.np1
       - binary_sensor.np2
       - binary_sensor.presence_2_2
-      - binary_sensor.tradfri_motion_sensor_
+      - binary_sensor.halofolyoso
       - binary_sensor.vpir_konyha_mootion
       - sensor.lightlevel_6
       - sensor.temperature_3_2
