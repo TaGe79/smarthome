@@ -8,17 +8,17 @@
     device_class: door
 
   switch.ro2_lr2_1:
-    hidden: true
+    hidden: false
     friendly_name: Nappali-Le
   
   switch.ro2_fr2_3:  
-    hidden: true
+    hidden: false
     friendly_name: Nappali-Fel
 
   switch.ro1_fr2_4:
-    hidden: true
+    hidden: false
     friendly_name: Konyha-Fel
   
   switch.ro1_lr2_2:
-    hidden: true  
+    hidden: false  
     friendly_name: Konyha-Le
