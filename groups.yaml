@@ -71,6 +71,13 @@ living_room:
       - switch.nl2r1_2
       - switch.nl3r1_3
 
+redonyok:
+    view: true
+    entities:
+      - switch.ro1_lr2_2
+      - switch.ro1_fr2_4
+      - switch.ro2_lr2_1
+      - switch.ro2_fr2_3
 sensors:
     view: true
     entities:
