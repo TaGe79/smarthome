@@ -87,7 +87,7 @@ sensors:
       - binary_sensor.np1
       - binary_sensor.np2
       - binary_sensor.presence_2_2
-      - binary_sensor.halofolyoso
+      - binary_sensor.halofolyosopir
       - binary_sensor.vpir_konyha_mootion
       - sensor.lightlevel_6
       - sensor.temperature_3_2
