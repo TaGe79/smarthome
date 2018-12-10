@@ -147,7 +147,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.halofolyosopir'
+    entity_id: 'binary_sensor.halofoyosopir'
     from: 'off'
     to: 'on'
   condition:
