@@ -147,7 +147,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.tradfri_motion_sensor_'
+    entity_id: 'binary_sensor.halofoyosopir'
     from: 'off'
     to: 'on'
   condition:
@@ -175,7 +175,7 @@
       entity_id: timer.timer_halo_folyoso_ki
   condition:
   - condition: state
-    entity_id: binary_sensor.tradfri_motion_sensor_
+    entity_id: 'binary_sensor.halofoyosopir'
     state: 'off'
   action:
   - service: light.turn_off
