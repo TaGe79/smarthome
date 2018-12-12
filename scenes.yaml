@@ -1,6 +1,6 @@
   - name: Sleepy_Home
     entities:
-      light.folyoso:
+      light.halofolyoso:
         brightness: 100
         kelvin: 3200
       group.automata_lampak:
