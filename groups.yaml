@@ -76,7 +76,7 @@ living_room:
 
 redonyok:
     view: true
-    icon: mdi:view_headline
+    icon: mdi:view-sequential
     entities:
       - switch.ro1_lr2_2
       - switch.ro1_fr2_4
@@ -85,12 +85,14 @@ redonyok:
 
 scenes:
     view: true
+    icon: mdi:home-circle
     entities:
       - scene.Sleep
       - scene.Movie
       
 sensors:
     view: true
+    icon: mdi:smoke-detector
     entities:
       - binary_sensor.ep1
       - binary_sensor.np1
