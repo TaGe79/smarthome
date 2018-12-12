@@ -1,4 +1,4 @@
-  - name: Sleep
+  - name: Sleepy_Home
     entities:
       light.folyoso:
         brightness: 100
