@@ -173,10 +173,6 @@
     event_type: timer.finished
     event_data:
       entity_id: timer.timer_halo_folyoso_ki
-  condition:
-  - condition: state
-    entity_id: 'binary_sensor.halofoyosopir'
-    state: 'off'
   action:
   - service: light.turn_off
     entity_id: light.halofolyoso
