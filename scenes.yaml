@@ -3,8 +3,12 @@
       light.folyoso:
         brightness: 100
         kelvin: 3200
-      automata_lampak:
+      group.automata_lampak:
         state: off
+      group.elyszakai_lampak:
+        state: on
+      automation.elyszakai_lampak:
+        state: on
   - name: Movie
     entities:
       group.kitchen:

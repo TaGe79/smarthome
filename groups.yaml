@@ -1,5 +1,6 @@
 default_view:
     view: true
+    icon: mdi:home
     entities:
       - binary_sensor.teraszajto
       - sensor.dark_sky_icon
@@ -74,6 +75,7 @@ living_room:
 
 redonyok:
     view: true
+    icon: mdi.view_headline
     entities:
       - switch.ro1_lr2_2
       - switch.ro1_fr2_4

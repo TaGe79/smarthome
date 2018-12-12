@@ -153,6 +153,8 @@
   condition:
   - condition: template
     value_template: '{{ states.sensor.daylight.attributes.daylight == False }}'
+  - condition: template
+    value_template: '{{ states.scene.sleep == off }}'
   - condition: time
     after: '06:00:00'
     before: '22:00:00'     
@@ -177,3 +179,27 @@
   - service: light.turn_off
     entity_id: light.halofolyoso
 
+#
+# Elyszakai lampak
+#
+- id: elyszakai_lampak
+  alias: Élyszakai lámpák
+  initial_state: 'off'
+  trigger:
+  - platform: state
+    entity_id: 'binary_sensor.halofoyosopir'
+    from: 'off'
+    to: 'on'   
+  - condition: template
+    value_template: '{{ states.scene.sleep == on }}'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.halofolyoso
+      brightness: 80
+      kelvin: 3400
+  - service: light.turn_on
+    data:
+      entity_id: light.fal
+      brightness: 160
+      rgb_color: [0,63,255]
