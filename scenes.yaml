@@ -10,7 +10,7 @@
       group.kitchen:
         state: off
       group.living_room:
-        stte: off
+        state: off
       light.plafon:
         state: on
         brightness: 150
@@ -22,4 +22,4 @@
       media_player.hometheater:
         state: on
         source: 'CBL/SAT'
-        volume: 50        
+        volume: 50
