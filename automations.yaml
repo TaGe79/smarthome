@@ -154,7 +154,7 @@
   - condition: template
     value_template: '{{ states.sensor.daylight.attributes.daylight == False }}'
   - condition: template
-    value_template: '{{ states.scene.sleep == off }}'
+    value_template: '{{ states.scene.sleepy_home == off }}'
   - condition: time
     after: '06:00:00'
     before: '22:00:00'     
@@ -192,7 +192,7 @@
     to: 'on'   
   condition:
   - condition: template
-    value_template: '{{ states.scene.sleep == on }}'
+    value_template: '{{ states.scene.sleepy_home == on }}'
   action:
   - service: light.turn_on
     data:
