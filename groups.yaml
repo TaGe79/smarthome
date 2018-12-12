@@ -27,6 +27,7 @@ automata_lampak:
 
 idojaras:
     name: Időjárás
+    icon: mdi:cloud
     entities:
       - sensor.dark_sky_precip_accumulation
       - sensor.dark_sky_summary_3
@@ -75,7 +76,7 @@ living_room:
 
 redonyok:
     view: true
-    icon: mdi.view_headline
+    icon: mdi:view_headline
     entities:
       - switch.ro1_lr2_2
       - switch.ro1_fr2_4
