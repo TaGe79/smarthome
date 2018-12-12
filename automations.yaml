@@ -161,7 +161,10 @@
     before: '22:00:00'     
   action:
   - service: light.turn_on
-    entity_id: light.halofolyoso
+    data:
+      entity_id: light.halofolyoso
+      brightness: 255
+      kelvin: 2700
   - service: timer.start
     entity_id: timer.timer_halo_folyoso_ki
 

@@ -80,6 +80,11 @@ redonyok:
       - switch.ro2_lr2_1
       - switch.ro2_fr2_3
 
+scenes:
+    view: true
+      - scene.Sleep
+      - scene.Movie
+      
 sensors:
     view: true
     entities:
