@@ -190,6 +190,7 @@
     entity_id: 'binary_sensor.halofoyosopir'
     from: 'off'
     to: 'on'   
+  condition:
   - condition: template
     value_template: '{{ states.scene.sleep == on }}'
   action:
