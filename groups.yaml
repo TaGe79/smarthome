@@ -82,6 +82,7 @@ redonyok:
 
 scenes:
     view: true
+    entities:
       - scene.Sleep
       - scene.Movie
       
