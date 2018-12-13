@@ -8,7 +8,8 @@
     from: 'off'
     platform: state
     to: 'on'
-  condition: template
+  condition:
+  - condition: template
     value_template: {{ states.sensor.lightlevel_6.state < 39 }}
   action:
   - service: timer.start
@@ -55,7 +56,8 @@
     from: 'off'
     platform: state
     to: 'on'
-  condition: template
+  condition:
+  - condition: template
     value_template: {{ states.sensor.lightlevel_6.state < 39 }}    
   action:
   - service: timer.start
@@ -94,7 +96,8 @@
     from: 'off'
     platform: state
     to: 'on'
-  condition: template
+  condition:
+  - condition: template
     value_template: {{ states.sensor.lightlevel_6.state < 39 }}    
   action:
   - service: timer.start
