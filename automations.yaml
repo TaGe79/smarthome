@@ -9,8 +9,11 @@
     platform: state
     to: 'on'
   condition:
+  - condition: numeric_state
+    entity_id: sensor.lightlevel_6
+    below: 39
   - condition: template
-    value_template: {{ states.sensor.lightlevel_6.state < 39 }}
+    value_template: '{{ states.scene.sleepy_home.state == off }}'    
   action:
   - service: timer.start
     entity_id: timer.timer_ep1_lights
@@ -57,8 +60,11 @@
     platform: state
     to: 'on'
   condition:
+  - condition: numeric_state
+    entity_id: sensor.lightlevel_6
+    below: 39
   - condition: template
-    value_template: {{ states.sensor.lightlevel_6.state < 39 }}    
+    value_template: '{{ states.scene.sleepy_home.state == off }}'
   action:
   - service: timer.start
     entity_id: timer.timer_np1_lights
@@ -96,9 +102,12 @@
     from: 'off'
     platform: state
     to: 'on'
-  condition:
+  condition:  
+  - condition: numeric_state
+    entity_id: sensor.lightlevel_6
+    below: 39
   - condition: template
-    value_template: {{ states.sensor.lightlevel_6.state < 39 }}    
+    value_template: '{{ states.scene.sleepy_home.state == off }}'
   action:
   - service: timer.start
     entity_id: timer.timer_np2_lights
@@ -171,7 +180,7 @@
   - condition: template
     value_template: '{{ states.sensor.daylight.attributes.daylight == False }}'
   - condition: template
-    value_template: '{{ states.scene.sleepy_home == off }}'
+    value_template: '{{ states.scene.sleepy_home.state == off }}'
   - condition: time
     after: '06:00:00'
     before: '22:00:00'     
@@ -209,7 +218,7 @@
     to: 'on'   
   condition:
   - condition: template
-    value_template: '{{ states.scene.sleepy_home == on }}'
+    value_template: '{{ states.scene.sleepy_home.state == on }}'
   action:
   - service: light.turn_on
     data:
