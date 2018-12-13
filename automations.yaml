@@ -1,4 +1,144 @@
 #
+# S C E N E N
+#
+
+# M O V I E
+- id : scene_movie
+  trigger:
+  - platform: state
+    entity_id: input_boolean.scene_movie_on
+    from: 'off'
+    to: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.scene_sleepy_home_on
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.scene_general_on
+  - service: switch.turn_off
+    entity_id: group.kitchen
+  - service:  switch.turn_off
+    entity_id: group.living_room
+  - service:  automation.turn_off
+    entity_id: group.automata_lampak
+  - service: light.turn_on
+    data:
+      entity_id: light.plafon
+      brightness: 150
+      rgb_color: [255,129,0]
+  - service:  light.turn_on
+    data:
+      entity_id: light.fal
+      brightness: 150
+      rgb_color: [255,129,0]
+  - service: media_player.turn_on
+    entity_id: media_player.hometheater
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.hometheater
+      source: 'CBL/SAT'
+  - service: media_player.volume_set      
+    data:
+      entity_id: media_player.hometheater
+      volume: 50
+    
+# S L E E P Y   H O M E
+
+- id : scene_sleepy_home
+  trigger:
+  - platform: state
+    entity_id: input_boolean.scene_sleepy_home_on
+    from: 'off'
+    to: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.scene_movie_on
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.scene_general_on
+  - service: switch.turn_off
+    entity_id: group.kitchen
+  - service:  switch.turn_off
+    entity_id: group.living_room
+  - service: automation.turn_off
+    entity_id: group.automata_lampak
+
+# G E N E R A L
+
+- id : scene_general
+  trigger:
+  - platform: state
+    entity_id: input_boolean.scene_general_on
+    from: 'off'
+    to: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.scene_movie_on
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.scene_sleepy_home_on    
+  - service:  automation.turn_on
+    entity_id: group.automata_lampak
+  - service: light.turn_off
+    entity_id: light.plafon
+  - service: light.turn_off
+    entity_id: light.fal
+  
+  
+#
+# S L E E P Y   M O V I N G
+#
+- id: sleepy_home_walking_bedroom_floor
+  alias: Alvajárók a WC-re
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.halofoyosopir
+    from: 'off'
+    to: 'on'  
+  - platform: state
+    entity_id: binary_sensor.ep1
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.np1
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.sensor.daylight.attributes.daylight == False }}'
+    - condition: template
+      value_template: '{{ states.input_boolean.sleepy_home.state == on }}'
+    - condition: or
+      conditions:
+      - condition: time
+        after: '22:00:00'
+        before: '06:00:00'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.halofolyoso
+      brightness: 39
+      kelvin: 454
+  - service: light.turn_on
+    data:
+      entity_id: light.fal
+      brightness: 160
+      rgb_color: [255,63,0]
+  - service: timer.start
+    entity_id: timer.timer_sleepy_light_off
+      
+- id: sleepy_home_light_off
+  alias: Alvajárok lámpa kikapcs
+  trigger:
+  - platform: event
+    event_type: timer.fininsh
+    event_data:
+      entity_id: timer.timer_sleepy_light_off
+  action:
+  - service: light.turn_off
+    entity_id: light.halofolyoso
+  - service: light.turn_off
+    entity_id: light.fal
+#
 # E T K E Z O
 #
 - id: ep1_lights_on
@@ -13,7 +153,7 @@
     entity_id: sensor.lightlevel_6
     below: 39
   - condition: template
-    value_template: '{{ states.scene.sleepy_home.state == off }}'    
+    value_template: '{{ states.binary_input.sleepy_home.state == off }}'    
   action:
   - service: timer.start
     entity_id: timer.timer_ep1_lights
@@ -64,7 +204,7 @@
     entity_id: sensor.lightlevel_6
     below: 39
   - condition: template
-    value_template: '{{ states.scene.sleepy_home.state == off }}'
+    value_template: '{{ states.binary_input.sleepy_home.state == off }}'
   action:
   - service: timer.start
     entity_id: timer.timer_np1_lights
@@ -107,7 +247,7 @@
     entity_id: sensor.lightlevel_6
     below: 39
   - condition: template
-    value_template: '{{ states.scene.sleepy_home.state == off }}'
+    value_template: '{{ states.binary_input.sleepy_home.statee == off }}'
   action:
   - service: timer.start
     entity_id: timer.timer_np2_lights
@@ -180,10 +320,10 @@
   - condition: template
     value_template: '{{ states.sensor.daylight.attributes.daylight == False }}'
   - condition: template
-    value_template: '{{ states.scene.sleepy_home.state == off }}'
+    value_template: '{{ states.input_boolean.sleepy_home.state == off }}'
   - condition: time
     after: '06:00:00'
-    before: '22:00:00'     
+    before: '22:00:00'
   action:
   - service: light.turn_on
     data:
@@ -204,29 +344,3 @@
   action:
   - service: light.turn_off
     entity_id: light.halofolyoso
-
-#
-# Elyszakai lampak
-#
-- id: elyszakai_lampak
-  alias: Élyszakai lámpák
-  initial_state: 'off'
-  trigger:
-  - platform: state
-    entity_id: 'binary_sensor.halofoyosopir'
-    from: 'off'
-    to: 'on'   
-  condition:
-  - condition: template
-    value_template: '{{ states.scene.sleepy_home.state == on }}'
-  action:
-  - service: light.turn_on
-    data:
-      entity_id: light.halofolyoso
-      brightness: 80
-      kelvin: 3400
-  - service: light.turn_on
-    data:
-      entity_id: light.fal
-      brightness: 160
-      rgb_color: [0,63,255]

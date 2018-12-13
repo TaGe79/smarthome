@@ -87,7 +87,11 @@ scenes:
     view: true
     icon: mdi:home-circle
     entities:
-      - scene.Sleep
+      - input_boolean.scene_sleepy_home_on
+      - input_boolean.scene_movie_on
+      - input_boolean.scene_general_on
+      - scene.General
+      - scene.Sleepy_Home
       - scene.Movie
       
 sensors:

@@ -7,4 +7,6 @@ timer_np2_lights:
 timer_halo_folyoso_ki:
   duration: '00:01:30'
 timer_welcome_home:
-  duration: '00:02:00'  
+  duration: '00:02:00'
+timer_sleepy_light_off:
+  duration: '00:00:30'

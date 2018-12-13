@@ -149,6 +149,17 @@ media_player:
     name: Home-Theater
     show_all_sources: True
 
+input_boolean:
+  scene_sleepy_home_on:
+    name: Sleepy Home Scene
+    initial: off
+  scene_movie_on:
+    name: Movie Scene
+    initial: off
+  scene_general_on:
+    name: General Scene
+    initial: off
+    
 timer: !include timers.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
