@@ -1,3 +1,9 @@
+  - name: General
+    entities:
+      group.automata_lampak:
+        state: on
+      automation.elyszakai_lampak:
+        state: off      
   - name: Sleepy_Home
     entities:
       light.halofolyoso:
@@ -5,8 +11,6 @@
         kelvin: 3200
       group.automata_lampak:
         state: off
-      group.elyszakai_lampak:
-        state: on
       automation.elyszakai_lampak:
         state: on
   - name: Movie

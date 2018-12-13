@@ -1,3 +1,6 @@
+#
+# E T K E Z O
+#
 - id: ep1_lights_on
   alias: EP1 lights on
   trigger:
@@ -5,6 +8,8 @@
     from: 'off'
     platform: state
     to: 'on'
+  condition: template
+    value_template: {{ sensor.lightlevel_6.state < 39 }}
   action:
   - service: timer.start
     entity_id: timer.timer_ep1_lights
@@ -39,6 +44,7 @@
     entity_id: switch.el2r1_6
   - service: switch.turn_off
     entity_id: switch.el3r1_7
+    
 #
 # N A P P A L I  1
 #
@@ -49,6 +55,8 @@
     from: 'off'
     platform: state
     to: 'on'
+  condition: template
+    value_template: {{ sensor.lightlevel_6.state < 39 }}    
   action:
   - service: timer.start
     entity_id: timer.timer_np1_lights
@@ -86,6 +94,8 @@
     from: 'off'
     platform: state
     to: 'on'
+  condition: template
+    value_template: {{ sensor.lightlevel_6.state < 39 }}    
   action:
   - service: timer.start
     entity_id: timer.timer_np2_lights
@@ -115,6 +125,9 @@
   - service: switch.turn_off
     entity_id: switch.nl2r1_2
 
+#
+# P R E S E N C E   R E L A T E D
+#
 - id: noone_at_home
   alias: Üres a ház
   trigger:
@@ -138,7 +151,8 @@
   action:
   - service: switch.turn_on
     entity_id: group.downstairs
-
+  - service: timer.start
+    entity_id: timer.timer_welcome_home
 #
 # H A L O S Z O B A I   F O L Y O S O
 #
