@@ -101,3 +101,11 @@ d830625af187:
   name: d830625af187
   picture:
   track: true
+
+c8d083b96c7b:
+  hide_if_away: false
+  icon:
+  mac: C8:D0:83:B9:6C:7B
+  name: c8d083b96c7b
+  picture:
+  track: true

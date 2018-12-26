@@ -160,6 +160,18 @@ input_boolean:
     name: General Scene
     initial: off
     
+rest_command:
+  konyhapult_generic_on:
+    url: http://192.168.0.107:8080/api/FF902BF89F/lights/5/state
+    method: PUT
+    payload: '{"on": true, "hue":48350, "bri":255}'
+    content_type:  'application/json; charset=utf-8'
+  konyhapult_movie_on:
+    url: http://192.168.0.107:8080/api/FF902BF89F/lights/5/state
+    method: PUT
+    payload: '{"on": true, "hue":3000, "bri":150}'
+    content_type:  'application/json; charset=utf-8'
+    
 timer: !include timers.yaml
 group: !include groups.yaml
 automation: !include automations.yaml

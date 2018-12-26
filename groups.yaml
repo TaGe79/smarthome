@@ -13,6 +13,7 @@ default_view:
       - light.fal
       - light.plafon
       - light.halofolyoso
+      - light.konyhapult
       - group.automata_lampak
 
 automata_lampak:
@@ -74,14 +75,14 @@ living_room:
       - switch.nl2r1_2
       - switch.nl3r1_3
 
-redonyok:
-    view: true
-    icon: mdi:view-sequential
-    entities:
-      - switch.ro1_lr2_2
-      - switch.ro1_fr2_4
-      - switch.ro2_lr2_1
-      - switch.ro2_fr2_3
+#redonyok:
+#    view: true
+#    icon: mdi:view-sequential
+#    entities:
+#      - switch.ro1_lr2_2
+#      - switch.ro1_fr2_4
+#      - switch.ro2_lr2_1
+#      - switch.ro2_fr2_3
 
 scenes:
     view: true
