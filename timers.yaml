@@ -5,7 +5,7 @@ timer_np1_lights:
 timer_np2_lights:
   duration: '00:00:45'
 timer_halo_folyoso_ki:
-  duration: '00:01:30'
+  duration: '00:00:30'
 timer_welcome_home:
   duration: '00:02:00'
 timer_sleepy_light_off:

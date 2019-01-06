@@ -171,7 +171,17 @@ rest_command:
     method: PUT
     payload: '{"on": true, "hue":3000, "bri":150}'
     content_type:  'application/json; charset=utf-8'
-    
+  plafon_light:
+    url: http://192.168.0.107:8080/api/FF902BF89F/lights/2/state
+    method: PUT
+    payload: '{"on": {{ state }}, "hue": {{ hue }}, "bri": {{ brightness }} }'
+    content_type:  'application/json; charset=utf-8'
+  fal_light:
+    url: http://192.168.0.107:8080/api/FF902BF89F/lights/1/state
+    method: PUT
+    payload: '{"on": {{ state }}, "hue": {{ hue }}, "bri": {{ brightness }} }'
+    content_type:  'application/json; charset=utf-8'
+
 timer: !include timers.yaml
 group: !include groups.yaml
 automation: !include automations.yaml

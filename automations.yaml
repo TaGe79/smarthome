@@ -20,16 +20,16 @@
     entity_id: group.living_room
   - service:  automation.turn_off
     entity_id: group.automata_lampak
-  - service: light.turn_on
+  - service: rest_command.plafon_light
     data:
-      entity_id: light.plafon
+      state: true
       brightness: 150
-      rgb_color: [255,129,0]
-  - service:  light.turn_on
+      hue: 2047
+  - service:  rest_command.fal_light
     data:
-      entity_id: light.fal
+      state: true
       brightness: 150
-      rgb_color: [255,129,0]
+      hue: 2047
   - service: media_player.turn_on
     entity_id: media_player.hometheater
   - delay: 0:07    
@@ -164,7 +164,7 @@
   - service: light.turn_off
     entity_id: light.fal
 #
-# K O N Y H A P U L T  M O Z I   K O Z B E N
+# K O N Y H A P U L T   M O Z I   K O Z B E N
 #
 - id: konyhapult_movie_light_on
   alias: Konyhapult világítás mozi közben
@@ -389,7 +389,7 @@
     entity_id: timer.timer_welcome_home
 
 - id: valaki_megjott_off
-  alias: Valaki hazajött kikapcsj
+  alias: Valaki hazajött kikapcs
   trigger:
   - platform: event
     event_type: timer.finished
