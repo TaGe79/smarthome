@@ -24,13 +24,13 @@ automata_lampak:
       - automation.np1_lights_on
       - automation.np1_lights_off
       - automation.np2_lights_on
-      - automation.mp2_lights_off
+      - automation.np2_lights_off
 
 idojaras:
     name: Időjárás
     icon: mdi:cloud
     entities:
-      - sensor.dark_sky_precip_accumulation
+      - sensor.dark_sky_precip_accumulation_1
       - sensor.dark_sky_summary_3
       - sensor.dark_sky_temperature
       - weather.dark_sky

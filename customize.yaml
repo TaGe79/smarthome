@@ -5,20 +5,27 @@
     hidden: false
     
   binary_sensor.teraszajto:
+    hidden: false
     device_class: door
+    friendly_name: Teraszajtó
+
+  binary_sensor.openclose_9:
+    hidden: false
+    device_class: door
+    friendly_name: Hálószoba
 
   switch.ro2_lr2_1:
     hidden: false
-    friendly_name: Nappali-Le
+    friendly_name: Konyha-Le
   
   switch.ro2_fr2_3:  
     hidden: false
-    friendly_name: Nappali-Fel
+    friendly_name: Konyha-Fel
 
   switch.ro1_fr2_4:
     hidden: false
-    friendly_name: Konyha-Fel
+    friendly_name: Nappali-Fel
   
   switch.ro1_lr2_2:
     hidden: false  
-    friendly_name: Konyha-Le
+    friendly_name: Nappali-Le
