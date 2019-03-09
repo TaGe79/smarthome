@@ -22,7 +22,8 @@ homeassistant:
 
 #    "binary_sensor.*p*":
 #      hidden: true
-
+system_health:
+  
 ios:
 
 logger:
