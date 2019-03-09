@@ -3,7 +3,7 @@
       12: EP1
       22: NP1
       27: NP2
-
+      
   - platform: rest
     resource: http://192.168.0.126:8083/ZAutomation/api/v1/devices/ZWayVDev_zway_2-0-113-6-Door-A
     name: Teraszajto
@@ -11,4 +11,3 @@
     password: 123456
     authentication: basic
     value_template: '{{ value_json.data.metrics.level }}'
-    force_update: true

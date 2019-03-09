@@ -3,54 +3,54 @@ kitchen_schutter_up:
   sequence:
    - service: switch.turn_off
      data:
-       entity_id: switch.ro2_lr2_1
+       entity_id: switch.ro2_l_r2_1
    - service: switch.turn_on
      data:
-       entity_id: switch.ro2_fr2_3  
+       entity_id: switch.ro2_f_r2_3  
 kitchen_schutter_stop:
   alias: Konyha Stop
   sequence:
    - service: switch.turn_off
      data:
-       entity_id: switch.ro2_lr2_1
+       entity_id: switch.ro2_l_r2_1
    - service: switch.turn_off
      data:
-       entity_id: switch.ro2_fr2_3
+       entity_id: switch.ro2_f_r2_3
 kitchen_schutter_down:
   alias: Konyha Le
   sequence:
    - service: switch.turn_off
      data:
-       entity_id: switch.ro2_fr2_3
+       entity_id: switch.ro2_f_r2_3
    - service: switch.turn_on
      data:
-       entity_id: switch.ro2_lr2_1
+       entity_id: switch.ro2_l_r2_1
      
 livingroom_schutter_up:
   alias: Nappali Fel
   sequence:
    - service: switch.turn_off
      data:
-       entity_id: switch.ro1_lr2_2
+       entity_id: switch.ro1_l_r2_2
    - service: switch.turn_on
      data:
-       entity_id: switch.ro1_fr2_4
+       entity_id: switch.ro1_f_r2_4
 livingroom_schutter_stop:
   alias: Nappali Stop
   sequence:
    - service: switch.turn_off
      data:
-       entity_id: switch.ro1_lr2_2
+       entity_id: switch.ro1_l_r2_2
    - service: switch.turn_off
      data:
-       entity_id: switch.ro1_fr2_4
+       entity_id: switch.ro1_f_r2_4
 livingroom_schutter_down:
   alias: Nappali Le
   sequence:
    - service: switch.turn_off
      data:
-       entity_id: switch.ro1_fr2_4
+       entity_id: switch.ro1_f_r2_4
    - service: switch.turn_on
      data:
-       entity_id: switch.ro1_lr2_2  
+       entity_id: switch.ro1_l_r2_2  
      
