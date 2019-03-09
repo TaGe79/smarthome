@@ -64,16 +64,16 @@ redony:
 kitchen:
     name: Konyha    
     entities:
-      - switch.el1r1_5
-      - switch.el2r1_6
-      - switch.el3r1_7
+      - switch.el1_r1_5
+      - switch.el2_r1_6
+      - switch.el3_r1_7
 
 living_room:
     name: Nappali
     entities:
-      - switch.nl1r1_1
-      - switch.nl2r1_2
-      - switch.nl3r1_3
+      - switch.nl1_r1_1
+      - switch.nl2_r1_2
+      - switch.nl3_r1_3
 
 #redonyok:
 #    view: true
