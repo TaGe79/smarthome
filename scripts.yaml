@@ -1,3 +1,31 @@
+kitchen_schutter_close:
+  alias: Konyha lezar
+  sequence:
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro2_f_r2_3
+   - service: switch.turn_on
+     data:
+       entity_id: switch.ro2_l_r2_1
+   - delay:
+       seconds: 40
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro2_l_r2_1
+kitchen_schutter_open:
+  alias: Konyha kinyit
+  sequence:
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro2_l_r2_1
+   - service: switch.turn_on
+     data:
+       entity_id: switch.ro2_f_r2_3
+   - delay: 
+       seconds: 40
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro2_f_r2_3
 livingroom_schutter_close:
   alias: Nappali lezar
   sequence:
