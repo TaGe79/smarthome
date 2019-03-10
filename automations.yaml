@@ -192,6 +192,7 @@
   - entity_id: binary_sensor.vpir_konyha_mootion
     platform: state
     to: 'on'  
+  condition:  
   - condition: template
     value_template: '{{ states.input_boolean.scene_general_on.state == "on" }}'
   action:
