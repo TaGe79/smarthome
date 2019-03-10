@@ -12,10 +12,11 @@ livingroom_schutter_close:
        entity_id: switch.ro1_l_r2_2 
    - wait_template: "{{ is_state('switch.ro1_l_r2_2', 'off') }}"
      timeout: '00:00:39'
-     continue_on_timeou: true
+     continue_on_timeout: true
    - service: switch.turn_off
      data:
        entity_id: switch.ro1_l_r2_2
+
 livingroom_schutter_open:
    alias: Nappali kinyit
    sequence:
@@ -27,7 +28,7 @@ livingroom_schutter_open:
        entity_id: switch.ro1_f_r2_4 
    - wait_template: "{{ is_state('switch.ro1_f_r2_4', 'off') }}"
      timeout: '00:00:39'
-     continue_on_timeou: true
+     continue_on_timeout: true
    - service: switch.turn_off
      data:
        entity_id: switch.ro1_f_r2_4
