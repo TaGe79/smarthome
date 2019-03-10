@@ -21,12 +21,12 @@
 
   script.kitchen_shutter_close:
     hidden: false
-    icon: mdi:mdi-arrow-collapse-down
+    icon: mdi:arrow-collapse-down
     friendly_name: Konyharedony lecsuk
 
   script.kitchen_shutter_open:
     hidden: false
-    icon: mdi:mdi-arrow-collapse-up
+    icon: mdi:arrow-collapse-up
     friendly_name: Konyharedony kinyit
 
   switch.ro2_lr2_1:
