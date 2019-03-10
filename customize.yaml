@@ -11,8 +11,14 @@
 
   binary_sensor.openclose_9:
     hidden: false
-    device_class: door
+    device_class: window
     friendly_name: Hálószoba
+
+  binary_sensor.openclose_10:
+    hidden: false
+    device_class: window
+    friendly_name: Fürdő kicsi
+
 
   switch.ro2_lr2_1:
     hidden: false

@@ -4,6 +4,7 @@ default_view:
     entities:
       - binary_sensor.teraszajto
       - binary_sensor.openclose_9
+      - binary_sensor.openclose_10
       - sensor.dark_sky_icon
       - group.idojaras
       - group.csalad
