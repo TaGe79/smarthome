@@ -166,8 +166,8 @@
   - platform: event
     event_type: deconz_event
     event_data:
-      id: lumi.sensor_switch
-      event: 1000  
+      id: lumi_sensor_switch
+      event: 1002
   action:
    - service: notify.ios_tamasphone
      data:

@@ -5,34 +5,21 @@ default_view:
       - binary_sensor.teraszajto
       - binary_sensor.openclose_9
       - binary_sensor.openclose_10
-      - script.kitchen_shutter_open
-      - script.kitchen_shutter_close
       - sensor.dark_sky_icon
       - group.idojaras
       - group.csalad
       - group.downstairs
       - group.kitchen
       - group.living_room
-      - group.redony
       - light.fal
       - light.plafon
       - light.halofolyoso
       - light.konyhapult
-      - group.automata_lampak
-
-automata_lampak:
-    name: Automata lámpák
-    entities:
-      - automation.ep1_lights_off
-      - automation.ep1_lights_on
-      - automation.np1_lights_on
-      - automation.np1_lights_off
-      - automation.np2_lights_on
-      - automation.np2_lights_off
 
 idojaras:
     name: Időjárás
     icon: mdi:cloud
+    control: hidden
     entities:
       - sensor.dark_sky_summary_3
       - sensor.dark_sky_temperature
@@ -41,6 +28,7 @@ idojaras:
 csalad:
     name: Család
     icon: mdi:account-group
+    control: hidden
     entities:
       - device_tracker.csilla_iphone
       - device_tracker.dalma_iphone
@@ -52,17 +40,6 @@ downstairs:
     entities:
       - group.kitchen
       - group.living_room
-    
-redony:
-    name: Redöny
-    control: hidden
-    entities:
-      - script.kitchen_schutter_up
-      - script.kitchen_schutter_stop
-      - script.kitchen_schutter_down
-      - script.livingroom_schutter_up
-      - script.livingroom_schutter_stop
-      - script.livingroom_schutter_down
 
 kitchen:
     name: Konyha    
@@ -86,10 +63,22 @@ living_room:
 #      - switch.ro1_fr2_4
 #      - switch.ro2_lr2_1
 #      - switch.ro2_fr2_3
-
+redony:
+    view: true
+    icon: mdi:brightness-6
+    name: Redőnyök
+    control: hidden
+    entities:
+      - script.kitchen_schutter_up
+      - script.kitchen_schutter_stop
+      - script.kitchen_schutter_down
+      - script.livingroom_schutter_up
+      - script.livingroom_schutter_stop
+      - script.livingroom_schutter_down
 scenes:
     view: true
     icon: mdi:home-circle
+    control: hidden
     entities:
       - input_boolean.scene_sleepy_home_on
       - input_boolean.scene_movie_on
@@ -111,3 +100,15 @@ sensors:
       - sensor.lightlevel_6
       - sensor.temperature_3_2
       - sensor.fsm_state_konyha_mootion
+
+automata_lampak:
+    view: true
+    name: Automata lámpák
+    control: hidden
+    entities:
+      - automation.ep1_lights_off
+      - automation.ep1_lights_on
+      - automation.np1_lights_on
+      - automation.np1_lights_off
+      - automation.np2_lights_on
+      - automation.np2_lights_off
