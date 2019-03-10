@@ -191,11 +191,7 @@
   trigger:
   - entity_id: binary_sensor.vpir_konyha_mootion
     platform: state
-    to: 'on'
-  condition:
-  - condition: numeric_state
-    entity_id: sensor.lightlevel_6
-    below: 60    
+    to: 'on'  
   - condition: template
     value_template: '{{ states.input_boolean.scene_general_on.state == "on" }}'
   action:
@@ -233,9 +229,8 @@
     platform: state
     to: 'on'
   condition:
-  - condition: numeric_state
-    entity_id: sensor.lightlevel_6
-    below: 39
+  - condition: template
+    value_template: '{{ states.sensor.lightlevel_6.state < 39 }}'
   - condition: template
     value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'    
   action:
