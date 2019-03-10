@@ -231,7 +231,7 @@
     to: 'on'
   condition:
   - condition: template
-    value_template: '{{ states.sensor.lightlevel_6.state < 39 }}'
+    value_template: '{{ 1*states.sensor.lightlevel_6.state < 39 }}'
   - condition: template
     value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'    
   action:
