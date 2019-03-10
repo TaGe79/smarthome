@@ -70,13 +70,6 @@
     entity_id: light.fal
   - service: light.turn_off
     entity_id: light.plafon
-  - service: notify.iphone_von_tamas
-    data:
-      title: "Smart Home Alerts"
-      message: "Something happened at home!"
-      data:
-        push:
-          badge: 5
     
 # G E N E R A L
 
@@ -163,6 +156,27 @@
     entity_id: light.plafon
   - service: light.turn_off
     entity_id: light.fal
+
+#
+# B U T T O N S
+# 
+- id: custom_button_push
+  alias: Xiamo Button Test
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: lumi.sensor_switch
+      event: 1000  
+  action:
+   - service: notify.ios_tamasphone
+     data:
+       title: "Smart Home Alerts"
+       message: "Something happened at home!"
+       data:
+         push:
+           badge: 5 
+
 #
 # K O N Y H A P U L T   M O Z I   K O Z B E N
 #
