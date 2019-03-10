@@ -193,6 +193,9 @@
     platform: state
     to: 'on'
   condition:
+  - condition: numeric_state
+    entity_id: sensor.lightlevel_6
+    below: 60    
   - condition: template
     value_template: '{{ states.input_boolean.scene_general_on.state == "on" }}'
   action:
@@ -382,6 +385,10 @@
     entity_id: group.csalad
     from: 'not_home'
     to: 'home'
+  condition:  
+  - condition: numeric_state
+    entity_id: sensor.lightlevel_6
+    below: 39    
   action:
   - service: switch.turn_on
     entity_id: group.downstairs
@@ -413,12 +420,15 @@
     from: 'off'
     to: 'on'
   condition:
+  - condition: numeric_state
+    entity_id: sensor.lightlevel_6
+    below: 39    
   - condition: template
     value_template: '{{ states.sensor.daylight.attributes.daylight == False }}'
   - condition: template
     value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'
   - condition: time
-    after: '06:00:00'
+    after: '06:20:00'
     before: '22:00:00'
   action:
   - service: light.turn_on
