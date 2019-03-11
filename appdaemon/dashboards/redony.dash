@@ -23,37 +23,37 @@ nappali:
     
 konyha_fel:
     widget_type: script
-    entity: script.kitchen_schutter_up
+    entity: script.kitchen_shutter_up
     icon_on: mdi-arrow-up-bold
     icon_off: mdi-arrow-up-bold-outline
     
 konyha_stop:
     widget_type: script
-    entity: script.kitchen_schutter_stop
+    entity: script.kitchen_shutter_stop
     icon_on: mdi-stop
     icon_off: mdi-crop-square
     
 konyha_le:
     widget_type: script
-    entity: script.kitchen_schutter_down
+    entity: script.kitchen_shutter_down
     icon_on: mdi-arrow-down-bold
     icon_off: mdi-arrow-down-bold-outline
 
 nappali_fel:
     widget_type: script
-    entity: script.livingroom_schutter_up
+    entity: script.livingroom_shutter_up
     icon_on: mdi-arrow-up-bold
     icon_off: mdi-arrow-up-bold-outline
     
 nappali_stop:
     widget_type: script
-    entity: script.livingroom_schutter_stop
+    entity: script.livingroom_shutter_stop
     icon_on: mdi-stop
     icon_off: mdi-crop-square
     
 nappali_le:
     widget_type: script
-    entity: script.livingroom_schutter_down
+    entity: script.livingroom_shutter_down
     icon_on: mdi-arrow-down-bold
     icon_off: mdi-arrow-down-bold-outline
     

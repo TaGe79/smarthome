@@ -1,0 +1,12 @@
+livingroom_shutter_state:
+  name: livingroom_shutter_state
+  initial: 0
+  min: 0
+  max: 40
+  step: 1   
+kitchen_shutter_state:
+  name: kitchen_shutter_state
+  initial: 0
+  min: 0
+  max: 40
+  step: 1    

@@ -4,6 +4,12 @@
   sensor.dark_sky_temperature:
     hidden: false
     
+  input_number.kitchen_shutter_state:
+    hidden: true
+    
+  input_number.livingroom_shutter_state:
+    hidden: true
+
   binary_sensor.teraszajto:
     hidden: false
     device_class: door
