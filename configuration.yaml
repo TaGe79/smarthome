@@ -24,8 +24,8 @@ homeassistant:
     - type: homeassistant
     - type: legacy_api_password
 
-# lovelace:
-#  mode: yaml
+lovelace:
+   mode: yaml
   
 #    "binary_sensor.*p*":
 #      hidden: true

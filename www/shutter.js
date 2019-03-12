@@ -85,18 +85,21 @@ class SliderEntityRow extends Polymer.Element {
           this.locked = true;
           const oldValue = stateObj.state || 0;
           value = value || 0;
-          const diff = oldValue - value;
+          const diff = value - oldValue;
           this._hass.callService('input_number', 'set_value', {
             entity_id: this.input_ref,
             value: Math.abs(diff)
           });
-          this._hass.callService('service', 'turn_on', {
-            entity_id: diff < 0 ? this.service_up_ref : this.service_down_ref
+          this._hass.callService('script', 'turn_on', {
+            entity_id: (diff < 0 ? this.service_up_ref : this.service_down_ref)
           });
-          sleep(diff).then(() => {
+          sleep(Math.abs(diff)).then(() => {
             this._hass.callService('input_number', 'set_value', {
-              entity_id: stateObj.attributes.input_ref,
-              value: Math.abs(diff)
+              entity_id: this.input_ref,
+              value: Math.abs(value)
+            });
+            this._hass.callService('script', 'turn_on', {
+              entity_id: this.service_stop_ref
             });
             this.locked = false;
           });
@@ -314,6 +317,7 @@ class SliderEntityRow extends Polymer.Element {
     this.input_ref = config.input_ref;
     this.service_up_ref = config.service_up_ref;
     this.service_down_ref = config.service_down_ref;
+    this.service_stop_ref = config.service_stop_ref;
     
     if(this._hass && this._config) {
       if ( this._config.input_ref !== undefined ) {

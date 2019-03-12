@@ -117,3 +117,11 @@ tamasphone:
   name: iPhone von Tamás
   picture:
   track: true
+
+24_18_1d_da_f5_24:
+  hide_if_away: false
+  icon:
+  mac: 24:18:1D:DA:F5:24
+  name: 24 18 1d da f5 24
+  picture:
+  track: true
