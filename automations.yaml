@@ -197,6 +197,24 @@
   - service: timer.start
     entity_id: timer.timer_konyhapult_movie_off
 
+- id: konyhapult_sleepy_light_on
+  alias: Konyhapult világítás este
+  trigger:
+  - entity_id: binary_sensor.vpir_konyha_mootion
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.konyhapult
+    state: 'off'
+  - condition: template
+    value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "on" }}'
+  action:
+  - service: rest_command.konyhapult_sleepy_on
+  - service: timer.start
+    entity_id: timer.timer_konyhapult_movie_off
+
+
 #
 # K O N Y H A P U L T
 #

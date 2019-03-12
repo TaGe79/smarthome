@@ -110,6 +110,19 @@ views:
         max: 2000
       - type: sensor
         entity: sensor.time  
+  
+  - title: Scenen
+    path: scenen
+    cards:
+     - type: entities       
+       title: Scenen
+       entities:
+         - type: entity-button
+           entity: input_boolean.scene_general_on
+         - type: entity-button
+           entity: input_boolean.scene_movie_on
+         - type: entity-button
+           entity: input_boolean.scene_sleepy_home_on
 
   - title: Redonyok
     path: redonyok

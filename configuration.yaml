@@ -171,7 +171,7 @@ input_boolean:
     initial: off
   scene_general_on:
     name: General Scene
-    initial: off
+    initial: on
     
 rest_command:
   konyhapult_generic_on:
@@ -183,6 +183,11 @@ rest_command:
     url: http://192.168.0.107:8080/api/FF902BF89F/lights/5/state
     method: PUT
     payload: '{"on": true, "hue":3000, "bri":150}'
+    content_type:  'application/json; charset=utf-8'
+  konyhapult_sleepy_on:
+    url: http://192.168.0.107:8080/api/FF902BF89F/lights/5/state
+    method: PUT
+    payload: '{"on": true, "hue":3000, "bri":50}'
     content_type:  'application/json; charset=utf-8'
   plafon_light:
     url: http://192.168.0.107:8080/api/FF902BF89F/lights/2/state
