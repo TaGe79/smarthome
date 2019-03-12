@@ -74,8 +74,6 @@ class SliderEntityRow extends Polymer.Element {
 
   setConfig(config)
   {
-    const globalHomeAssistant = global.get('homeassistant');
-    const ha = globalHomeAssistant.homeAssistant;   
     const sleep = (seconds) => {
       return new Promise(resolve => setTimeout(resolve, seconds*1000));
     };
@@ -83,24 +81,24 @@ class SliderEntityRow extends Polymer.Element {
     const CONTROLLERS = {
       shutter: {
         set: (stateObj, value) => {
-          if ( stateObj.attributes.locked === true ) return;
-          stateObj.attributes.locked = true;
+          if ( this.locked === true ) return;
+          this.locked = true;
           const oldValue = stateObj.state || 0;
           value = value || 0;
           const diff = oldValue - value;
           this._hass.callService('input_number', 'set_value', {
-            entity_id: stateObj.attributes.input_ref,
+            entity_id: this.input_ref,
             value: Math.abs(diff)
           });
           this._hass.callService('service', 'turn_on', {
-            entity_id: diff < 0 ? stateObj.attributes.service_up_ref : stateObj.attributes.service_down_ref
+            entity_id: diff < 0 ? this.service_up_ref : this.service_down_ref
           });
           sleep(diff).then(() => {
             this._hass.callService('input_number', 'set_value', {
               entity_id: stateObj.attributes.input_ref,
               value: Math.abs(diff)
             });
-            stateObj.attributes.locked = false;
+            this.locked = false;
           });
         },
         get: (stateObj) => stateObj.state,
@@ -111,10 +109,10 @@ class SliderEntityRow extends Polymer.Element {
         string: (stateObj, l18n) => {
           return Math.floor(stateObj.state);
         },
-        value: (stateObj) => ha.states[stateObj.attributes.input_ref][state], 
-        min: (stateObj) => ha.states[stateObj.attributes.input_ref][min],
-        max: (stateObj) => ha.states[stateObj.attributes.input_ref][max],
-        step: (stateObj) => ha.states[stateObj.attributes.input_ref][step]
+        value: () => this._hass.states[this.input_ref][state], 
+        min: () => this._hass.states[this.input_ref].attributes.min,
+        max: () => this._hass.states[this.input_ref].attributes.max,
+        step: () => this._hass.states[this.input_ref].attributes.step
       },
       light: {
         set: (stateObj, value) => {
@@ -309,12 +307,19 @@ class SliderEntityRow extends Polymer.Element {
     if(config.hide_state) this.displayValue = false;
     this.displaySlider = false;
 
+    this.locked = false;
     this.min = config.min || 0;
     this.max = config.max || 100;
     this.step = config.step || 5;
-
+    this.input_ref = config.input_ref;
+    this.service_up_ref = config.service_up_ref;
+    this.service_down_ref = config.service_down_ref;
+    
     if(this._hass && this._config) {
-      this.stateObj = this._config.entity in this._hass.states ? this._hass.states[this._config.entity] : null;
+      if ( this._config.input_ref !== undefined ) {
+          this._config.entity = this._config.input_ref;
+      }    
+      this.stateObj = this._config.input_ref in hass.states ? hass.states[this._config.input_ref] : null;
       if(this.stateObj) {
         this.min = this._config.min || this.controller.min(this.stateObj);
         this.max = this._config.max || this.controller.max(this.stateObj);
@@ -335,7 +340,10 @@ class SliderEntityRow extends Polymer.Element {
     this._hass = hass;
 
     if(hass && this._config) {
-      this.stateObj = this._config.entity in hass.states ? hass.states[this._config.entity] : null;
+      if ( this._config.input_ref !== undefined ) {
+          this._config.entity = this._config.input_ref;
+      }    
+      this.stateObj = this._config.input_ref in hass.states ? hass.states[this._config.input_ref] : null;
       if(this.stateObj) {
         this.min = this._config.min || this.controller.min(this.stateObj);
         this.max = this._config.max || this.controller.max(this.stateObj);

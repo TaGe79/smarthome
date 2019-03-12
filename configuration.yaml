@@ -24,8 +24,8 @@ homeassistant:
     - type: homeassistant
     - type: legacy_api_password
 
-resources:
-  - url: /local/shutter.js
+# lovelace:
+#  mode: yaml
   
 #    "binary_sensor.*p*":
 #      hidden: true
@@ -192,34 +192,6 @@ rest_command:
     payload: '{"on": {{ state }}, "hue": {{ hue }}, "bri": {{ brightness }} }'
     content_type:  'application/json; charset=utf-8'
 
-views:
-  - title: Redonyok
-    path: redonyok
-    cards:
-     - type: entities
-        title: Redonyok
-        show_header_toggle: false
-        entities:
-          - type: section
-            label: Konyha
-          - type: custom:slider-entity-row
-            entity: shutter.konyha_shutter
-            min: 0
-            max: 40
-            step: 1
-            input_ref: input_number.kitchen_shutter_state
-            service_up_ref: kitchen_shutter_open
-            service_down_ref: kitchen_shutter_close
-          - type: section
-            label: Nappali
-          - type: custom:slider-entity-row
-            entity: shutter.nappali_shutter
-            min: 0
-            max: 40
-            step: 1
-            input_ref: input_number.livingroom_shutter_state
-            service_up_ref: livingroom_shutter_open
-            service_down_ref: livingroom_shutter_close
 input_number: !include input_numbers.yaml
 timer: !include timers.yaml
 group: !include groups.yaml
