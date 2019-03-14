@@ -8,7 +8,7 @@ kitchen_shutter_close:
      data:
        entity_id: switch.ro2_l_r2_1
    - delay:
-       seconds: "{{ input_number.kitchen_shutter_state }}"
+       seconds: "40 - {{ input_number.kitchen_shutter_state }}"
    - service: switch.turn_off
      data:
        entity_id: switch.ro2_l_r2_1
@@ -36,7 +36,7 @@ livingroom_shutter_close:
      data:
        entity_id: switch.ro1_l_r2_2 
    - delay:
-       seconds: "{{ input_number.livingroom_shutter_state }}"
+       seconds: "40 - {{ input_number.livingroom_shutter_state }}"
    - service: switch.turn_off
      data:
        entity_id: switch.ro1_l_r2_2

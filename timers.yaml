@@ -14,3 +14,5 @@ timer_konyhapult_movie_off:
   duration: '00:00:30'
 timer_konyhapult_off:
   duration: '00:01:30'
+timer_furdo_ablak_nyitva:
+  duration: '00:10:00'

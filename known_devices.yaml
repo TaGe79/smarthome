@@ -125,3 +125,11 @@ tamasphone:
   name: 24 18 1d da f5 24
   picture:
   track: true
+
+csilla_iphoneja:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Csilla iPhone-ja
+  picture:
+  track: true

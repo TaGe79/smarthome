@@ -76,9 +76,18 @@ views:
       - type: entities
         title: Család
         entities:
-          - device_tracker.csilla_iphone
           - device_tracker.csongor_iphone
           - device_tracker.dalma_iphone
+          - type: section
+            label: Csilla
+          - type: glance
+            entity: device_tracker.csilla_iphone
+          - type: sensor
+            entity: sensor.csilla_iphone_battery_level
+            graph: line
+            detail: 2
+            unit: '%'
+            hours_to_show: 24
           - type: section
             label: Tamas
           - type: glance

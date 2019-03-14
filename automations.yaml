@@ -4,6 +4,7 @@
 
 # M O V I E
 - id : scene_movie
+  alias: Movie scene
   trigger:
   - platform: state
     entity_id: input_boolean.scene_movie_on
@@ -42,7 +43,20 @@
     data:
       entity_id: media_player.hometheater
       volume: 50
-    
+  - service: script.turn_on
+    entity_id: script.livingroom_shutter_close 
+  - service: script.turn_on
+    entity_id: script.kitchen_shutter_close
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.kitchen_shutter_state
+      value: "40"
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.livingroom_shutter_state
+      value: "40"
+
+
 # S L E E P Y   H O M E
 
 - id : scene_sleepy_home
@@ -169,7 +183,7 @@
       id: lumi_sensor_switch
       event: 1002
   action:
-   - service: notify.ios_tamasphone
+   - service: notify.csilla_tamas_phone
      data:
        title: "Smart Home Alerts"
        message: "Something happened at home!"
@@ -478,3 +492,49 @@
   action:
   - service: light.turn_off
     entity_id: light.halofolyoso
+
+#
+# S Z E L L O Z T E T E S   F U R D O S Z O B A
+#
+- id: furdo_kisablak_nyitva
+  alias: Fürdö kisablak
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: 'binary_sensor.openclose_10'
+    from: 'off'
+    to: 'on'
+  action:
+  - service: timer.start
+    entity_id: timer.timer_furdo_ablak_nyitva
+
+- id: furdo_kisablak_bezarva
+  alias: Furdo kisablakot bezartak
+  initial_state: 'off'
+  trigger:
+  - platform: state
+    entity_id: 'binary_sensor.openclose_10'
+    from: 'on'
+    to: 'off'
+  action:
+  - service: timer.cancel
+    entity_id: timer.timer_furdo_ablak_nyitva
+
+- id: furdo_szelloztetes_lejart
+  alias: Fürdö szelloztetés vége
+  initial_state: 'on'
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.timer_furdo_ablak_nyitva
+  action:
+  - service: notify.csilla_tamas_phone
+    data:
+      title: "A B L A K"
+      message: "Fürdőszobában be kéne csukni a kicsi ablakot!"
+      data:
+        push:
+          sound: "US-EN-Daisy-Master-Bedroom-Window-Open.wav"
+          badge: 5 
+
