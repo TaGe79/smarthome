@@ -277,7 +277,7 @@
     to: 'on'
   condition:
   - condition: template
-    value_template: '{{ 1*states.sensor.lightlevel_6.state < 39 }}'
+    value_template: '{{ states.sensor.lightlevel_6.numeric_state < 39 }}'
   - condition: template
     value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'    
   action:
@@ -494,6 +494,53 @@
     entity_id: light.halofolyoso
 
 #
+# H A L O S Z O B A   S Z E L L O Z T E T E S
+#
+- id: halo_ablak_nyitva
+  alias: Háló ablak
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: 'binary_sensor.openclose_9'
+    from: 'off'
+    to: 'on'
+  action:
+  - service: timer.start
+    entity_id: timer.timer_halo_ablak_nyitva
+
+- id: halo_ablak_bezarva
+  alias: Halo ablakot bezartak
+  initial_state: 'off'
+  trigger:
+  - platform: state
+    entity_id: 'binary_sensor.openclose_9'
+    from: 'on'
+    to: 'off'
+  action:
+  - service: timer.cancel
+    entity_id: timer.timer_halo_ablak_nyitva
+
+- id: halo_szelloztetes_lejart
+  alias: Háló szelloztetés vége
+  initial_state: 'on'
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.timer_halo_ablak_nyitva
+  action:
+  - service: notify.csilla_tamas_phone
+    data:
+      title: "A B L A K"
+      message: "Hálóban be kéne csukni az ablakot!"
+      data:
+        push:
+          sound: "US-EN-Daisy-Master-Bedroom-Window-Open.wav"
+          badge: 5 
+  - service: timer.start
+    entity_id: timer.timer_halo_ablak_nyitva 
+
+#
 # S Z E L L O Z T E T E S   F U R D O S Z O B A
 #
 - id: furdo_kisablak_nyitva
@@ -537,4 +584,6 @@
         push:
           sound: "US-EN-Daisy-Master-Bedroom-Window-Open.wav"
           badge: 5 
+  - service: timer.start
+    entity_id: timer.timer_furdo_ablak_nyitva  
 
