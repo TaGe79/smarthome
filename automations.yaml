@@ -10,6 +10,15 @@
     entity_id: input_boolean.scene_movie_on
     from: 'off'
     to: 'on'
+  condition:
+    condition: and 
+    conditions:
+    - condition: state
+      entity_id: 'group.csalad'
+      state: 'home'
+    - condition: state
+      entity_id: 'binary_sensor.teraszajto'
+      state: 'off'
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.scene_sleepy_home_on
@@ -21,28 +30,8 @@
     entity_id: group.living_room
   - service:  automation.turn_off
     entity_id: group.automata_lampak
-  - service: rest_command.plafon_light
-    data:
-      state: true
-      brightness: 150
-      hue: 2047
-  - service:  rest_command.fal_light
-    data:
-      state: true
-      brightness: 150
-      hue: 2047
-  - service: media_player.turn_on
-    entity_id: media_player.hometheater
-  - delay: 0:07    
-  - service: media_player.select_source
-    data:
-      entity_id: media_player.hometheater
-      source: 'CBL/SAT'
-  - delay: 0:07      
-  - service: media_player.volume_set      
-    data:
-      entity_id: media_player.hometheater
-      volume: 50
+  - service: rest_command.plafon_light_movie
+  - service: rest_command.fal_light_movie
   - service: script.turn_on
     entity_id: script.livingroom_shutter_close 
   - service: script.turn_on
@@ -55,8 +44,25 @@
     data_template:
       entity_id: input_number.livingroom_shutter_state
       value: "40"
-
-
+  - service: notify.csilla_tamas_phone
+    data:
+      title: "S C E N E"
+      message: "Kellemes szórakozás!"
+      data:
+        push:
+          sound: "US-EN-Morgan-Freeman-Turning-On-The-TV.wav"
+          badge: 5 
+  - service: media_player.turn_on
+    entity_id: media_player.hometheater
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.hometheater
+      source: 'CBL/SAT'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.hometheater
+      volume_level: 0.50
+      
 # S L E E P Y   H O M E
 
 - id : scene_sleepy_home
@@ -277,7 +283,7 @@
     to: 'on'
   condition:
   - condition: template
-    value_template: '{{ states.sensor.lightlevel_6.numeric_state < 39 }}'
+    value_template: '{{ (states.sensor.lightlevel_6.state|int) < 39 }}'
   - condition: template
     value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'    
   action:

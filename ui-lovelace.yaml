@@ -75,6 +75,7 @@ views:
     cards:
       - type: entities
         title: Család
+        show_header_toggle: false
         entities:
           - device_tracker.csongor_iphone
           - device_tracker.dalma_iphone
@@ -83,7 +84,7 @@ views:
           - type: glance
             entity: device_tracker.csilla_iphone
           - type: sensor
-            entity: sensor.csilla_iphone_battery_level
+            entity: sensor.csilla_iphone_ja_battery_level
             graph: line
             detail: 2
             unit: '%'
