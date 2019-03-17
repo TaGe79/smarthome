@@ -1,4 +1,5 @@
 secrets.yaml
+smarthome_rsa
 home-assistant_v2.db
 home-assistant.log
 .HA_VERSION
