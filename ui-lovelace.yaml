@@ -149,9 +149,8 @@ views:
             max: 40
             step: 1
             input_ref: input_number.kitchen_shutter_state
-            service_up_ref: script.kitchen_shutter_up
-            service_down_ref: script.kitchen_shutter_down
-            service_stop_ref: script.kitchen_shutter_stop
+            switch_up_ref: switch.ro2_f_r2_3
+            switch_down_ref: switch.ro2_l_r2_1
           - type: section
             label: Nappali
           - type: custom:slider-entity-row
@@ -160,6 +159,5 @@ views:
             max: 40
             step: 1
             input_ref: input_number.livingroom_shutter_state
-            service_up_ref: script.livingroom_shutter_up
-            service_down_ref: script.livingroom_shutter_down
-            service_stop_ref: script.livingroom_shutter_stop
+            switch_up_ref: switch.ro1_f_r2_4
+            switch_down_ref: switch.ro1_l_r2_2
