@@ -276,6 +276,7 @@
 #
 - id: ep1_lights_on
   alias: EP1 lights on
+  initial_state: 'off'
   trigger:
   - entity_id: binary_sensor.ep1
     from: 'off'
@@ -304,6 +305,7 @@
 
 - id: ep1_lights_off
   alias: EP1 lights off
+  initial_state: 'off'
   trigger:
   - platform: event
     event_type: timer.finished
@@ -326,6 +328,7 @@
 #
 - id: np1_lights_on
   alias: NP1 lights on
+  initial_state: 'off'
   trigger:
   - entity_id: binary_sensor.np1
     from: 'off'
@@ -350,6 +353,7 @@
       entity_id: nl2r2
 - id: np1_lights_off
   alias: NP1 lights off
+  initial_state: 'off'
   trigger:
   - platform: event
     event_type: timer.finished
@@ -370,6 +374,7 @@
 #
 - id: np2_lights_on
   alias: NP2 lights on
+  initial_state: 'off'
   trigger:
   - entity_id: binary_sensor.np2
     from: 'off'
@@ -395,6 +400,7 @@
 
 - id: np2_lights_off
   alias: NP2 lights off
+  initial_state: 'off'
   trigger:
   - platform: event
     event_type: timer.finished
@@ -516,7 +522,7 @@
 
 - id: halo_ablak_bezarva
   alias: Halo ablakot bezartak
-  initial_state: 'off'
+  initial_state: 'on'
   trigger:
   - platform: state
     entity_id: 'binary_sensor.openclose_9'
@@ -563,7 +569,7 @@
 
 - id: furdo_kisablak_bezarva
   alias: Furdo kisablakot bezartak
-  initial_state: 'off'
+  initial_state: 'on'
   trigger:
   - platform: state
     entity_id: 'binary_sensor.openclose_10'
