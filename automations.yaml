@@ -4,7 +4,7 @@
 
 # M O V I E
 - id : scene_movie
-  alias: Movie scene
+  alias: Scene Movie
   trigger:
   - platform: state
     entity_id: input_boolean.scene_movie_on
@@ -66,6 +66,7 @@
 # S L E E P Y   H O M E
 
 - id : scene_sleepy_home
+  alias: Scene Sleepy Home
   trigger:
   - platform: state
     entity_id: input_boolean.scene_sleepy_home_on
@@ -94,6 +95,7 @@
 # G E N E R A L
 
 - id: scene_general
+  alias: Scene General
   trigger:
   - platform: state
     entity_id: input_boolean.scene_general_on
