@@ -85,23 +85,12 @@ class SliderEntityRow extends Polymer.Element {
           this.locked = true;
           const oldValue = stateObj.state || 0;
           value = value || 0;
-          const diff = value - oldValue;
-          this._hass.callService('input_number', 'set_value', {
-            entity_id: this.input_ref,
-            value: Math.abs(diff)
-          });
-          this._hass.callService('script', 'turn_on', {
-            entity_id: (diff < 0 ? this.service_up_ref : this.service_down_ref)
-          });
-          sleep(Math.abs(diff)).then(() => {
-            this._hass.callService('input_number', 'set_value', {
-              entity_id: this.input_ref,
-              value: Math.abs(value)
-            });
-            this._hass.callService('script', 'turn_on', {
-              entity_id: this.service_stop_ref
-            });
-            this.locked = false;
+          this._hass.callService('python_script.shutter', 'turn_on', {
+            entity_id: this.entity_id,
+	    shutter_target_pos: value,
+	    shutter_up: this.switch_up,
+            shutter_down: this.switch_down,
+            shutter_state: this.input_ref
           });
         },
         get: (stateObj) => stateObj.state,
@@ -310,15 +299,14 @@ class SliderEntityRow extends Polymer.Element {
     if(config.hide_state) this.displayValue = false;
     this.displaySlider = false;
 
-    this.locked = false;
     this.min = config.min || 0;
     this.max = config.max || 100;
     this.step = config.step || 5;
+    this.entity_id = config.entity_id;
     this.input_ref = config.input_ref;
-    this.service_up_ref = config.service_up_ref;
-    this.service_down_ref = config.service_down_ref;
-    this.service_stop_ref = config.service_stop_ref;
-    
+    this.switch_up_ref = config.switch_up_ref;
+    this.swittch_down_ref = config.switch_down_ref;
+   
     if(this._hass && this._config) {
       if ( this._config.input_ref !== undefined ) {
           this._config.entity = this._config.input_ref;
