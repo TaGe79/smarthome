@@ -24,6 +24,8 @@ homeassistant:
     - type: homeassistant
     - type: legacy_api_password
 
+python_script:
+
 lovelace:
    mode: yaml
   
