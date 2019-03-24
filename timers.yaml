@@ -16,3 +16,5 @@ timer_konyhapult_off:
   duration: '00:01:30'
 timer_furdo_ablak_nyitva:
   duration: '00:10:00'
+timer_halo_ablak_nyitva:
+  duration: '00:10:00'

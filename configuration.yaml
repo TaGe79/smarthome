@@ -215,6 +215,13 @@ rest_command:
     content_type:  'application/json'
     verify_ssl: false
 
+#shutter:
+#  - platform: statefullshutter
+#    entity_id: shutter.kitchen
+#    name: Konyha redony
+#    switches:
+#      - "switch.ro1_f_r2_4"
+#      - "switch.ro1_l_r2_2"
 
 notify:
   - name: csilla_tamas_phone

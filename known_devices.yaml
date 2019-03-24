@@ -133,3 +133,11 @@ csilla_iphoneja:
   name: Csilla iPhone-ja
   picture:
   track: true
+
+cc_21_19_00_15_bc:
+  hide_if_away: false
+  icon:
+  mac: CC:21:19:00:15:BC
+  name: cc 21 19 00 15 bc
+  picture:
+  track: true
