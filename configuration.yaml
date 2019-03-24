@@ -228,7 +228,7 @@ notify:
     platform: group
     services:
       - service: ios_tamasphone
-      - service: ios_csilla_iphone_ja
+      - service: ios_csilla_iphoneja
 
 input_number: !include input_numbers.yaml
 timer: !include timers.yaml
