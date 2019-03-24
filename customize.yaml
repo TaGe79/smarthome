@@ -25,6 +25,11 @@
     device_class: window
     friendly_name: Fürdő kicsi
 
+  binary_sensor.openclose_11:
+    hidden: false
+    device_class: window
+    friendly_name: Fürdő nagy
+
   script.kitchen_shutter_close:
     hidden: false
     icon: mdi:arrow-collapse-down
