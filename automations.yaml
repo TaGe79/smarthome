@@ -646,3 +646,36 @@
           badge: 5 
   - service: timer.start
     entity_id: timer.timer_furdo_nagyablak_nyitva  
+  #
+  # Notify Tamas when someone came home
+  #
+- id: somebody_came_home
+  alias: valaki hazajott uzenet
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: 'device_tracker.csilla_iphoneja'
+    from: 'not_home'
+    to: 'home'
+  - platform: state
+    entity_id: 'device_tracker.csongor_iphoneja'
+    from: 'not_home'
+    to: 'home'
+  - platform: state
+    entity_id: 'device_tracker.dalma_iphoneja'
+    from: 'not_home'
+    to: 'home'
+  condition:  
+  - condition: state
+    entity_id: device_tracker.tamas_iphoneja
+    state: 'not_home'
+  action:
+  - service: notify.ios_tamasphone
+    data: 
+      title: 'C S A L Á D'
+      message: 'Valaki hazaért'
+      push:
+        sound: 'US-EN-Morgan-Freeman-Welcome-Home.wav'
+        badge: 5
+
+
