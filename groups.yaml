@@ -30,10 +30,10 @@ csalad:
     icon: mdi:account-group
     control: hidden
     entities:
-      - device_tracker.csilla_iphone
+      - device_tracker.csilla_iphoneja
       - device_tracker.dalma_iphone
       - device_tracker.csongor_iphone
-      - device_tracker.tamas_iphone
+      - device_tracker.tamasphone
 
 downstairs:
     name: Also szint

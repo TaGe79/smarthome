@@ -229,6 +229,10 @@ notify:
     services:
       - service: ios_tamasphone
       - service: ios_csilla_iphoneja
+  - name: tamas
+    platform: group
+    services:
+      - service: ios_tamasphone
 
 input_number: !include input_numbers.yaml
 timer: !include timers.yaml

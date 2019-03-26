@@ -667,15 +667,16 @@
     to: 'home'
   condition:  
   - condition: state
-    entity_id: device_tracker.tamas_iphoneja
+    entity_id: device_tracker.tamas_iphone
     state: 'not_home'
   action:
-  - service: notify.ios_tamasphone
+  - service: notify.tamas
     data: 
-      title: 'C S A L Á D'
-      message: 'Valaki hazaért'
-      push:
-        sound: 'US-EN-Morgan-Freeman-Welcome-Home.wav'
-        badge: 5
+      title: "C S A L Á D"
+      message: "Valaki hazaért"
+      data:
+        push:
+          sound: 'US-EN-Morgan-Freeman-Welcome-Home.wav'
+          badge: 5
 
 

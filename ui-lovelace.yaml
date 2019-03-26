@@ -83,7 +83,7 @@ views:
           - type: section
             label: Csilla
           - type: glance
-            entity: device_tracker.csilla_iphone
+            entity: device_tracker.csilla_iphoneja
           - type: sensor
             entity: sensor.csilla_iphone_ja_battery_level
             graph: line
@@ -93,7 +93,7 @@ views:
           - type: section
             label: Tamas
           - type: glance
-            entity: device_tracker.tamas_iphone
+            entity: device_tracker.tamasphone
           - type: sensor
             entity: sensor.iphone_von_tamas_battery_level
             graph: line
