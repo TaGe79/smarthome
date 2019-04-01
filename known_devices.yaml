@@ -115,7 +115,7 @@ tamasphone:
   icon:
   mac:
   name: iPhone von Tamás
-  picture:
+  gravatar: tgergel@gmail.com
   track: true
 
 24_18_1d_da_f5_24:
@@ -140,4 +140,12 @@ cc_21_19_00_15_bc:
   mac: CC:21:19:00:15:BC
   name: cc 21 19 00 15 bc
   picture:
+  track: true
+
+csongor_iphoneja:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Csongor iPhone-ja
+  gravatar: csongor.gergely@icloud.com
   track: true

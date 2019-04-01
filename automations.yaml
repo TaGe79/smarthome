@@ -521,6 +521,8 @@
   action:
   - service: timer.start
     entity_id: timer.timer_halo_ablak_nyitva
+    data_template:
+      duration: 00:{{ states("input_number.halo_szelloztetesi_ido") | int }}:00
 
 - id: halo_ablak_bezarva
   alias: Halo ablakot bezartak
@@ -533,6 +535,10 @@
   action:
   - service: timer.cancel
     entity_id: timer.timer_halo_ablak_nyitva
+  - service: input_number.set_value
+    entity_id: input_number.halo_szelloztetesi_ido
+    data:
+      value: 10
 
 - id: halo_szelloztetes_lejart
   alias: Háló szelloztetés vége
@@ -553,6 +559,8 @@
           badge: 5 
   - service: timer.start
     entity_id: timer.timer_halo_ablak_nyitva 
+    data_template:
+      duration: 00:{{ states("input_number.halo_szelloztetesi_ido") | int }}:00
 
 #
 # S Z E L L O Z T E T E S   F U R D O S Z O B A
@@ -568,6 +576,8 @@
   action:
   - service: timer.start
     entity_id: timer.timer_furdo_ablak_nyitva
+    data_template:
+      duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
 
 - id: furdo_kisablak_bezarva
   alias: Furdo kisablakot bezartak
@@ -580,6 +590,10 @@
   action:
   - service: timer.cancel
     entity_id: timer.timer_furdo_ablak_nyitva
+  - service: input_number.set_value
+    entity_id: input_number.furdo_szelloztetesi_ido
+    data:
+      value: 10
 
 - id: furdo_szelloztetes_lejart
   alias: Fürdö szelloztetés vége
@@ -600,6 +614,8 @@
           badge: 5 
   - service: timer.start
     entity_id: timer.timer_furdo_ablak_nyitva  
+    data_template:
+      duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
 #
 # Nagy ablak a furdoben
 # 
@@ -608,24 +624,30 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.openclose_10'
+    entity_id: 'binary_sensor.openclose_11'
     from: 'off'
     to: 'on'
   action:
   - service: timer.start
     entity_id: timer.timer_furdo_nagyablak_nyitva
+    data_template:
+      duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
 
 - id: furdo_nagyablak_bezarva
   alias: Furdo nagyablakot bezartak
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.openclose_10'
+    entity_id: 'binary_sensor.openclose_11'
     from: 'on'
     to: 'off'
   action:
   - service: timer.cancel
     entity_id: timer.timer_furdo_nagyablak_nyitva
+  - service: input_number.set_value
+    entity_id: input_number.furdo_szelloztetesi_ido
+    data:
+      value: 10
 
 - id: furdo_nagyszelloztetes_lejart
   alias: Fürdö nagy-szelloztetés vége
@@ -646,6 +668,8 @@
           badge: 5 
   - service: timer.start
     entity_id: timer.timer_furdo_nagyablak_nyitva  
+    data_template:
+      duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
   #
   # Notify Tamas when someone came home
   #

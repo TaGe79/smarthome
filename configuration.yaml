@@ -234,6 +234,22 @@ notify:
     services:
       - service: ios_tamasphone
 
+camera:
+  - platform: onvif     
+    name: front_cam
+    host: 192.168.100.17
+    username: !secret cam_user
+    password: !secret cam_password
+
+  - platform: ffmpeg
+    name: front_cam_ffmpeg
+    input: rtsp://admin:0718@192.168.100.17:8554/1.3gp
+#    still_image_url: http://192.168.100.14/img/
+#    stream_source: rtsp://192.168.100.14:8554/1.3gp
+#    authentication: basic
+#    framerate: 5
+#    verify_ssl: false
+
 input_number: !include input_numbers.yaml
 timer: !include timers.yaml
 group: !include groups.yaml

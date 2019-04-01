@@ -14,5 +14,11 @@ furdo_szelloztetesi_ido:
   name: furdo_szelloztetesi_ido
   initial: 10
   min: 5
-  max: 20
+  max: 60
+  step: 1
+halo_szelloztetesi_ido:
+  name: halo_szelloztetesi_ido
+  initial: 10
+  min: 5
+  max: 60
   step: 1

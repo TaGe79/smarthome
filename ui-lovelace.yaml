@@ -78,8 +78,17 @@ views:
         title: Család
         show_header_toggle: false
         entities:
-          - device_tracker.csongor_iphone
           - device_tracker.dalma_iphone
+          - type: section
+            label: Csongor
+          - type: glance
+            entity: device_tracker.csongor_iphoneja
+          - type: sensor
+            entity: sensor.csongor_iphone_ja_battery_level
+            graph: line
+            detail: 2
+            unit: '%'
+            hours_to_show: 24
           - type: section
             label: Csilla
           - type: glance
@@ -122,19 +131,6 @@ views:
       - type: sensor
         entity: sensor.time  
   
-  - title: Scenen
-    path: scenen
-    cards:
-     - type: entities       
-       title: Scenen
-       entities:
-         - type: entity-button
-           entity: input_boolean.scene_general_on
-         - type: entity-button
-           entity: input_boolean.scene_movie_on
-         - type: entity-button
-           entity: input_boolean.scene_sleepy_home_on
-
   - title: Redonyok
     path: redonyok
     cards:
@@ -162,3 +158,27 @@ views:
             input_ref: input_number.livingroom_shutter_state
             switch_up_ref: switch.ro1_f_r2_4
             switch_down_ref: switch.ro1_l_r2_2
+
+  - title: Scenen
+    path: scenen
+    cards:
+     - type: entities       
+       title: Scenen
+       show_header_toggle: false
+       entities:
+         - type: entity-button
+           entity: input_boolean.scene_general_on
+         - type: entity-button
+           entity: input_boolean.scene_movie_on
+         - type: entity-button
+           entity: input_boolean.scene_sleepy_home_on
+
+  - title: Beállítások
+    path: settings
+    cards:
+     - type: entities
+       title: Szellöztetés
+       show_header_toggle: false
+       entities:
+         - entity: input_number.furdo_szelloztetesi_ido
+         - entity: input_number.halo_szelloztetesi_ido
