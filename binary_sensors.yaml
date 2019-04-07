@@ -7,7 +7,15 @@
   - platform: rest
     resource: http://192.168.0.126:8083/ZAutomation/api/v1/devices/ZWayVDev_zway_2-0-113-6-Door-A
     name: Teraszajto
-    username: admin
-    password: 123456
+    username: !secret zwave_user
+    password: !secret zwave_password
+    authentication: basic
+    value_template: '{{ value_json.data.metrics.level }}'
+
+  - platform: rest
+    resource: http://192.168.0.126:8083/ZAutomation/api/v1/devices/ZWayVDev_zway_3-0-113-6-Door-A
+    name: Teraszajto
+    username: !secret zwave_user
+    password: !secret zwave_password
     authentication: basic
     value_template: '{{ value_json.data.metrics.level }}'

@@ -1,68 +1,31 @@
-kitchen_shutter_close:
-  alias: Konyha lezar
+kitchen_shutter_set_position:
+  alias: Konyha Pozicionalas
   sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_f_r2_3
-   - service: switch.turn_on
+   - service_template: |-
+       {% if states.input_number.kitchen_shutter_state.state < states.input_number.kitchen_shutter_current_pos.state %}
+         switch.turn_off
+       {% else %}  
+         switch.turn_on
+       {% endif %}
      data:
        entity_id: switch.ro2_l_r2_1
-   - delay:
-       seconds: "40 - {{ input_number.kitchen_shutter_state }}"
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_l_r2_1
-kitchen_shutter_open:
-  alias: Konyha kinyit
-  sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_l_r2_1
-   - service: switch.turn_on
-     data:
-       entity_id: switch.ro2_f_r2_3
-   - delay: 
-       seconds: "{{ input_number.kitchen_shutter_state }}"
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_f_r2_3
-livingroom_shutter_close:
-  alias: Nappali lezar
-  sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_f_r2_4
-   - service: switch.turn_on
-     data:
-       entity_id: switch.ro1_l_r2_2 
-   - delay:
-       seconds: "40 - {{ input_number.livingroom_shutter_state }}"
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_l_r2_2
-livingroom_shutter_open:
-  alias: Nappali kinyit
-  sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_l_r2_2
-   - service: switch.turn_on
-     data:
-       entity_id: switch.ro1_f_r2_4 
-   - delay: 
-       seconds: "{{ input_number.livingroom_shutter_state }}"
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_f_r2_4
-kitchen_shutter_up:
-  alias: Konyha Fel
-  sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_l_r2_1
-   - service: switch.turn_on
+   - service_template: |-
+       {% if states.input_number.kitchen_shutter_state.state < states.input_number.kitchen_shutter_current_pos.state %}
+         switch.turn_on
+       {% else %}
+         switch.turn_off
+       {% endif %}
      data:
        entity_id: switch.ro2_f_r2_3  
+   - service: timer.start
+     entity_id: timer.kitchen_shutter
+     data_template:
+       duration: "00:00:{{ states.input_number.kitchen_shutter_delay.state | int }}"
+   - service: input_number.set_value
+     data_template:
+       entity_id: input_number.kitchen_shutter_current_pos
+       value: "{{ states.input_number.kitchen_shutter_state.state }}"
+
 kitchen_shutter_stop:
   alias: Konyha Stop
   sequence:
@@ -72,6 +35,20 @@ kitchen_shutter_stop:
    - service: switch.turn_off
      data:
        entity_id: switch.ro2_f_r2_3
+
+kitchen_shutter_up:
+  alias: Konyha Fel
+  sequence:
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro2_l_r2_1
+   - service: switch.turn_on
+     data:
+       entity_id: switch.ro2_f_r2_3
+   - service: timer.start
+     data:
+       entity_id: timer.kitchen_shutter_up
+
 kitchen_shutter_down:
   alias: Konyha Le
   sequence:
@@ -81,7 +58,38 @@ kitchen_shutter_down:
    - service: switch.turn_on
      data:
        entity_id: switch.ro2_l_r2_1
+   - service: timer.start
+     data:
+       entity_id: timer.kitchen_shutter_down
      
+livingroom_shutter_set_position:
+  alias: Nappali Pozicionalas
+  sequence:
+   - service_template: |-
+       {% if states.input_number.livingroom_shutter_state.state < states.input_number.livingroom_shutter_current_pos.state %}
+         switch.turn_off
+       {% else %}  
+         switch.turn_on
+       {% endif %}
+     data:
+       entity_id: switch.ro1_l_r2_2
+   - service_template: |-
+       {% if states.input_number.livingroom_shutter_state.state < states.input_number.livingroom_shutter_current_pos.state %}
+         switch.turn_on
+       {% else %}
+         switch.turn_off
+       {% endif %}
+     data:
+       entity_id: switch.ro1_f_r2_4  
+   - service: timer.start
+     entity_id: timer.livingroom_shutter
+     data_template:
+       duration: "00:00:{{ states.input_number.livingroom_shutter_delay.state | int }}"
+   - service: input_number.set_value
+     data_template:
+       entity_id: input_number.livingroom_shutter_current_pos
+       value: "{{ states.input_number.livingroom_shutter_state.state }}"
+
 livingroom_shutter_up:
   alias: Nappali Fel
   sequence:

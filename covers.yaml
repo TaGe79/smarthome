@@ -1,0 +1,22 @@
+  - platform: template
+    covers:
+      kitchen:
+        friendly_name: "Konyhai redőny"
+        position_template: "{{ 100 - states.input_number.kitchen_shutter_state.state | int }}"
+        open_cover:
+          service: script.kitchen_shutter_up
+        close_cover:
+          service: script.kitchen_shutter_down
+        stop_cover:
+          service: script.kitchen_shutter_stop
+      livingroom:
+        friendly_name: "Nappali redőny"
+        position_template: "{{ 100 - states.input_number.livingroom_shutter_state.state | int }}"
+        open_cover:
+          service: script.livingroom_shutter_up
+        close_cover:
+          service: script.livingroom_shutter_down
+        stop_cover:
+          service: script.livingroom_shutter_stop
+#        set_cover_position:
+#          service: script.kitchen_shutter_set_position

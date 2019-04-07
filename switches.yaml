@@ -7,6 +7,9 @@
       23: NL1-R1_1
       24: NL2-R1_2
       25: NL3-R1_3
+  - platform: rpi_gpio
+    invert_logic: false
+    ports:
       19: RO2_L-R2_1
       26: RO1_L-R2_2
       16: RO2_F-R2_3

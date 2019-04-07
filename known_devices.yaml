@@ -92,7 +92,7 @@ b827eb614476:
   mac: 6C:56:97:F8:D7:44
   name: 6c5697f8d744
   picture:
-  track: true
+  track: false
 
 d830625af187:
   hide_if_away: false
@@ -100,7 +100,7 @@ d830625af187:
   mac: D8:30:62:5A:F1:87
   name: d830625af187
   picture:
-  track: true
+  track: false
 
 c8d083b96c7b:
   hide_if_away: false
@@ -108,7 +108,7 @@ c8d083b96c7b:
   mac: C8:D0:83:B9:6C:7B
   name: c8d083b96c7b
   picture:
-  track: true
+  track: false
 
 tamasphone:
   hide_if_away: false
@@ -124,7 +124,7 @@ tamasphone:
   mac: 24:18:1D:DA:F5:24
   name: 24 18 1d da f5 24
   picture:
-  track: true
+  track: false
 
 csilla_iphoneja:
   hide_if_away: false
@@ -140,7 +140,7 @@ cc_21_19_00_15_bc:
   mac: CC:21:19:00:15:BC
   name: cc 21 19 00 15 bc
   picture:
-  track: true
+  track: false
 
 csongor_iphoneja:
   hide_if_away: false

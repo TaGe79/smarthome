@@ -4,11 +4,35 @@ livingroom_shutter_state:
   min: 0
   max: 40
   step: 1   
-kitchen_shutter_state:
-  name: kitchen_shutter_state
-  initial: 0
+kitchen_shutter_delay:
+  name: __konyha_mozgatasi_ido__
   min: 0
   max: 40
+  step: 1
+kitchen_shutter_current_pos:
+  name: __konyha_pozicio__
+  min: 0
+  max: 100
+  step: 1
+kitchen_shutter_state:
+  name: kitchen_shutter_state
+  min: 0
+  max: 100 
+  step: 1    
+livingroom_shutter_delay:
+  name: __livingroom_mozgatasi_ido__
+  min: 0
+  max: 40
+  step: 1
+livingroom_shutter_current_pos:
+  name: __livingroom_pozicio__
+  min: 0
+  max: 100
+  step: 1
+livingroom_shutter_state:
+  name: livingroom_shutter_state
+  min: 0
+  max: 100 
   step: 1    
 furdo_szelloztetesi_ido:
   name: furdo_szelloztetesi_ido

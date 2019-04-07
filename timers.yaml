@@ -20,3 +20,7 @@ timer_furdo_nagyablak_nyitva:
   duration: '00:10:00'
 timer_halo_ablak_nyitva:
   duration: '00:10:00'
+livingroom_shutter:
+  duration: '00:00:40'
+kitchen_shutter:
+  duration: '00:00:40'

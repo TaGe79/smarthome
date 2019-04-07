@@ -8,6 +8,9 @@ views:
   - title: Main
     path: main
     cards:
+      - type: iframe
+        url: https://patvarutca4.duckdns.org:9876/picture/1/current/?_username=admin&_signature=4126904ea62cee05cda1b7a9219c6da7e3f424f1
+        aspect_ratio: 56%
       - type: glance
         entities:
           - binary_sensor.teraszajto
@@ -138,27 +141,17 @@ views:
        title: Redonyok
        show_header_toggle: false
        entities:
-          - type: section
+          - type: entity
+            entity: cover.kitchen
             label: Konyha
-          - type: custom:slider-entity-row
-            entity: shutter.kitchen_shutter_state
-            min: 0
-            max: 40
-            step: 1
-            input_ref: input_number.kitchen_shutter_state
-            switch_up_ref: switch.ro2_f_r2_3
-            switch_down_ref: switch.ro2_l_r2_1
+          - type: entity
+            entity: input_number.kitchen_shutter_state
           - type: section
-            label: Nappali
-          - type: custom:slider-entity-row
-            entity: shutter.livingroom_shutter_state
-            min: 0
-            max: 40
-            step: 1
-            input_ref: input_number.livingroom_shutter_state
-            switch_up_ref: switch.ro1_f_r2_4
-            switch_down_ref: switch.ro1_l_r2_2
-
+          - type: entity
+            entity: cover.livingroom
+            label: Redőny
+          - type: entity
+            entity: input_number.livingroom_shutter_state
   - title: Scenen
     path: scenen
     cards:
