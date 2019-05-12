@@ -45,9 +45,15 @@ kitchen_shutter_up:
    - service: switch.turn_on
      data:
        entity_id: switch.ro2_f_r2_3
-   - service: timer.start
-     data:
-       entity_id: timer.kitchen_shutter_up
+#   - service: input_number.set_value
+#     data_template:
+#       entity_id: input_number.kitchen_shutter_delay
+#       value: |-
+#         {{ states.input_number.kitchen_shutter_current_pos.state | int * 0.4 // 1 + 1 }}
+#   - service: timer.start
+#     entity_id: timer.kitchen_shutter
+#     data_template:
+#       duration: "00:00:{{ states.input_number.kitchen_shutter_delay.state | int }}"
 
 kitchen_shutter_down:
   alias: Konyha Le
@@ -58,10 +64,16 @@ kitchen_shutter_down:
    - service: switch.turn_on
      data:
        entity_id: switch.ro2_l_r2_1
-   - service: timer.start
-     data:
-       entity_id: timer.kitchen_shutter_down
-     
+#   - service: input_number.set_value
+#     data_template:
+#       entity_id: input_number.kitchen_shutter_delay
+#       value: |-
+#         {{ (100 - states.input_number.kitchen_shutter_current_pos.state | int) * 0.4 // 1 + 1 }}
+#   - service: timer.start
+#     entity_id: timer.kitchen_shutter
+#     data_template:
+#       duration: "00:00:{{ states.input_number.kitchen_shutter_delay.state | int }}"
+            
 livingroom_shutter_set_position:
   alias: Nappali Pozicionalas
   sequence:
@@ -89,6 +101,32 @@ livingroom_shutter_set_position:
      data_template:
        entity_id: input_number.livingroom_shutter_current_pos
        value: "{{ states.input_number.livingroom_shutter_state.state }}"
+
+kitchen_shutter_close:
+  alias: Konyhai redőny lezár
+  sequence:
+    - condition: state
+      entity_id: input_boolean.kitchen_shutter_on
+      state: 'on'
+    - service: input_number.value_set
+      data:
+        entity_id: input_number.kitchen_shutter_state
+        value: 100
+    - service: script.turn_on
+      entity_id: script.kitchen_shutter_set_position
+
+livingroom_shutter_close:
+  alias: Nappli redőny lezár
+  sequence:
+    - condition: state
+      entity_id: input_boolean.livingroom_shutter_on
+      state: 'on'
+    - service: input_number.value_set
+      data:
+        entity_id: input_number.livingroom_shutter_state
+        value: 100
+    - service: script.turn_on
+      entity_id: script.livingroom_shutter_set_position
 
 livingroom_shutter_up:
   alias: Nappali Fel

@@ -15,6 +15,11 @@
     device_class: door
     friendly_name: Teraszajtó
 
+  binary_sensor.konyhaajto:
+    hidden: false
+    device_class: door
+    friendly_name: Konyhaajtó
+
   binary_sensor.openclose_9:
     hidden: false
     device_class: window

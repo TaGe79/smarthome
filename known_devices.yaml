@@ -149,3 +149,11 @@ csongor_iphoneja:
   name: Csongor iPhone-ja
   gravatar: csongor.gergely@icloud.com
   track: true
+
+e4_e4_ab_77_8e_ea:
+  hide_if_away: false
+  icon:
+  mac: E4:E4:AB:77:8E:EA
+  name: e4 e4 ab 77 8e ea
+  picture:
+  track: true

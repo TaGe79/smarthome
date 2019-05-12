@@ -7,6 +7,12 @@
     - condition: state
       entity_id: input_boolean.kitchen_shutter_on
       state: 'on'
+    - condition: state
+      entity_id: script.kitchen_shutter_up
+      state: 'off'
+    - condition: state
+      entity_id: script.kitchen_shutter_down
+      state: 'off'
   action:
   - service: input_number.set_value
     data_template:
@@ -21,6 +27,7 @@
     entity_id: script.kitchen_shutter_set_position
 
 - id: livingroom_cover_stop
+  alias: Nappali redöny stop
   trigger:
   - platform: event
     event_type: timer.finished
@@ -53,6 +60,7 @@
     entity_id: script.livingroom_shutter_set_position
 
 - id: kitchen_cover_stop
+  alias: Konyhai redöny stop
   trigger:
   - platform: event
     event_type: timer.finished
@@ -99,22 +107,6 @@
     entity_id: script.livingroom_shutter_close 
   - service: script.turn_on
     entity_id: script.kitchen_shutter_close
-  - service: input_number.set_value
-    data_template:
-      entity_id: input_number.kitchen_shutter_state
-      value: "40"
-  - service: input_number.set_value
-    data_template:
-      entity_id: input_number.livingroom_shutter_state
-      value: "40"
-  - service: notify.csilla_tamas_phone
-    data:
-      title: "S C E N E"
-      message: "Kellemes szórakozás!"
-      data:
-        push:
-          sound: "US-EN-Morgan-Freeman-Turning-On-The-TV.wav"
-          badge: 5 
   - service: media_player.turn_on
     entity_id: media_player.home_theater
   - service: media_player.select_source
@@ -124,7 +116,7 @@
   - service: media_player.volume_set
     data:
       entity_id: media_player.home_theater
-      volume_level: 0.50
+      volume_level: 50.0
       
 # S L E E P Y   H O M E
 

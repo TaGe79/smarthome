@@ -198,7 +198,7 @@ rest_command:
   konyhapult_generic_on:
     url: 'http://192.168.0.107:8080/api/FF902BF89F/lights/5/state'
     method: PUT
-    payload: '{"on": true, "hue":48350, "bri":255}'
+    payload: '{"on": true, "hue":48350, "bri": 255}'
     content_type:  'application/json; charset=utf-8'
     verify_ssl: false
   konyhapult_movie_on:
@@ -245,6 +245,13 @@ rest_command:
 #    switches:
 #      - "switch.ro1_f_r2_4"
 #      - "switch.ro1_l_r2_2"
+
+camera:
+  - platform: generic
+    name: patvarcam
+    still_image_url: https://patvarutca4.duckdns.org:9876/picture/1/current/
+    stream_source: https://patvarutca4.duckdns.org:8081
+    verify_ssl: false
 
 notify:
   - name: csilla_tamas_phone
