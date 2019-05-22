@@ -112,12 +112,32 @@
   - service: media_player.select_source
     data:
       entity_id: media_player.home_theater
-      source: 'CBL/SAT'
+      source: 'DVD'
   - service: media_player.volume_set
     data:
       entity_id: media_player.home_theater
       volume_level: 50.0
-      
+
+- id: scene_movie_auto_off
+  alias: Scene Movie Off
+  trigger:
+  - platform: state
+    entity_id: media_player.home_theater
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.scene_movie_on
+        state: 'on'
+      - condition: time
+        after: '21:00:00'
+        before: '06:00:00'
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.scene_sleepy_home_on
+
 # S L E E P Y   H O M E
 
 - id : scene_sleepy_home

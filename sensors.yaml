@@ -1,7 +1,4 @@
   - platform: time_date 
-    display-options:
-      - 'time'
-      - 'date'
 
   - platform: darksky
     api_key: c9d28654f52c0edfe1d214efdc4c0c79
