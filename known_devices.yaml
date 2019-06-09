@@ -157,3 +157,11 @@ e4_e4_ab_77_8e_ea:
   name: e4 e4 ab 77 8e ea
   picture:
   track: true
+
+68_37_e9_36_e4_5c:
+  hide_if_away: false
+  icon:
+  mac: 68:37:E9:36:E4:5C
+  name: 68 37 e9 36 e4 5c
+  picture:
+  track: true
