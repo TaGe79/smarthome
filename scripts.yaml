@@ -173,7 +173,7 @@ livingroom_shutter_down:
    - service: input_number.set_value
      data:
        entity_id: input_number.livingroom_shutter_delay
-       value: "{{ 100 - states.input_number.livingroom_shutter_current_pos.state | int) * 0.4  // 1 }}"
+       value: "{{ (100 - states.input_number.livingroom_shutter_current_pos.state | int) * 0.4  // 1 }}"
   # - set input_number.livingroom_shutter_state to 100
    - service: input_number.set_value
      data:
