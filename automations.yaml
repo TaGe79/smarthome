@@ -26,6 +26,17 @@
   - service: script.turn_on
     entity_id: script.kitchen_shutter_set_position
 
+- id: kitchen_cover_stop
+  alias: Konyhai redöny stop
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.kitchen_shutter
+  action:
+  - service: script.turn_on
+    entity_id: script.kitchen_shutter_stop
+
 - id: livingroom_cover_stop
   alias: Nappali redöny stop
   trigger:
@@ -50,6 +61,7 @@
   - service: input_number.set_value
     data_template:
       entity_id: input_number.livingroom_shutter_delay
+      # determine wheter the shutter needs to move up~ or downwards
       value: |-
         {% if states.input_number.livingroom_shutter_state.state | int < states.input_number.livingroom_shutter_current_pos.state | int  %}
           {{ (states.input_number.livingroom_shutter_current_pos.state | int - states.input_number.livingroom_shutter_state.state | int) * 0.4  // 1 + 1 }}
@@ -59,16 +71,6 @@
   - service: script.turn_on
     entity_id: script.livingroom_shutter_set_position
 
-- id: kitchen_cover_stop
-  alias: Konyhai redöny stop
-  trigger:
-  - platform: event
-    event_type: timer.finished
-    event_data:
-      entity_id: timer.kitchen_shutter
-  action:
-  - service: script.turn_on
-    entity_id: script.kitchen_shutter_stop
 #
 # S C E N E N
 #
@@ -215,6 +217,10 @@
     entity_id: binary_sensor.np1
     from: 'off'
     to: 'on'
+  - platform: state
+    entity_id: binary_sensor.np2
+    from: 'off'
+    to: 'on'
   condition:
     condition: and
     conditions:
@@ -245,7 +251,7 @@
   alias: Alvajárok lámpa kikapcs
   trigger:
   - platform: event
-    event_type: timer.finish
+    event_type: timer.finished
     event_data:
       entity_id: timer.timer_sleepy_light_off
   action:
