@@ -112,7 +112,7 @@ livingroom_shutter_close:
 livingroom_shutter_up:
   alias: Nappali Fel
   sequence:
-   - condition:
+   - condition: state
      entity_id: input_boolean.livingroom_shutter_on 
      state: 'on'    
    - service: switch.turn_off
@@ -158,7 +158,7 @@ livingroom_shutter_stop:
 livingroom_shutter_down:
   alias: Nappali Le
   sequence:
-   - condition:
+   - condition: state
      entity_id: input_boolean.livingroom_shutter_on 
      state: 'on'
    - service: switch.turn_off
