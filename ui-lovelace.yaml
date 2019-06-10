@@ -173,18 +173,18 @@ views:
            - type: entity-button
              entity: input_boolean.livingroom_shutter_on
              name: Nappali redony
-           - entity: switch.RO1_L-R2_2
+           - entity: switch.ro1_l_r2_2
              name: Nappali le
-           - entity: switch.RO1_F-R2_4 
+           - entity: switch.ro1_f_r2_4 
              name: Nappali fel 
            - type: section  
            - type: entity-button
              entity: input_boolean.kitchen_shutter_on
              name: Konyhai redony  
-           - entity: switch.RO2_L-R2_1
-             name: Nappali le
-           - entity: switch.RO2_F-R2_3 
-             name: Nappali fel 
+           - entity: switch.ro2_l_r2_1
+             name: Konyha le
+           - entity: switch.ro2_f_r2_3 
+             name: Konyha fel 
   - title: Scenen
     path: scenen
     cards:
@@ -208,3 +208,6 @@ views:
        entities:
          - entity: input_number.furdo_szelloztetesi_ido
          - entity: input_number.halo_szelloztetesi_ido
+         - type: section
+         - entity: input_boolean.extended_shutter_control
+           name: Extra redony vezérlés
