@@ -173,9 +173,9 @@ media_player:
     name: Home-Theater
     show_all_sources: True
 
-  - platform: firetv
-    name: FireTV
-    host: 192.168.0.167
+#  - platform: firetv
+#    name: FireTV
+#    host: 192.168.0.167
 
 input_boolean:
   scene_sleepy_home_on:
