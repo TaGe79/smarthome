@@ -194,6 +194,9 @@ input_boolean:
   livingroom_shutter_on:
     name: Nappali redony automata
     initial: on
+  extended_shutter_control:
+    name: Extra redony beallitasok
+    initial: off
     
 rest_command:
   konyhapult_generic_on:

@@ -163,6 +163,28 @@ views:
             label: Redőny
           - type: entity
             entity: input_number.livingroom_shutter_state
+     - type: conditional
+       conditions:
+       - entity: input_boolean.extended_shutter_control
+         state: "on"
+       card:
+         type: entities
+         entities:
+           - type: entity-button
+             entity: input_boolean.livingroom_shutter_on
+             name: Nappali redony
+           - entity: switch.RO1_L-R2_2
+             name: Nappali le
+           - entity: switch.RO1_F-R2_4 
+             name: Nappali fel 
+           - type: section  
+           - type: entity-button
+             entity: input_boolean.kitchen_shutter_on
+             name: Konyhai redony  
+           - entity: switch.RO2_L-R2_1
+             name: Nappali le
+           - entity: switch.RO2_F-R2_3 
+             name: Nappali fel 
   - title: Scenen
     path: scenen
     cards:
