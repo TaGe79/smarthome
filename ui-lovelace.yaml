@@ -146,8 +146,9 @@ views:
         entity: sensor.time  
   
       - type: glance
-        entity: input_boolean.summer_heat_mode
-        name: Nyári kánikula        
+        entities:
+          - entity: input_boolean.summer_heat_mode
+            name: Nyári kánikula        
 
   - title: Redonyok
     path: redonyok
