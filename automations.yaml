@@ -204,8 +204,8 @@
 - id: scene_general_early_activation
   alias: General Scene reggel
   trigger: 
-  - platform: time
-    at: '06:20:00'
+  - platform: sun
+    event: 'snrise'
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.scene_general_on
