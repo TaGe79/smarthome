@@ -22,7 +22,6 @@ homeassistant:
   
   auth_providers:
     - type: homeassistant
-    - type: legacy_api_password
 
 lovelace:
    mode: yaml
@@ -80,7 +79,7 @@ config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-  api_password: !secret legacy_http_password
+  # api_password: !secret legacy_http_password
   base_url: http://patvarutca4.duckdns.org:443
   # ssl_certificate: /ssl/fullchain.pem
   # ssl_key: /ssl/privkey.pem
@@ -196,6 +195,9 @@ input_boolean:
     initial: on
   extended_shutter_control:
     name: Extra redony beallitasok
+    initial: off
+  summer_heat_mode:
+    name: Nyári kánikula mód
     initial: off
     
 rest_command:

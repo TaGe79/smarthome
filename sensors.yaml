@@ -5,7 +5,7 @@
     language: hu
     units: si
     forecast: [1,2,3]
-    update_interval: '00:05'
+    scan_interval: '00:05'
     monitored_conditions:
       - summary
       - icon

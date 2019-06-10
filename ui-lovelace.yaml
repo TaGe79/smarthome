@@ -145,6 +145,10 @@ views:
       - type: sensor
         entity: sensor.time  
   
+      - type: sensor
+        entity: input_boolean.summer_heat_mode
+        name: Nyári kánikula
+        
   - title: Redonyok
     path: redonyok
     cards:

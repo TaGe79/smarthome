@@ -25,7 +25,8 @@
         {% endif %}
   - service: script.turn_on
     entity_id: script.kitchen_shutter_set_position
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: kitchen_cover_stop
   alias: Konyhai redöny stop
   trigger:
@@ -36,7 +37,8 @@
   action:
   - service: script.turn_on
     entity_id: script.kitchen_shutter_stop
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: livingroom_cover_stop
   alias: Nappali redöny stop
   trigger:
@@ -47,7 +49,8 @@
   action:
   - service: script.turn_on
     entity_id: script.livingroom_shutter_stop
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: livingroom_cover_move
   alias: Nappali redöny mozgatása
   trigger:
@@ -70,12 +73,15 @@
         {% endif %}
   - service: script.turn_on
     entity_id: script.livingroom_shutter_set_position
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 #
 # S C E N E N
 #
 
+# -----------------------------------------------------------------------
 # M O V I E
+# -----------------------------------------------------------------------
 - id : scene_movie
   alias: Scene Movie
   trigger:
@@ -119,7 +125,8 @@
     data:
       entity_id: media_player.home_theater
       volume_level: 50.0
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: scene_movie_auto_off
   alias: Scene Movie Off
   trigger:
@@ -140,8 +147,9 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.scene_sleepy_home_on
 
+# -----------------------------------------------------------------------
 # S L E E P Y   H O M E
-
+# -----------------------------------------------------------------------
 - id : scene_sleepy_home
   alias: Scene Sleepy Home
   trigger:
@@ -168,9 +176,11 @@
     entity_id: light.fal
   - service: light.turn_off
     entity_id: light.plafon
-    
-# G E N E R A L
+   
 
+# -----------------------------------------------------------------------
+# G E N E R A L
+# -----------------------------------------------------------------------
 - id: scene_general
   alias: Scene General
   trigger:
@@ -189,7 +199,8 @@
     entity_id: light.plafon
   - service: light.turn_off
     entity_id: light.fal
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: scene_general_early_activation
   alias: General Scene reggel
   trigger: 
@@ -199,9 +210,9 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.scene_general_on
   
-#
+# -----------------------------------------------------------------------  
 # S L E E P Y   M O V I N G
-#
+# -----------------------------------------------------------------------
 - id: sleepy_home_walking_bedroom_floor
   alias: Alvajárók a WC-re
   trigger:
@@ -246,7 +257,8 @@
       rgb_color: [255,63,0]
   - service: timer.start
     entity_id: timer.timer_sleepy_light_off
-      
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------      
 - id: sleepy_home_light_off
   alias: Alvajárok lámpa kikapcs
   trigger:
@@ -259,10 +271,9 @@
     entity_id: light.plafon
   - service: light.turn_off
     entity_id: light.fal
-
-#
+# -----------------------------------------------------------------------
 # B U T T O N S
-# 
+# -----------------------------------------------------------------------
 - id: custom_button_push
   alias: Xiamo Button Test
   trigger:
@@ -279,10 +290,9 @@
        data:
          push:
            badge: 5 
-
-#
+# -----------------------------------------------------------------------
 # K O N Y H A P U L T   M O Z I   K O Z B E N
-#
+# -----------------------------------------------------------------------
 - id: konyhapult_movie_light_on
   alias: Konyhapult világítás mozi közben
   trigger:
@@ -299,7 +309,8 @@
   - service: rest_command.konyhapult_movie_on
   - service: timer.start
     entity_id: timer.timer_konyhapult_movie_off
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: konyhapult_sleepy_light_on
   alias: Konyhapult világítás este
   trigger:
@@ -316,11 +327,9 @@
   - service: rest_command.konyhapult_sleepy_on
   - service: timer.start
     entity_id: timer.timer_konyhapult_movie_off
-
-
-#
+# -----------------------------------------------------------------------
 # K O N Y H A P U L T
-#
+# -----------------------------------------------------------------------
 - id: konyhapult_light_on
   alias: Konyhapult világítás
   trigger:
@@ -334,7 +343,8 @@
   - service: rest_command.konyhapult_generic_on
   - service: timer.start
     entity_id: timer.timer_konyhapult_off
-    
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------    
 - id: konyhapult_light_off
   alias: Konyhapult lekapcs
   trigger:
@@ -354,9 +364,9 @@
   - service: light.turn_off
     entity_id: light.konyhapult
     
-#
+# -----------------------------------------------------------------------
 # E T K E Z O
-#
+# -----------------------------------------------------------------------
 - id: ep1_lights_on
   alias: EP1 lights on
   initial_state: 'off'
@@ -385,7 +395,8 @@
     entity_id: switch.el3r1_7
     data:
       entity_id: el3r7
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: ep1_lights_off
   alias: EP1 lights off
   initial_state: 'off'
@@ -405,10 +416,9 @@
     entity_id: switch.el2r1_6
   - service: switch.turn_off
     entity_id: switch.el3r1_7
-
-#
+# -----------------------------------------------------------------------
 # N A P P A L I  1
-#
+# -----------------------------------------------------------------------
 - id: np1_lights_on
   alias: NP1 lights on
   initial_state: 'off'
@@ -434,6 +444,8 @@
     entity_id: switch.nl2r1_2
     data:
       entity_id: nl2r2
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------      
 - id: np1_lights_off
   alias: NP1 lights off
   initial_state: 'off'
@@ -450,11 +462,10 @@
   - service: switch.turn_off
     entity_id: switch.nl1r1_1
   - service: switch.turn_off
-    entity_id: switch.nl2r1_2
-    
-#
+    entity_id: switch.nl2r1_2    
+# -----------------------------------------------------------------------
 # N A P P A L I  2
-#
+# -----------------------------------------------------------------------
 - id: np2_lights_on
   alias: NP2 lights on
   initial_state: 'off'
@@ -480,7 +491,8 @@
     entity_id: switch.nl2r1_2
     data:
       entity_id: nl2r2
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: np2_lights_off
   alias: NP2 lights off
   initial_state: 'off'
@@ -498,10 +510,9 @@
     entity_id: switch.nl3r1_3
   - service: switch.turn_off
     entity_id: switch.nl2r1_2
-
-#
+# -----------------------------------------------------------------------
 # P R E S E N C E   R E L A T E D
-#
+# -----------------------------------------------------------------------
 - id: noone_at_home
   alias: Üres a ház
   trigger:
@@ -514,7 +525,8 @@
     entity_id: group.downstairs
   - service: light.turn_off
     entity_id: group.all_lights
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: valaki_megjott
   alias: Valaki hazajött
   trigger:
@@ -531,7 +543,8 @@
     entity_id: group.downstairs
   - service: timer.start
     entity_id: timer.timer_welcome_home
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: valaki_megjott_off
   alias: Valaki hazajött kikapcs
   trigger:
@@ -545,9 +558,9 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.scene_general_on
 
-#
+# -----------------------------------------------------------------------
 # H A L O S Z O B A I   F O L Y O S O
-#
+# -----------------------------------------------------------------------
 - id: halo_folyoso_mozgas
   alias: Háló folyosó
   initial_state: 'on'
@@ -575,7 +588,8 @@
       kelvin: 2700
   - service: timer.start
     entity_id: timer.timer_halo_folyoso_ki
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: halo_folyoso_ki
   alias: Háló folyosó kikapcsol
   initial_state: 'on'
@@ -588,9 +602,9 @@
   - service: light.turn_off
     entity_id: light.halofolyoso
 
-#
+# -----------------------------------------------------------------------
 # H A L O S Z O B A   S Z E L L O Z T E T E S
-#
+# -----------------------------------------------------------------------
 - id: halo_ablak_nyitva
   alias: Háló ablak
   initial_state: 'on'
@@ -604,7 +618,8 @@
     entity_id: timer.timer_halo_ablak_nyitva
     data_template:
       duration: 00:{{ states("input_number.halo_szelloztetesi_ido") | int }}:00
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: halo_ablak_bezarva
   alias: Halo ablakot bezartak
   initial_state: 'on'
@@ -620,7 +635,8 @@
     entity_id: input_number.halo_szelloztetesi_ido
     data:
       value: 10
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: halo_szelloztetes_lejart
   alias: Háló szelloztetés vége
   initial_state: 'on'
@@ -629,6 +645,10 @@
     event_type: timer.finished
     event_data:
       entity_id: timer.timer_halo_ablak_nyitva
+  condition:
+  - condition: state
+    entity_id: input_boolean.summer_heat_mode
+    state: 'off'
   action:
   - service: notify.csilla_tamas_phone
     data:
@@ -642,10 +662,9 @@
     entity_id: timer.timer_halo_ablak_nyitva 
     data_template:
       duration: 00:{{ states("input_number.halo_szelloztetesi_ido") | int }}:00
-
-#
+# -----------------------------------------------------------------------
 # S Z E L L O Z T E T E S   F U R D O S Z O B A
-#
+# -----------------------------------------------------------------------
 - id: furdo_kisablak_nyitva
   alias: Fürdö kisablak
   initial_state: 'on'
@@ -659,7 +678,8 @@
     entity_id: timer.timer_furdo_ablak_nyitva
     data_template:
       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: furdo_kisablak_bezarva
   alias: Furdo kisablakot bezartak
   initial_state: 'on'
@@ -675,7 +695,8 @@
     entity_id: input_number.furdo_szelloztetesi_ido
     data:
       value: 10
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: furdo_szelloztetes_lejart
   alias: Fürdö szelloztetés vége
   initial_state: 'on'
@@ -684,6 +705,10 @@
     event_type: timer.finished
     event_data:
       entity_id: timer.timer_furdo_ablak_nyitva
+  condition:
+  - condition: state
+    entity_id: input_boolean.summer_heat_mode
+    state: 'off'      
   action:
   - service: notify.csilla_tamas_phone
     data:
@@ -697,9 +722,9 @@
     entity_id: timer.timer_furdo_ablak_nyitva  
     data_template:
       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
-#
+# -----------------------------------------------------------------------
 # Nagy ablak a furdoben
-# 
+# -----------------------------------------------------------------------
 - id: furdo_nagyablak_nyitva
   alias: Fürdö nagyablak
   initial_state: 'on'
@@ -713,7 +738,8 @@
     entity_id: timer.timer_furdo_nagyablak_nyitva
     data_template:
       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: furdo_nagyablak_bezarva
   alias: Furdo nagyablakot bezartak
   initial_state: 'on'
@@ -729,7 +755,8 @@
     entity_id: input_number.furdo_szelloztetesi_ido
     data:
       value: 10
-
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 - id: furdo_nagyszelloztetes_lejart
   alias: Fürdö nagy-szelloztetés vége
   initial_state: 'on'
@@ -738,6 +765,10 @@
     event_type: timer.finished
     event_data:
       entity_id: timer.timer_furdo_nagyablak_nyitva
+  condition:
+  - condition: state
+    entity_id: input_boolean.summer_heat_mode
+    state: 'off'
   action:
   - service: notify.csilla_tamas_phone
     data:
@@ -751,9 +782,9 @@
     entity_id: timer.timer_furdo_nagyablak_nyitva  
     data_template:
       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
-  #
-  # Notify Tamas when someone came home
-  #
+# -----------------------------------------------------------------------
+# Notify Tamas when someone came home
+# -----------------------------------------------------------------------
 - id: somebody_came_home
   alias: valaki hazajott uzenet
   initial_state: 'on'
@@ -783,5 +814,41 @@
         push:
           sound: 'US-EN-Morgan-Freeman-Welcome-Home.wav'
           badge: 5
-
+# -----------------------------------------------------------------------
+# Summer mode 
+# -----------------------------------------------------------------------
+- id: summer_heat_mode
+  alias: Nyári kánikula mód
+  initial_state: 'on'
+  trigger:
+  - platform: time_pattern
+    minutes: 60
+  condition:
+    - condition: numeric_state
+      entity_id: sensor.dark_sky_daytime_high_temperature_1d
+      above: 27
+    - condition: numeric_state
+      entity_id: sensor.dark_sky_wind_speed
+      below: 10
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.summer_heat_mode
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+- id: summer_heat_mode_off
+  alias: Nyári kánikula mód - kikapcs
+  initial_state: 'on'
+  trigger:
+  - platform: time_pattern
+    minutes: 60
+  condition:
+    - condition: numeric_state
+      entity_id: sensor.dark_sky_daytime_high_temperature_1d
+      below: 22
+    - condition: numeric_state
+      entity_id: sensor.dark_sky_wind_speed
+      above: 10
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.summer_heat_mode
 

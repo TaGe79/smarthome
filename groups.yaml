@@ -32,7 +32,7 @@ csalad:
     entities:
       - device_tracker.csilla_iphoneja
       - device_tracker.dalma_iphone
-      - device_tracker.csongor_iphone
+      - device_tracker.csongor_iphoneja
       - device_tracker.tamasphone
 
 downstairs:
