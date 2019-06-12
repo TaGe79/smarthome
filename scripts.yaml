@@ -132,11 +132,11 @@ livingroom_shutter_stop:
    - service: switch.turn_off
      data:
        entity_id: switch.ro1_f_r2_4    
-   - service: timer.cancel
+   - service: timer.pause
      data: 
        entity_id: timer.livingroom_shutter
   # - set livingroom_shutter_on to false, to avoid activating automation
-   - service: input_boolen.turn_off
+   - service: input_boolean.turn_off
      data:
        entity_id: input_boolean.livingroom_shutter_on
   # - calculate the state of the shutter's position
@@ -146,6 +146,9 @@ livingroom_shutter_stop:
        value: |-
          {% set _hour, _minute, _second = states.timer.livingroom_shutter.attributes.remaining.split(":") %}
          {{ states.input_number.livingroom_shutter_state.state | int - ((_hour | int * 3600 + _minute | int * 60 + _second | int) // 0.4) }}
+   - service: timer.cancel
+     data: 
+       entity_id: timer.livingroom_shutter
   # reactivate livingroom shutter
    - service: input_boolen.turn_on
      data:
