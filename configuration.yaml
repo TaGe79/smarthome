@@ -255,7 +255,7 @@ rest_command:
 camera:
   - platform: generic
     name: patvarcam
-    still_image_url: https://patvarutca4.duckdns.org:9876/picture/1/current/
+    still_image_url: https://192.168.0.107:8123/picture/1/current/
     verify_ssl: false
 
 notify:

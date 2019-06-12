@@ -205,7 +205,7 @@
   alias: General Scene reggel
   trigger: 
   - platform: sun
-    event: 'snrise'
+    event: 'sunrise'
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.scene_general_on
