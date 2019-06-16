@@ -150,7 +150,7 @@ livingroom_shutter_stop:
      data: 
        entity_id: timer.livingroom_shutter
   # reactivate livingroom shutter
-   - service: input_boolen.turn_on
+   - service: input_boolean.turn_on
      data:
        entity_id: input_boolean.livingroom_shutter_on
 # -----------------------------------------------------------------------
