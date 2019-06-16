@@ -825,8 +825,8 @@
     minutes: 60
   condition:
     - condition: numeric_state
-      entity_id: sensor.dark_sky_daytime_high_temperature_1d
-      above: 27
+      entity_id: sensor.dark_sky_temperature
+      above: 24
     - condition: numeric_state
       entity_id: sensor.dark_sky_wind_speed
       below: 10
