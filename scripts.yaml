@@ -144,11 +144,15 @@ livingroom_shutter_stop:
        entity_id: input_number.livingroom_shutter_current_pos
        value: |-
          {% set _hour, _minute, _second = states.timer.livingroom_shutter.attributes.remaining.split(":") %}
-         {{ states.input_number.livingroom_shutter_state.state | int - ((_hour | int * 3600 + _minute | int * 60 + _second | int) // 0.4) }}
+         {% if input_number.livingroom_shutter_state | int > input_number.livingroom_shutter_current_pos | int -%}
+           {{ states.input_number.livingroom_shutter_state.state | int - ((_hour | int * 3600 + _minute | int * 60 + _second | int) // 0.4) }}
+         {%- else -%}
+           {{ states.input_number.livingroom_shutter_state.state | int + ((_hour | int * 3600 + _minute | int * 60 + _second | int) // 0.4) }}
+         {%- endif -%}
    - service: input_number.set_value
      data_template:
        entity_id: input_number.livingroom_shutter_state
-       value: {{ states.input_number.livingroom_shutter_current_pos.state }}
+       value: "{{ states.input_number.livingroom_shutter_current_pos.state }}"
    - service: timer.cancel
      data: 
        entity_id: timer.livingroom_shutter

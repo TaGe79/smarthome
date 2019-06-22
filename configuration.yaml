@@ -189,7 +189,7 @@ input_boolean:
     initial: on
   kitchen_shutter_on:
     name: Konyhai redony automata
-    initial: on
+    initial: off
   livingroom_shutter_on:
     name: Nappali redony automata
     initial: on
