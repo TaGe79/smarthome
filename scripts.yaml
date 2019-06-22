@@ -64,7 +64,7 @@ livingroom_shutter_set_position:
   alias: Nappali Pozicionalas
   sequence:
    - service_template: |-
-       {% if states.input_number.livingroom_shutter_state.state < states.input_number.livingroom_shutter_current_pos.state %}
+       {% if states.input_number.livingroom_shutter_state.state | int < states.input_number.livingroom_shutter_current_pos.state | int %}
          switch.turn_off
        {% else %}  
          switch.turn_on
@@ -72,7 +72,7 @@ livingroom_shutter_set_position:
      data:
        entity_id: switch.ro1_l_r2_2
    - service_template: |-
-       {% if states.input_number.livingroom_shutter_state.state < states.input_number.livingroom_shutter_current_pos.state %}
+       {% if states.input_number.livingroom_shutter_state.state | int < states.input_number.livingroom_shutter_current_pos.state | int %}
          switch.turn_on
        {% else %}
          switch.turn_off
