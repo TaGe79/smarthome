@@ -251,7 +251,7 @@ rest_command:
 camera:
   - platform: generic
     name: patvarcam
-    still_image_url: https://192.168.0.107:8123/api/hassio_ingress/ycMNXYe4ccjzcX5wDCo2AoG2hNG2UfX3p1xn2W5Svis/picture/1/current/?_username=admin&_signature=4126904ea62cee05cda1b7a9219c6da7e3f424f1
+    still_image_url: https://patvarutca4.duckdns.org/api/hassio_ingress/ycMNXYe4ccjzcX5wDCo2AoG2hNG2UfX3p1xn2W5Svis/picture/1/current/?_username=admin&_signature=4126904ea62cee05cda1b7a9219c6da7e3f424f1
     verify_ssl: false
 
 notify:
