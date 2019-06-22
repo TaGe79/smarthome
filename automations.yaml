@@ -112,9 +112,9 @@
   - service: rest_command.plafon_light_movie
   - service: rest_command.fal_light_movie
   - service: script.turn_on
-    entity_id: script.livingroom_shutter_close 
-  - service: script.turn_on
-    entity_id: script.kitchen_shutter_close
+    entity_id: script.livingroom_shutter_down 
+#  - service: script.turn_on
+#    entity_id: script.kitchen_shutter_close
   - service: media_player.turn_on
     entity_id: media_player.home_theater
   - service: media_player.select_source

@@ -59,18 +59,6 @@ kitchen_shutter_down:
      data:
        entity_id: switch.ro2_l_r2_1
 # -----------------------------------------------------------------------
-# -----------------------------------------------------------------------  
-kitchen_shutter_close:
-  alias: Konyhai redőny lezár
-  sequence:
-    - condition: state
-      entity_id: input_boolean.kitchen_shutter_on
-      state: 'on'
-    - service: input_number.set_value
-      data:
-        entity_id: input_number.kitchen_shutter_state
-        value: 100
-# -----------------------------------------------------------------------
 # -----------------------------------------------------------------------          
 livingroom_shutter_set_position:
   alias: Nappali Pozicionalas
@@ -95,18 +83,6 @@ livingroom_shutter_set_position:
      entity_id: timer.livingroom_shutter
      data_template:
        duration: "00:00:{{ states.input_number.livingroom_shutter_delay.state | int }}"
-# -----------------------------------------------------------------------
-# ----------------------------------------------------------------------- 
-livingroom_shutter_close:
-  alias: Nappli redőny lezár
-  sequence:
-    - condition: state
-      entity_id: input_boolean.livingroom_shutter_on
-      state: 'on'
-    - service: input_number.set_value
-      data:
-        entity_id: input_number.livingroom_shutter_state
-        value: 100
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------
 livingroom_shutter_up:
