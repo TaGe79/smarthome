@@ -90,13 +90,36 @@ livingroom_shutter_up:
   sequence:
    - condition: state
      entity_id: input_boolean.livingroom_shutter_on 
-     state: 'on'    
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_l_r2_2
+     state: 'on'
    - service: switch.turn_on
      data:
        entity_id: switch.ro1_f_r2_4
+   - service: switch.turn_off
+     data:
+       entity_id: switch.ro1_l_r2_2  
+  # - turn off input_boolean.livingroom_shutter_on
+   - service: automation.turn_off
+     data:
+       entity_id: automation.livingroom_cover_move
+  # - determine how long does it take to close the shutter (given it's current position)
+  #   - and set the value to the input_number.livingroom_shutter_delay
+   - service: input_number.set_value
+     data_template:
+       entity_id: input_number.livingroom_shutter_delay
+       value: "{{ (states.input_number.livingroom_shutter_current_pos.state | int) * 0.4  // 1 }}"
+  # - set input_number.livingroom_shutter_state to 100
+   - service: input_number.set_value
+     data:
+       entity_id: input_number.livingroom_shutter_state
+       value: 0
+  # - start the timer with the given delay
+   - service: timer.start 
+     entity_id: timer.livingroom_shutter
+     data_template:
+       duration: "00:00:{{ states.input_number.livingroom_shutter_delay.state | int }}"   
+   - service: automation.turn_on
+     data:
+       entity_id: automation.livingroom_cover_move
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------
 livingroom_shutter_stop:
@@ -122,6 +145,10 @@ livingroom_shutter_stop:
        value: |-
          {% set _hour, _minute, _second = states.timer.livingroom_shutter.attributes.remaining.split(":") %}
          {{ states.input_number.livingroom_shutter_state.state | int - ((_hour | int * 3600 + _minute | int * 60 + _second | int) // 0.4) }}
+   - service: input_number.set_value
+     data_template:
+       entity_id: input_number.livingroom_shutter_state
+       value: {{ states.input_number.livingroom_shutter_current_pos.state }}
    - service: timer.cancel
      data: 
        entity_id: timer.livingroom_shutter
