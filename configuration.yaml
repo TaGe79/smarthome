@@ -27,10 +27,6 @@ lovelace:
    mode: yaml
   
 panel_iframe:
-  motioneye:
-    title: motionEye
-    icon: mdi:cctv
-    url: https://patvarutca4.duckdns.org:9876
   grafana:
     title: Grafana
     icon: mdi:settings-outline
@@ -80,7 +76,7 @@ config:
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
   # api_password: !secret legacy_http_password
-  base_url: https://patvarutca4.duckdns.org:443
+  base_url: patvarutca4.duckdns.org:443
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
   # ssl_profile: intermediate
@@ -255,7 +251,7 @@ rest_command:
 camera:
   - platform: generic
     name: patvarcam
-    still_image_url: https://192.168.0.107:8123/picture/1/current/
+    still_image_url: https://192.168.0.107:8123/api/hassio_ingress/ycMNXYe4ccjzcX5wDCo2AoG2hNG2UfX3p1xn2W5Svis/picture/1/current/?_username=admin&_signature=4126904ea62cee05cda1b7a9219c6da7e3f424f1
     verify_ssl: false
 
 notify:
