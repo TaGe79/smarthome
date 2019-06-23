@@ -104,9 +104,6 @@ livingroom_shutter_up:
    - service: automation.turn_off
      data:
        entity_id: automation.livingroom_cover_move
-   - service: automation.turn_off
-     data:
-       entity_id: automation.livingroom_cover_stop                     
   # - determine how long does it take to close the shutter (given it's current position)
   #   - and set the value to the input_number.livingroom_shutter_delay
    - service: input_number.set_value
@@ -135,10 +132,10 @@ livingroom_shutter_stop:
      data:
        entity_id: switch.ro1_f_r2_4    
   # - set livingroom_shutter_on to false, to avoid activating automation
-   - service: automation.turn_off
+   - service: homeassistant.turn_off
      data:
        entity_id: automation.livingroom_cover_move
-   - service: automation.turn_off
+   - service: homeassistant.turn_off
      data:
        entity_id: automation.livingroom_cover_stop       
    - service: timer.finish
@@ -161,10 +158,10 @@ livingroom_shutter_stop:
        entity_id: input_number.livingroom_shutter_state
        value: "{{ states.input_number.livingroom_shutter_current_pos.state }}"
   # reactivate livingroom shutter
-   - service: automation.turn_on
+   - service: homeassistant.turn_on
      data:
        entity_id: automation.livingroom_cover_move
-   - service: automation.turn_on
+   - service: homeassistant.turn_on
      data:
        entity_id: automation.livingroom_cover_stop       
 # -----------------------------------------------------------------------
@@ -185,12 +182,9 @@ livingroom_shutter_down:
      data:
        entity_id: switch.ro1_l_r2_2  
   # - turn off input_boolean.livingroom_shutter_on
-   - service: automation.turn_off
+   - service: homeassistant.turn_off
      data:
        entity_id: automation.livingroom_cover_move
-   - service: automation.turn_off
-     data:
-       entity_id: automation.livingroom_cover_stop              
   # - determine how long does it take to close the shutter (given it's current position)
   #   - and set the value to the input_number.livingroom_shutter_delay
    - service: input_number.set_value
