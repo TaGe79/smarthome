@@ -91,6 +91,9 @@ livingroom_shutter_up:
    - condition: state
      entity_id: input_boolean.livingroom_shutter_on 
      state: 'on'
+   - service: script.turn_on
+     data:
+       entity_id: script.livingroom_shutter_stop      
    - service: switch.turn_on
      data:
        entity_id: switch.ro1_f_r2_4
@@ -172,6 +175,9 @@ livingroom_shutter_down:
    - condition: state
      entity_id: input_boolean.livingroom_shutter_on 
      state: 'on'
+   - service: script.turn_on
+     data:
+       entity_id: script.livingroom_shutter_stop
    - service: switch.turn_off
      data:
        entity_id: switch.ro1_f_r2_4
