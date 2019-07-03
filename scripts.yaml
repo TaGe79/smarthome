@@ -201,3 +201,40 @@ livingroom_shutter_down:
      entity_id: timer.livingroom_shutter
      data_template:
        duration: "00:00:{{ states.input_number.livingroom_shutter_delay.state | int }}"   
+
+
+xaomi_light_switch_off:
+  alias: Villanykapcsolo kikapcs
+  sequence:
+  - condition: nummeric_state
+    entity_id: input_number.light_button_state
+    below: 3
+  - service: switch.turn_off
+    data_template:
+      entity_id: |-
+        {% if states.input_number.light_button_state.state | int == 0 -%}
+          group.downstairs
+        {% elif states.input_number.light_button_state.state | int == 1 -%}
+          group.livin_room
+        {% elif states.input_number.light_button_state.state | int == 2 -%}
+          group.kitchen
+        {% endif %}
+
+xaomi_light_switch:
+  alias: Villanykapcsolo
+  sequence:
+  - condition: numeric_state
+    entity_id: input_number.light_button_state
+    above: 0
+  - condition: numeric_state
+    entity_id: input_number.light_button_state
+    below: 3
+  - service: switch.turn_on
+    data_template:
+      entity_id: |-
+        {% if states.input_number.light_button_state.state | int == 1 -%}
+          switch.el2_r1_6
+        {% elif states.input_number.light_button_state.state | int == 2 -%}
+          switch.nl2_r1_2
+        {% endif %}
+  

@@ -40,3 +40,8 @@ halo_szelloztetesi_ido:
   min: 5
   max: 60
   step: 1
+light_button_state:
+  name: light_button_state
+  initial: 0
+  min: 0
+  max: 3
