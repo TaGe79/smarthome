@@ -286,7 +286,7 @@
   - service: input_number.set_value
     data_template:
       entity_id: input_number.light_button_state
-      value: {{ (states.input_number.light_button_state.state | int) % 4 }}
+      value_template: '{{ (states.input_number.light_button_state.state | int) % 4 }}'
   - service: script.turn_on
     entity_id: script.xaomi_light_switch_off
   - service: script.turn_on
