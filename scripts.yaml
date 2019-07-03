@@ -206,7 +206,7 @@ livingroom_shutter_down:
 xaomi_light_switch_off:
   alias: Villanykapcsolo kikapcs
   sequence:
-   - condition: nummeric_state
+   - condition: numeric_state
      entity_id: input_number.light_button_state
      below: 3
    - service: switch.turn_off
