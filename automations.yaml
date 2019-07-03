@@ -287,10 +287,10 @@
     data_template:
       entity_id: input_number.light_button_state
       value: {{ (states.input_number.light_button_state.state | int) % 4 }}
-   - service: script.turn_on
-     entity_id: script.xaomi_light_switch_off
-   - service: script.turn_on
-     entity_id: script.xaomi_light_switch
+  - service: script.turn_on
+    entity_id: script.xaomi_light_switch_off
+  - service: script.turn_on
+    entity_id: script.xaomi_light_switch
 #   - service: notify.csilla_tamas_phone
 #     data:
 #       title: "Smart Home Alerts"
