@@ -230,7 +230,7 @@ xaomi_light_switch:
         above: 0
       - condition: numeric_state
         entity_id: input_number.light_button_state
-        below: 3
+        below: 4
    - service: switch.turn_on
      data_template:
        entity_id: |-
@@ -238,5 +238,7 @@ xaomi_light_switch:
           switch.el2_r1_6
         {% elif states.input_number.light_button_state.state | int == 2 -%}
           switch.nl2_r1_2
+        {% elif states.input_number.light_button_state.state | int == 3 -%}
+          switch.el2_r1_6
         {% endif %}
-  
+
