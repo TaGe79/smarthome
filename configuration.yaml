@@ -77,8 +77,8 @@ config:
 http:
   # api_password: !secret legacy_http_password
   base_url: patvarutca4.duckdns.org:443
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
+  # ssl_certificate: /ssl/fullchain.pem
+  # ssl_key: /ssl/privkey.pem
   # ssl_profile: intermediate
 #   base_url: example.duckdns.org:8123
 
@@ -198,43 +198,43 @@ input_boolean:
     
 rest_command:
   konyhapult_generic_on:
-    url: 'http://192.168.0.107:8080/api/FF902BF89F/lights/5/state'
+    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/1/state'
     method: PUT
     payload: '{"on": true, "hue":48350, "bri": 255}'
     content_type:  'application/json; charset=utf-8'
     verify_ssl: false
   konyhapult_movie_on:
-    url: 'http://192.168.0.107:8080/api/FF902BF89F/lights/5/state'
+    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/1/state'
     method: PUT
     payload: '{"on": true, "hue":3000, "bri":150}'
     content_type:  'application/json; charset=utf-8'
     verify_ssl: false
   konyhapult_sleepy_on:
-    url: 'http://192.168.0.107:8080/api/FF902BF89F/lights/5/state'
+    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/1/state'
     method: PUT
     payload: '{"on": true, "hue":3000, "bri":50}'
     content_type:  'application/json; charset=utf-8'
     verify_ssl: false
   plafon_light_movie:
-    url: 'http://192.168.0.107:8080/api/2D1E7F2F3B/lights/2/state'
+    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/4/state'
     method: PUT
     payload: '{"on": true, "hue": 2047, "bri": 150 }'
     content_type:  'application/json'
     verify_ssl: false
   fal_light_movie:
-    url: 'http://192.168.0.107:8080/api/2D1E7F2F3B/lights/1/state'
+    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/3/state'
     method: PUT
     payload: '{"on": true, "hue": 2047, "bri": 150 }'
     content_type:  'application/json'
     verify_ssl: false    
   plafon_light:
-    url: 'http://192.168.0.107:8080/api/2D1E7F2F3B/lights/2/state'
+    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/4/state'
     method: PUT
     payload: '{"on": {{ state }}, "hue": {{ hue }}, "bri": {{ brightness }} }'
     content_type:  'application/json'
     verify_ssl: false
   fal_light:
-    url: 'http://192.168.0.107:8080/api/2D1E7F2F3B/lights/1/state'
+    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/3/state'
     method: PUT
     payload: '{"on": {{ state }}, "hue": {{ hue }}, "bri": {{ brightness }} }'
     content_type:  'application/json'

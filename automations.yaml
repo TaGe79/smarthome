@@ -304,12 +304,12 @@
 - id: konyhapult_movie_light_on
   alias: Konyhapult világítás mozi közben
   trigger:
-  - entity_id: binary_sensor.vpir_konyha_mootion
+  - entity_id: binary_sensor.presence_5
     platform: state
     to: 'on'
   condition:
   - condition: state
-    entity_id: light.konyhapult
+    entity_id: light.kitchen_desk
     state: 'off'
   - condition: template
     value_template: '{{ states.input_boolean.scene_movie_on.state == "on" }}'
@@ -322,12 +322,12 @@
 - id: konyhapult_sleepy_light_on
   alias: Konyhapult világítás este
   trigger:
-  - entity_id: binary_sensor.vpir_konyha_mootion
+  - entity_id: binary_sensor.presence_5
     platform: state
     to: 'on'
   condition:
   - condition: state
-    entity_id: light.konyhapult
+    entity_id: light.kitchen_desk
     state: 'off'
   - condition: template
     value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "on" }}'
@@ -341,7 +341,7 @@
 - id: konyhapult_light_on
   alias: Konyhapult világítás
   trigger:
-  - entity_id: binary_sensor.vpir_konyha_mootion
+  - entity_id: binary_sensor.presence_5
     platform: state
     to: 'on'  
   condition:  
