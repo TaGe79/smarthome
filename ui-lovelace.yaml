@@ -25,7 +25,7 @@ views:
           - sensor.temperature_15
           - sensor.temperature_12
       - type: custom:weather-card
-        entity: weather.dark_sky      
+        entity: weather.home
 
   - title: Lámpák
     path: lights
@@ -64,18 +64,18 @@ views:
         title: Konyha
         entities:
           - type: light
-            entity: light.konyhapult
+            entity: light.kitchen
           - type: glance
-            entity: binary_sensor.presence_2_2
+            entity: binary_sensor.presence_5
             secondary_info: last-changed
             format: relative
       - type: entities
         title: Ambiente
         entities:
           - type: light
-            entity: light.fal
+            entity: light.livingroom_ceiling
           - type: light
-            entity: light.plafon
+            entity: light.livingroom_wall
 
   - title: Házimozi
     path: media
