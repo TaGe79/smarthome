@@ -1,65 +1,270 @@
 resources:
   - url: /local/shutter.js
     type: js
-  - url: https://cdn.jsdelivr.net/gh/bramkragten/custom-ui@master/weather-card/weather-card.min.js
+  - url: /local/mini-graph-card-bundle.js?v=0.5.0
     type: module
-    
+  - url: /local/button-card/button-card.js
+    type: module
 views:
   - title: Main
     path: main
+    panel: true
     cards:
-      - type: picture-glance
-        title: Kamera
-        entities:
-          - camera.patvarcam
-        camera_image: camera.patvarcam    
-      - type: glance
-        entities:
-          - binary_sensor.teraszajto
-          - binary_sensor.konyhaajto
-          - binary_sensor.openclose_10
-          - binary_sensor.openclose_11
-          - binary_sensor.openclose_9
-      - type: glance
-        entities:
-          - sensor.temperature_15
-          - sensor.temperature_12
-      - type: custom:weather-card
-        entity: weather.home
-
+      - type: horizontal-stack
+        cards:
+        - type: vertical-stack
+          cards:
+          - type: horizontal-stack
+            cards:
+            - type: entity-button
+              name: Nappali
+              entity: switch.nl2_r1_2
+              icon: mdi:lightbulb-outline
+              icon_height: 30pt
+            - type: entity-button
+              name: Étkező
+              entity: switch.el2_r1_6
+              icon: mdi:lightbulb-outline
+              icon_height: 30pt
+          - type: conditional
+            conditions: 
+            - entity: media_player.home_theater
+              state: "on"
+            card:
+              type: horizontal-stack
+              cards:
+                - type: "custom:button-card"
+                  color_type: blank-card
+                - type: "custom:button-card"
+                  color_type: blank-card
+                - type: "custom:button-card"
+                  color_type: card
+                  color: rgb(223, 255, 97)
+                  icon: mdi:volume-plus
+                  tap_action:
+                    action: call-service
+                    service: media_player.volume_up
+                    service_data:
+                      entity_id: media_player.home_theater
+                - type: "custom:button-card"
+                  color_type: card
+                  color: rgb(223, 255, 97)
+                  icon: mdi:volume-minus
+                  tap_action:
+                    action: call-service
+                    service: media_player.volume_down
+                    service_data:
+                      entity_id: media_player.home_theater
+                - type: "custom:button-card"
+                  color_type: blank-card
+                - type: "custom:button-card"
+                  color_type: blank-card
+          - type: conditional
+            conditions:
+            - entity: media_player.home_theater_2
+              state: "playing"
+            card:    
+              type: media-control
+              entity: media_player.home_theater_2
+          - type: conditional
+            conditions:
+            - entity: media_player.wohnzimmer
+              state: "playing"
+            card:    
+              type: media-control
+              entity: media_player.wohnzimmer
+          - type: weather-forecast
+            entity: weather.home
+        - type: vertical-stack
+          cards:
+          - type: horizontal-stack
+            cards:
+            - type: glance
+              title: Nappali
+              entities:
+                - entity: sensor.temperature_2
+                  name: ""
+                - entity: sensor.humidity_3
+                  name: ""
+            - type: glance
+              title: Fürdő
+              entities:
+                - entity: sensor.temperature_12
+                  name: ""
+                - entity: sensor.humidity_13
+                  name: ""
+                - entity: binary_sensor.openclose_11
+                  name: ""
+                - entity: binary_sensor.openclose_15
+                  name: ""
+          - type: vertical-stack
+            cards:
+            - type: horizontal-stack
+              cards:
+              - type: light
+                name: Plafon
+                entity: light.livingroom_ceiling
+              - type: light
+                name: Fal
+                entity: light.livingroom_wall
+            - type: light
+              name: Folyosó
+              entity: light.foyer
+  - title: Mobile
+    path: mobile
+    panel: true
+    cards:
+      - type: vertical-stack
+        cards:
+        - type: horizontal-stack
+          cards:
+          - type: entity-button
+            name: Nappali
+            entity: switch.nl2_r1_2
+            icon: mdi:lightbulb-outline
+            icon_height: 30pt
+          - type: entity-button
+            name: Étkező
+            entity: switch.el2_r1_6
+            icon: mdi:lightbulb-outline
+            icon_height: 30pt
+        - type: conditional
+          conditions: 
+          - entity: media_player.home_theater
+            state: "on"
+          card:
+            type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                color_type: blank-card
+              - type: "custom:button-card"
+                color_type: blank-card
+              - type: "custom:button-card"
+                color_type: card
+                color: rgb(223, 255, 97)
+                icon: mdi:volume-plus
+                tap_action:
+                  action: call-service
+                  service: media_player.volume_up
+                  service_data:
+                    entity_id: media_player.home_theater
+              - type: "custom:button-card"
+                color_type: card
+                color: rgb(223, 255, 97)
+                icon: mdi:volume-minus
+                tap_action:
+                  action: call-service
+                  service: media_player.volume_down
+                  service_data:
+                    entity_id: media_player.home_theater
+              - type: "custom:button-card"
+                color_type: blank-card
+              - type: "custom:button-card"
+                color_type: blank-card
+        - type: conditional
+          conditions:
+          - entity: media_player.home_theater_2
+            state: "playing"
+          card:    
+            type: media-control
+            entity: media_player.home_theater_2
+        - type: conditional
+          conditions:
+          - entity: media_player.wohnzimmer
+            state: "playing"
+          card:    
+            type: media-control
+            entity: media_player.wohnzimmer
+        - type: weather-forecast
+          entity: weather.home
+        - type: horizontal-stack
+          cards:
+          - type: glance
+            title: Nappali
+            entities:
+              - entity: sensor.temperature_2
+                name: ""
+              - entity: sensor.humidity_3
+                name: ""
+          - type: glance
+            title: Fürdő
+            entities:
+              - entity: sensor.temperature_12
+                name: ""
+              - entity: sensor.humidity_13
+                name: ""
+              - entity: binary_sensor.openclose_11
+                name: ""
+              - entity: binary_sensor.openclose_15
+                name: ""
+        - type: vertical-stack
+          cards:
+          - type: horizontal-stack
+            cards:
+            - type: light
+              name: Plafon
+              entity: light.livingroom_ceiling
+            - type: light
+              name: Fal
+              entity: light.livingroom_wall
+          - type: light
+            name: Folyosó
+            entity: light.foyer
   - title: Lámpák
     path: lights
     cards:
-      - type: entities
-        title: Nappali
-        entities:
-          - type: entity-button
-            entity: switch.nl1_r1_1
-            tap_action:
-              action: toggle
-          - type: entity-button
-            entity: switch.nl2_r1_2
-            tap_action:
-              action: toggle
-          - type: entity-button
-            entity: switch.nl3_r1_3
-            tap_action:
-              action: toggle
-      - type: entities
-        title: Ebédlő
-        entities:
-          - type: entity-button
-            entity: switch.el1_r1_5
-            tap_action:
-              action: toggle
-          - type: entity-button
-            entity: switch.el2_r1_6
-            tap_action:
-              action: toggle
-          - type: entity-button
-            entity: switch.el3_r1_7
-            tap_action:
-              action: toggle
+      - type: vertical-stack
+        cards:
+          - type: "custom:button-card"
+            color_type: label-card
+            name: Nappali
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.nl1_r1_1
+                icon: mdi:numeric-1-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: switch.nl2_r1_2
+                icon: mdi:numeric-2-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: switch.nl3_r1_3
+                icon: mdi:numeric-3-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: group.living_room
+                show_name: false
+                state:
+                  - value: 'on'
+                    icon: mdi:eye-off
+                  - value: 'off'
+                    icon: mdi:eye
+          - type: "custom:button-card"
+            color_type: label-card
+            name: Konyha
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.el1_r1_5
+                icon: mdi:numeric-1-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: switch.el2_r1_6
+                icon: mdi:numeric-2-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: switch.el3_r1_7
+                icon: mdi:numeric-3-box-outline
+                show_name: false     
+              - type: "custom:button-card"
+                entity: group.kitchen
+                show_name: false
+                state:
+                  - value: 'on'
+                    icon: mdi:eye-off
+                  - value: 'off'
+                    icon: mdi:eye
       - type: entities
         title: Konyha
         entities:
@@ -124,14 +329,14 @@ views:
             unit: '%'
             hours_to_show: 24
 
-      - type: sensor
-        entity: sensor.lightlevel_6
-        graph: line
-        unit: lux
-        detail: 2
-        hours_to_show: 24
-      - type: sensor
-        entity: sensor.temperature_3_2
+      - type: custom:mini-graph-card
+        name: Hőmérséklet
+        entities: 
+        - sensor.dark_sky_temperature
+        align_state: center
+        show:
+          extrema: true
+          points: true
         graph: line
         unit: C
         detail: 2

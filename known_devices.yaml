@@ -165,3 +165,43 @@ e4_e4_ab_77_8e_ea:
   name: 68 37 e9 36 e4 5c
   picture:
   track: true
+
+c0_bd_c8_ee_a3_4b:
+  hide_if_away: false
+  icon:
+  mac: C0:BD:C8:EE:A3:4B
+  name: c0 bd c8 ee a3 4b
+  picture:
+  track: true
+
+c0_bd_c8_bd_23_93:
+  hide_if_away: false
+  icon:
+  mac: C0:BD:C8:BD:23:93
+  name: c0 bd c8 bd 23 93
+  picture:
+  track: true
+
+c0_bd_c8_ef_3a_6b:
+  hide_if_away: false
+  icon:
+  mac: C0:BD:C8:EF:3A:6B
+  name: c0 bd c8 ef 3a 6b
+  picture:
+  track: true
+
+98_29_a6_bd_ca_b1:
+  hide_if_away: false
+  icon:
+  mac: 98:29:A6:BD:CA:B1
+  name: 98 29 a6 bd ca b1
+  picture:
+  track: true
+
+c4_85_08_69_fc_99:
+  hide_if_away: false
+  icon:
+  mac: C4:85:08:69:FC:99
+  name: c4 85 08 69 fc 99
+  picture:
+  track: true

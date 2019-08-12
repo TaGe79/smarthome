@@ -309,12 +309,17 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: light.kitchen_desk
+    entity_id: light.kitchen
     state: 'off'
   - condition: template
     value_template: '{{ states.input_boolean.scene_movie_on.state == "on" }}'
   action:
   - service: rest_command.konyhapult_movie_on
+#  - service: light.turn_on
+#    data:
+#      entity_id: light.kitchen
+#      brightness: 160
+#      rgb_color: [150,255,150]
   - service: timer.start
     entity_id: timer.timer_konyhapult_movie_off
 # -----------------------------------------------------------------------
@@ -327,12 +332,17 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: light.kitchen_desk
+    entity_id: light.kitchen
     state: 'off'
   - condition: template
     value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "on" }}'
   action:
   - service: rest_command.konyhapult_sleepy_on
+#  - service: light.turn_on
+#    data:
+#      entity_id: light.kitchen
+#      brightness: 140
+#      rgb_color: [255,255,255]
   - service: timer.start
     entity_id: timer.timer_konyhapult_movie_off
 # -----------------------------------------------------------------------
@@ -348,6 +358,11 @@
   - condition: template
     value_template: '{{ states.input_boolean.scene_general_on.state == "on" }}'
   action:
+#  - service: light.turn_on
+#    data:
+#      entity_id: light.kitchen
+#      brightness: 255
+#      rgb_color: [255,255,255]
   - service: rest_command.konyhapult_generic_on
   - service: timer.start
     entity_id: timer.timer_konyhapult_off
@@ -366,11 +381,11 @@
       entity_id: timer.timer_konyhapult_movie_off
   condition:
   - condition: state
-    entity_id: light.konyhapult
+    entity_id: light.kitchen
     state: 'on'
   action:
   - service: light.turn_off
-    entity_id: light.konyhapult
+    entity_id: light.kitchen
     
 # -----------------------------------------------------------------------
 # E T K E Z O

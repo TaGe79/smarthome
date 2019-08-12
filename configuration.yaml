@@ -22,16 +22,10 @@ homeassistant:
   
   auth_providers:
     - type: homeassistant
-
+    
 lovelace:
    mode: yaml
   
-panel_iframe:
-  grafana:
-    title: Grafana
-    icon: mdi:settings-outline
-    url: http://192.168.0.107:3000/d/ba0juQRRk/patvar-utca-4?orgId=1
-    
 #    "binary_sensor.*p*":
 #      hidden: true
 system_health:
@@ -75,10 +69,10 @@ config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-  # api_password: !secret legacy_http_password
+  api_password: !secret legacy_http_password
   base_url: patvarutca4.duckdns.org:443
-  # ssl_certificate: /ssl/fullchain.pem
-  # ssl_key: /ssl/privkey.pem
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
   # ssl_profile: intermediate
 #   base_url: example.duckdns.org:8123
 
@@ -90,6 +84,20 @@ http:
 updater:
   # Optional, allows Home Assistant developers to focus on popular components.
   # include_used_components: true
+
+recorder:
+  include:
+    domains:
+      - sensor
+      - light
+      - switch
+      - media_player
+  exclude:
+    entities:
+     - sensor.last_boot
+     - sensor.date
+  
+mobile_app:
 
 # Discover some devices automatically
 discovery:
@@ -200,7 +208,7 @@ rest_command:
   konyhapult_generic_on:
     url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/1/state'
     method: PUT
-    payload: '{"on": true, "hue":48350, "bri": 255}'
+    payload: '{"on": true, "ct":167, "sat": 21, "bri": 255}'
     content_type:  'application/json; charset=utf-8'
     verify_ssl: false
   konyhapult_movie_on:
