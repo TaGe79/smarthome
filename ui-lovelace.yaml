@@ -5,15 +5,27 @@ resources:
     type: module
   - url: /local/button-card/button-card.js
     type: module
+  - url: /local/custom-lovelace/compact-custom-header/compact-custom-header.js?v=0.0.1
+    type: module    
 views:
   - title: Main
     path: main
     panel: true
+    badges:
+      - entity: input_select.scene_home
     cards:
       - type: horizontal-stack
         cards:
         - type: vertical-stack
           cards:
+          - type: picture-entity
+            entity: input_select.scene_home
+            aspect_ratio: 16x9
+            state_image: 
+              "Movie": http://patvarutca4.duckdns.org:8081/
+              "General": http://patvarutca4.duckdns.org:8081/
+              "Sleepy": http://patvarutca4.duckdns.org:8081/
+              "WakeUp": http://patvarutca4.duckdns.org:8081/
           - type: horizontal-stack
             cards:
             - type: entity-button
@@ -29,7 +41,7 @@ views:
           - type: conditional
             conditions: 
             - entity: media_player.home_theater
-              state: "on"
+              state_not: "off"
             card:
               type: horizontal-stack
               cards:
@@ -59,24 +71,117 @@ views:
                   color_type: blank-card
                 - type: "custom:button-card"
                   color_type: blank-card
-          - type: conditional
-            conditions:
-            - entity: media_player.home_theater_2
-              state: "playing"
-            card:    
-              type: media-control
-              entity: media_player.home_theater_2
-          - type: conditional
-            conditions:
-            - entity: media_player.wohnzimmer
-              state: "playing"
-            card:    
-              type: media-control
-              entity: media_player.wohnzimmer
+#          - type: conditional
+#            conditions:
+#            - entity: media_player.wohnzimmer
+#              state_not: "off"
+#            card:    
+#              type: media-control
+#              entity: media_player.wohnzimmer
           - type: weather-forecast
             entity: weather.home
         - type: vertical-stack
           cards:
+          - type: horizontal-stack
+            cards:
+            - type: vertical-stack
+              cards:
+              - type: "custom:button-card"
+                color_type: label-card
+                name: Nappali redőny
+              - type: horizontal-stack
+                cards:
+                - type: conditional
+                  conditions:
+                  - entity: switch.ro1_l_r2_2
+                    state: 'off'
+                  card:
+                    type: "custom:button-card"
+                    color_type: card
+                    color: rgb(255, 255, 255)
+                    icon: mdi:chevron-up
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.ro1_f_r2_4
+                - type: conditional
+                  conditions:
+                  - entity: switch.ro1_l_r2_2
+                    state: 'on'
+                  card:
+                    type: "custom:button-card"
+                    color_type: blank-card
+                - type: conditional
+                  conditions:
+                  - entity: switch.ro1_f_r2_4
+                    state: 'off'
+                  card:
+                    type: "custom:button-card"
+                    color_type: card
+                    color: rgb(255, 255, 255)
+                    icon: mdi:chevron-down
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.ro1_l_r2_2
+                - type: conditional
+                  conditions:
+                  - entity: switch.ro1_f_r2_4
+                    state: 'on'
+                  card:
+                    type: "custom:button-card"
+                    color_type: blank-card
+            - type: vertical-stack
+              cards:
+              - type: "custom:button-card"
+                color_type: label-card
+                name: Étkező redőny
+              - type: horizontal-stack
+                cards:
+                - type: conditional
+                  conditions:
+                  - entity: switch.ro2_l_r2_1
+                    state: 'off'
+                  card:
+                    type: "custom:button-card"
+                    color_type: card
+                    color: rgb(255, 255, 255)
+                    icon: mdi:chevron-up
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.ro2_f_r2_3
+                - type: conditional
+                  conditions:
+                  - entity: switch.ro2_l_r2_1
+                    state: 'on'
+                  card:
+                    type: "custom:button-card"
+                    color_type: blank-card
+                - type: conditional
+                  conditions:
+                  - entity: switch.ro2_f_r2_3
+                    state: 'off'
+                  card:
+                    type: "custom:button-card"
+                    color_type: card
+                    color: rgb(255, 255, 255)
+                    icon: mdi:chevron-down
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.ro2_l_r2_1
+                - type: conditional
+                  conditions:
+                  - entity: switch.ro2_l_r2_3
+                    state: 'on'
+                  card:
+                    type: "custom:button-card"
+                    color_type: blank-card
           - type: horizontal-stack
             cards:
             - type: glance
@@ -107,15 +212,63 @@ views:
               - type: light
                 name: Fal
                 entity: light.livingroom_wall
+            - type: horizontal-stack
+              cards:
+              - type: light
+                name: Folyosó
+                entity: light.foyer
+              - type: light
+                name: Lépcső
+                entity: light.stairs
+              - type: custom:button-card
+                icon: mdi:lightbulb
+                entity: light.kitchen_desk
+                name: Konyha
+                styles:
+                  grid:
+                    - position: relative
+                    - height: 100%
+                  custom_fields:
+                    notification:
+                      - background-color: >
+                          [[[
+                            if ( states['binary_sensor.presence_5'].state == 'on' )
+                              return "yellow";
+                            return "grey";
+                          ]]]
+                      - border-radius: 50%
+                      - position: absolute
+                      - left: 65%
+                      - top: 7%
+                      - height: 25px
+                      - width: 25px
+                      - font-size: 9px
+                      - line-height: 22px
+                custom_fields:
+                  notification: >
+                    [[[ return `<span>${states['binary_sensor.presence_5'].state}</span` ]]]                      
             - type: light
-              name: Folyosó
-              entity: light.foyer
+              name: Terasz
+              entity: light.terrace
   - title: Mobile
     path: mobile
-    panel: true
+    panel: false
+    badges:
+      - entity: device_tracker.csilla_iphone
+      - entity: device_tracker.tamasphone
+      - entity: device_tracker.dalma_iphone
+      - entity: device_tracker.csongor_iphone
     cards:
       - type: vertical-stack
         cards:
+        - type: picture-entity
+          entity: input_select.scene_home
+          aspect_ratio: 16x9
+          state_image: 
+            "Movie": http://patvarutca4.duckdns.org:8081
+            "General": http://patvarutca4.duckdns.org:8081
+            "Sleepy": http://patvarutca4.duckdns.org:8081
+            "WakeUp": http://patvarutca4.duckdns.org:8081
         - type: horizontal-stack
           cards:
           - type: entity-button
@@ -131,7 +284,7 @@ views:
         - type: conditional
           conditions: 
           - entity: media_player.home_theater
-            state: "on"
+            state_not: "off"
           card:
             type: horizontal-stack
             cards:
@@ -161,20 +314,113 @@ views:
                 color_type: blank-card
               - type: "custom:button-card"
                 color_type: blank-card
-        - type: conditional
-          conditions:
-          - entity: media_player.home_theater_2
-            state: "playing"
-          card:    
-            type: media-control
-            entity: media_player.home_theater_2
-        - type: conditional
-          conditions:
-          - entity: media_player.wohnzimmer
-            state: "playing"
-          card:    
-            type: media-control
-            entity: media_player.wohnzimmer
+#        - type: conditional
+#          conditions:
+#          - entity: media_player.wohnzimmer
+#            state_not: "off"
+#          card:    
+#            type: media-control
+#            entity: media_player.wohnzimmer
+        - type: horizontal-stack
+          cards:
+          - type: vertical-stack
+            cards:
+            - type: "custom:button-card"
+              color_type: label-card
+              name: Nappali redőny
+            - type: horizontal-stack
+              cards:
+              - type: conditional
+                conditions:
+                - entity: switch.ro1_l_r2_2
+                  state: 'off'
+                card:
+                  type: "custom:button-card"
+                  color_type: card
+                  color: rgb(255, 255, 255)
+                  icon: mdi:chevron-up
+                  tap_action:
+                    action: call-service
+                    service: switch.toggle
+                    service_data:
+                      entity_id: switch.ro1_f_r2_4
+              - type: conditional
+                conditions:
+                - entity: switch.ro1_l_r2_2
+                  state: 'on'
+                card:
+                  type: "custom:button-card"
+                  color_type: blank-card
+              - type: conditional
+                conditions:
+                - entity: switch.ro1_f_r2_4
+                  state: 'off'
+                card:
+                  type: "custom:button-card"
+                  color_type: card
+                  color: rgb(255, 255, 255)
+                  icon: mdi:chevron-down
+                  tap_action:
+                    action: call-service
+                    service: switch.toggle
+                    service_data:
+                      entity_id: switch.ro1_l_r2_2
+              - type: conditional
+                conditions:
+                - entity: switch.ro1_f_r2_4
+                  state: 'on'
+                card:
+                  type: "custom:button-card"
+                  color_type: blank-card
+          - type: vertical-stack
+            cards:
+            - type: "custom:button-card"
+              color_type: label-card
+              name: Étkező redőny
+            - type: horizontal-stack
+              cards:
+              - type: conditional
+                conditions:
+                - entity: switch.ro2_l_r2_1
+                  state: 'off'
+                card:
+                  type: "custom:button-card"
+                  color_type: card
+                  color: rgb(255, 255, 255)
+                  icon: mdi:chevron-up
+                  tap_action:
+                    action: call-service
+                    service: switch.toggle
+                    service_data:
+                      entity_id: switch.ro2_f_r2_3
+              - type: conditional
+                conditions:
+                - entity: switch.ro2_l_r2_1
+                  state: 'on'
+                card:
+                  type: "custom:button-card"
+                  color_type: blank-card
+              - type: conditional
+                conditions:
+                - entity: switch.ro2_f_r2_3
+                  state: 'off'
+                card:
+                  type: "custom:button-card"
+                  color_type: card
+                  color: rgb(255, 255, 255)
+                  icon: mdi:chevron-down
+                  tap_action:
+                    action: call-service
+                    service: switch.toggle
+                    service_data:
+                      entity_id: switch.ro2_l_r2_1
+              - type: conditional
+                conditions:
+                - entity: switch.ro2_f_r2_3
+                  state: 'on'
+                card:
+                  type: "custom:button-card"
+                  color_type: blank-card
         - type: weather-forecast
           entity: weather.home
         - type: horizontal-stack
@@ -207,9 +453,46 @@ views:
             - type: light
               name: Fal
               entity: light.livingroom_wall
-          - type: light
-            name: Folyosó
-            entity: light.foyer
+          - type: horizontal-stack
+            cards:
+            - type: light
+              name: Folyosó
+              entity: light.foyer
+            - type: light
+              name: Lépcső
+              entity: light.stairs
+          - type: horizontal-stack
+            cards:
+            - type: custom:button-card
+              icon: mdi:lightbulb
+              entity: light.kitchen_desk
+              name: Konyha
+              styles:
+                grid:
+                  - position: relative
+                  - height: 100%
+                custom_fields:
+                  notification:
+                    - background-color: >
+                        [[[
+                          if ( states['binary_sensor.presence_5'].state == 'on' )
+                            return "yellow";
+                          return "grey";
+                        ]]]
+                    - border-radius: 50%
+                    - position: absolute
+                    - left: 65%
+                    - top: 7%
+                    - height: 25px
+                    - width: 25px
+                    - font-size: 9px
+                    - line-height: 22px
+              custom_fields:
+                notification: >
+                  [[[ return `<span>${states['binary_sensor.presence_5'].state}</span` ]]]
+            - type: light
+              name: Terasz
+              entity: light.terrace
   - title: Lámpák
     path: lights
     cards:
@@ -265,6 +548,48 @@ views:
                     icon: mdi:eye-off
                   - value: 'off'
                     icon: mdi:eye
+          - type: "custom:button-card"
+            color_type: label-card
+            name: Terasz
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: light.terasz_1
+                icon: mdi:numeric-1-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: light.terasz_2
+                icon: mdi:numeric-2-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: light.terrace
+                show_name: false
+                state:
+                  - value: 'on'
+                    icon: mdi:eye-off
+                  - value: 'off'
+                    icon: mdi:eye
+          - type: "custom:button-card"
+            color_type: label-card
+            name: Lépcső
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: light.stairs_1
+                icon: mdi:numeric-1-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: light.stairs_2
+                icon: mdi:numeric-2-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: light.stairs
+                show_name: false
+                state:
+                  - value: 'on'
+                    icon: mdi:eye-off
+                  - value: 'off'
+                    icon: mdi:eye
       - type: entities
         title: Konyha
         entities:
@@ -286,9 +611,9 @@ views:
     path: media
     cards:
       - type: media-control
-        entity: media_player.home_theater
+        entity: media_player.home_theater_2
       - type: media-control
-        entity: media_player.apple_tv
+        entity: media_player.wohnzimmer
 
   - title: Státusz
     path: state
@@ -330,7 +655,7 @@ views:
             hours_to_show: 24
 
       - type: custom:mini-graph-card
-        name: Hőmérséklet
+        name: Hőmérséklet kint
         entities: 
         - sensor.dark_sky_temperature
         align_state: center
@@ -341,60 +666,142 @@ views:
         unit: C
         detail: 2
         hours_to_show: 24
-      - type: gauge
-        entity: sensor.wireless_broadband_router_kbyte_sec_received
-        name: Internet speed
+      
+      - type: custom:mini-graph-card
+        name: Internet speed      
+        entities: 
+        - sensor.wireless_broadband_router_kbyte_sec_received
+        align_state: center
+        show:
+          extrema: true
+          points: true
+        graph: line
         unit: 'kb/sec'
-        min: 0
-        max: 2000
+        detail: 2
+        hours_to_show: 24
+        
+      - type: custom:mini-graph-card
+        name: Nappali
+        entities: 
+        - sensor.temperature_2
+        align_state: center
+        show:
+          extrema: true
+          points: true
+        graph: line
+        unit: C
+        detail: 2
+        hours_to_show: 24
+        
+      - type: custom:mini-graph-card
+        name: Fürdőszoba
+        entities: 
+        - entity: sensor.temperature_12
+          name: hőmérséklet
+        - entity: sensor.humidity_13
+          name: páratartalom
+        align_state: center
+        show:
+          extrema: true
+          points: true
+        graph: line
+        unit: C
+        detail: 2
+        hours_to_show: 24
+
       - type: sensor
-        entity: sensor.time  
+        entity: sensor.time    
   
       - type: glance
         entities:
           - entity: input_boolean.summer_heat_mode
             name: Nyári kánikula        
-
-  - title: Redonyok
-    path: redonyok
-    cards:
-     - type: entities
-       title: Redonyok
-       show_header_toggle: false
-       entities:
-          - type: entity
-            entity: cover.kitchen
-            label: Konyha
-          - type: entity
-            entity: input_number.kitchen_shutter_state
-          - type: section
-          - type: entity
-            entity: cover.livingroom
-            label: Redőny
-          - type: entity
-            entity: input_number.livingroom_shutter_state
-     - type: conditional
-       conditions:
-       - entity: input_boolean.extended_shutter_control
-         state: "on"
-       card:
-         type: entities
-         entities:
-           - type: entity-button
-             entity: input_boolean.livingroom_shutter_on
-             name: Nappali redony
-           - entity: switch.ro1_l_r2_2
-             name: Nappali le
-           - entity: switch.ro1_f_r2_4 
-             name: Nappali fel 
-           - type: section  
-           - type: entity-button
-             entity: input_boolean.kitchen_shutter_on
-             name: Konyhai redony  
-           - entity: switch.ro2_l_r2_1
-             name: Konyha le
-           - entity: switch.ro2_f_r2_3 
-             name: Konyha fel 
+            
+      - type: custom:button-card
+        entity: sensor.load_1m
+        icon: 'mdi:raspberry-pi'
+        aspect_ratio: 1/1
+        name: HassOS
+        styles:
+          card:
+            - background-color: '#000044'
+            - border-radius: 10%
+            - padding: 10%
+            - color: ivory
+            - font-size: 10px
+            - text-shadow: 0px 0px 5px black
+            - text-transform: capitalize
+          grid:
+            - grid-template-areas: '"i load" "n n" "cpu cpu" "ram ram" "sd sd"'
+            - grid-template-columns: 1fr 1fr
+            - grid-template-rows: 1fr min-content min-content min-content min-content
+          name:
+            - font-weight: bold
+            - font-size: 13px
+            - color: white
+            - align-self: middle
+            - justify-self: start
+            - padding-bottom: 4px
+          img_cell:
+            - justify-content: start
+            - align-items: start
+            - margin: none
+          icon:
+            - color: >
+                [[[
+                  if (sensor.load_1m < 0.30) return 'lime';
+                  if (sensor.load_1m >= 0.30 && sensor.load_1m < 1.0) return 'orange';
+                  else return 'red';
+                ]]]
+            - width: 70%
+            - margin-top: -10%
+          custom_fields:
+            load:
+              - align-self: start
+              - justify-self: end
+            cpu:
+              - padding-bottom: 2px
+              - align-self: middle
+              - justify-self: start
+              - --text-color-sensor: '[[[ if (states["sensor.processor_use"].state > 80) return "red"; ]]]'
+            ram:
+              - padding-bottom: 2px
+              - align-self: middle
+              - justify-self: start
+              - --text-color-sensor: '[[[ if (states["sensor.memory_use_percent"].state > 80) return "red"; ]]]'
+            sd:
+              - align-self: middle
+              - justify-self: start
+              - --text-color-sensor: '[[[ if (states["sensor.disk_use_percent"].state > 80) return "red"; ]]]'
+        custom_fields:
+          load: >
+            [[[
+              return `<ha-icon
+                icon="mdi:desktop-classic"
+                style="width: 12px; height: 12px; color: yellow;">
+                </ha-icon><span>${sensor.load_1m}</span>`
+            ]]]
+          cpu: >
+            [[[
+              return `<ha-icon
+                icon="mdi:server"
+                style="width: 12px; height: 12px; color: deepskyblue;">
+                </ha-icon><span>CPU: <span style="color: var(--text-color-sensor);">${states['sensor.processor_use'].state}%</span></span>`
+            ]]]
+          ram: >
+            [[[
+              return `<ha-icon
+                icon="mdi:memory"
+                style="width: 12px; height: 12px; color: deepskyblue;">
+                </ha-icon><span>RAM: <span style="color: var(--text-color-sensor);">${states['sensor.memory_use_percent'].state}%</span></span>`
+            ]]]
+          sd: >
+            [[[
+              return `<ha-icon
+                icon="mdi:harddisk"
+                style="width: 12px; height: 12px; color: deepskyblue;">
+                </ha-icon><span>SD: <span style="color: var(--text-color-sensor);">${states['sensor.disk_use_percent'].state}%</span></span>`
+            ]]]
   - title: Scenen
     path: scenen
     cards:
@@ -402,12 +809,7 @@ views:
        title: Scenen
        show_header_toggle: false
        entities:
-         - type: entity-button
-           entity: input_boolean.scene_general_on
-         - type: entity-button
-           entity: input_boolean.scene_movie_on
-         - type: entity-button
-           entity: input_boolean.scene_sleepy_home_on
+         - entity: input_select.scene_home
 
   - title: Beállítások
     path: settings
@@ -417,7 +819,40 @@ views:
        show_header_toggle: false
        entities:
          - entity: input_number.furdo_szelloztetesi_ido
+           name: Fürdő
          - entity: input_number.halo_szelloztetesi_ido
+           name: Hálószoba
+     - type: entities
+       title: Időzítés
+       show_header_toggle: false
+       entities:
          - type: section
-         - entity: input_boolean.extended_shutter_control
-           name: Extra redony vezérlés
+         - entity: input_text.wake_up_time
+           name: Ébredezés [hétköznap]
+         - entity: input_text.sleep_time
+           name: Elalvás
+         - type: section
+           label: Konyha [perc]
+         - entity: input_number.kitchen_light_off_time_movie
+           name: mozi közben
+         - entity: input_number.kitchen_light_off_time_daylight
+           name: nappal
+         - entity: input_number.kitchen_light_off_time_dark
+           name: sötétben
+         - entity: input_number.kitchen_light_off_time_sleepy
+           name: élyszaka
+     - type: entities
+       title: Lámpák
+       show_header_toggle: false
+       entities:
+         - type: section
+           label: Lépcső
+         - entity: input_boolean.ambient_stair_spots
+         - entity: input_number.stair_ambient_brightness
+     - type: entities
+       title: Egyéb
+       show_header_toggle: false
+       entities:
+         - entity: input_boolean.auto_ambiance_mode
+           name: Automatikus hangulatvilágítás
+           

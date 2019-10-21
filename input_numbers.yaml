@@ -45,3 +45,31 @@ light_button_state:
   initial: 0
   min: 0
   max: 3
+stair_ambient_brightness:
+  name: Lépcső hangulatvilágítás
+  initial: 20
+  min: 0
+  max: 100
+kitchen_light_off_time_movie:
+  name: kitech_light_off_time_movie
+  initial: 1
+  min: 1
+  max: 5
+ 
+kitchen_light_off_time_daylight:
+  name: kitchen_light_off_time_daylight
+  initial: 1
+  min: 1
+  max: 5
+  
+kitchen_light_off_time_dark:
+  name: kitchen_light_off_time_dark
+  initial: 3
+  min: 1
+  max: 5
+  
+kitchen_light_off_time_sleepy:
+  name: kitech_light_off_time_sleepy
+  initial: 1
+  min: 1
+  max: 3

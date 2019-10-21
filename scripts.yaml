@@ -1,208 +1,3 @@
-kitchen_shutter_set_position:
-  alias: Konyha Pozicionalas
-  sequence:
-   - service_template: |-
-       {% if states.input_number.kitchen_shutter_state.state < states.input_number.kitchen_shutter_current_pos.state %}
-         switch.turn_off
-       {% else %}  
-         switch.turn_on
-       {% endif %}
-     data:
-       entity_id: switch.ro2_l_r2_1
-   - service_template: |-
-       {% if states.input_number.kitchen_shutter_state.state < states.input_number.kitchen_shutter_current_pos.state %}
-         switch.turn_on
-       {% else %}
-         switch.turn_off
-       {% endif %}
-     data:
-       entity_id: switch.ro2_f_r2_3  
-   - service: timer.start
-     entity_id: timer.kitchen_shutter
-     data_template:
-       duration: "00:00:{{ states.input_number.kitchen_shutter_delay.state | int }}"
-   - service: input_number.set_value
-     data_template:
-       entity_id: input_number.kitchen_shutter_current_pos
-       value: "{{ states.input_number.kitchen_shutter_state.state }}"
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------  
-kitchen_shutter_stop:
-  alias: Konyha Stop
-  sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_l_r2_1
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_f_r2_3
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------  
-kitchen_shutter_up:
-  alias: Konyha Fel
-  sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_l_r2_1
-   - service: switch.turn_on
-     data:
-       entity_id: switch.ro2_f_r2_3
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------  
-kitchen_shutter_down:
-  alias: Konyha Le
-  sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro2_f_r2_3
-   - service: switch.turn_on
-     data:
-       entity_id: switch.ro2_l_r2_1
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------          
-livingroom_shutter_set_position:
-  alias: Nappali Pozicionalas
-  sequence:
-   - service_template: |-
-       {% if states.input_number.livingroom_shutter_state.state | int < states.input_number.livingroom_shutter_current_pos.state | int %}
-         switch.turn_off
-       {% else %}  
-         switch.turn_on
-       {% endif %}
-     data:
-       entity_id: switch.ro1_l_r2_2
-   - service_template: |-
-       {% if states.input_number.livingroom_shutter_state.state | int < states.input_number.livingroom_shutter_current_pos.state | int %}
-         switch.turn_on
-       {% else %}
-         switch.turn_off
-       {% endif %}
-     data:
-       entity_id: switch.ro1_f_r2_4  
-   - service: timer.start
-     entity_id: timer.livingroom_shutter
-     data_template:
-       duration: "00:00:{{ states.input_number.livingroom_shutter_delay.state | int }}"
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------
-livingroom_shutter_up:
-  alias: Nappali Fel
-  sequence:
-   - condition: state
-     entity_id: input_boolean.livingroom_shutter_on 
-     state: 'on'
-   - service: script.turn_on
-     data:
-       entity_id: script.livingroom_shutter_stop      
-   - service: switch.turn_on
-     data:
-       entity_id: switch.ro1_f_r2_4
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_l_r2_2  
-  # - turn off input_boolean.livingroom_shutter_on
-   - service: automation.turn_off
-     data:
-       entity_id: automation.livingroom_cover_move
-  # - determine how long does it take to close the shutter (given it's current position)
-  #   - and set the value to the input_number.livingroom_shutter_delay
-   - service: input_number.set_value
-     data_template:
-       entity_id: input_number.livingroom_shutter_delay
-       value: "{{ (states.input_number.livingroom_shutter_current_pos.state | int) * 0.4  // 1 }}"
-  # - set input_number.livingroom_shutter_state to 100
-   - service: input_number.set_value
-     data:
-       entity_id: input_number.livingroom_shutter_state
-       value: 0
-  # - start the timer with the given delay
-   - service: timer.start 
-     entity_id: timer.livingroom_shutter
-     data_template:
-       duration: "00:00:{{ states.input_number.livingroom_shutter_delay.state | int }}"   
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------
-livingroom_shutter_stop:
-  alias: Nappali Stop
-  sequence:
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_l_r2_2
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_f_r2_4    
-  # - set livingroom_shutter_on to false, to avoid activating automation
-   - service: homeassistant.turn_off
-     data:
-       entity_id: automation.livingroom_cover_move
-   - service: homeassistant.turn_off
-     data:
-       entity_id: automation.livingroom_cover_stop       
-   - service: timer.finish
-     data: 
-       entity_id: timer.livingroom_shutter
-  # - calculate the state of the shutter's position
-   - service: input_number.set_value
-     data_template:
-       entity_id: input_number.livingroom_shutter_current_pos
-       value: |-
-         {% if input_number.livingroom_shutter_state | int > input_number.livingroom_shutter_current_pos | int -%}
-           {% set _hour, _minute, _second = states.timer.livingroom_shutter.attributes.remaining.split(":") %}
-           {{ states.input_number.livingroom_shutter_state.state | int - ((_hour | int * 3600 + _minute | int * 60 + _second | int) // 0.4) }}
-         {%- else -%}
-           {% set _hour, _minute, _second = states.timer.livingroom_shutter.attributes.remaining.split(":") %}
-           {{ states.input_number.livingroom_shutter_state.state | int + ((_hour | int * 3600 + _minute | int * 60 + _second | int) // 0.4) }}
-         {%- endif -%}
-   - service: input_number.set_value
-     data_template:
-       entity_id: input_number.livingroom_shutter_state
-       value: "{{ states.input_number.livingroom_shutter_current_pos.state }}"
-  # reactivate livingroom shutter
-   - service: homeassistant.turn_on
-     data:
-       entity_id: automation.livingroom_cover_move
-   - service: homeassistant.turn_on
-     data:
-       entity_id: automation.livingroom_cover_stop       
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------
-livingroom_shutter_down:
-  alias: Nappali Le
-  sequence:
-   - condition: state
-     entity_id: input_boolean.livingroom_shutter_on 
-     state: 'on'
-   - service: script.turn_on
-     data:
-       entity_id: script.livingroom_shutter_stop
-   - service: switch.turn_off
-     data:
-       entity_id: switch.ro1_f_r2_4
-   - service: switch.turn_on
-     data:
-       entity_id: switch.ro1_l_r2_2  
-  # - turn off input_boolean.livingroom_shutter_on
-   - service: homeassistant.turn_off
-     data:
-       entity_id: automation.livingroom_cover_move
-  # - determine how long does it take to close the shutter (given it's current position)
-  #   - and set the value to the input_number.livingroom_shutter_delay
-   - service: input_number.set_value
-     data_template:
-       entity_id: input_number.livingroom_shutter_delay
-       value: "{{ (100 - states.input_number.livingroom_shutter_current_pos.state | int) * 0.4  // 1 }}"
-  # - set input_number.livingroom_shutter_state to 100
-   - service: input_number.set_value
-     data:
-       entity_id: input_number.livingroom_shutter_state
-       value: 100
-  # - start the timer with the given delay
-   - service: timer.start 
-     entity_id: timer.livingroom_shutter
-     data_template:
-       duration: "00:00:{{ states.input_number.livingroom_shutter_delay.state | int }}"   
-
-
 xaomi_light_switch_off:
   alias: Villanykapcsolo kikapcs
   sequence:
@@ -215,7 +10,7 @@ xaomi_light_switch_off:
         {% if states.input_number.light_button_state.state | int == 0 -%}
           group.downstairs
         {% elif states.input_number.light_button_state.state | int == 1 -%}
-          group.livin_room
+          group.living_room
         {% elif states.input_number.light_button_state.state | int == 2 -%}
           group.kitchen
         {% endif %}
@@ -242,3 +37,21 @@ xaomi_light_switch:
           switch.el2_r1_6
         {% endif %}
 
+stairs_ambient_lights_on:
+  alias: Stairs ambient light
+  sequence:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.ambient_stair_spots
+      state: 'on'
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state == "General" }}'
+  - service: light.turn_on
+    entity_id: light.stairs_1
+    data_template:
+      brightness: '{{ states.input_number.stair_ambient_brightness.state }}'
+  - service: light.turn_on
+    data:
+      entity_id: light.stairs_2    
+      brightness: '{{ states.input_number.stair_ambient_brightness.state }}'

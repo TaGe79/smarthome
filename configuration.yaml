@@ -1,11 +1,12 @@
 homeassistant:
   # Name of the location where Home Assistant is running
+  # https://www.latlong.net/c/?lat=47.440428&long=19.032435
   name: Home
   # Location required to calculate the time the sun rises and sets
-  latitude: 47.440449
-  longitude: 19.032424
+  latitude: 47.440428
+  longitude: 19.032435
   # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: 17
+  elevation: 105
   # metric for Metric, imperial for Imperial
   unit_system: metric
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
@@ -22,7 +23,7 @@ homeassistant:
   
   auth_providers:
     - type: homeassistant
-    
+        
 lovelace:
    mode: yaml
   
@@ -35,13 +36,13 @@ ios:
 logger:
   default: info
   logs:
-    pydeconz: debug
-    homeassistant.components.deconz: debug
+    pydeconz: info
+    homeassistant.components.deconz: info
 
 zone:
   - name: Home
-    latitude: 47.440449
-    longitude: 19.032424
+    latitude: 47.440428
+    longitude: 19.032435
     radius: 50
     icon: mdi:account-multiple
   - name: WorldQuant
@@ -70,11 +71,14 @@ config:
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
   api_password: !secret legacy_http_password
-  base_url: patvarutca4.duckdns.org:443
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
+  #base_url: https://patvarutca4.duckdns.org
+  #ssl_certificate: /ssl/fullchain.pem
+  #ssl_key: /ssl/privkey.pem
+  #use_x_forwarded_for: true
+  #trusted_proxies:
+  #  - 127.0.0.1
+  #  - ::1  
   # ssl_profile: intermediate
-#   base_url: example.duckdns.org:8123
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -92,11 +96,20 @@ recorder:
       - light
       - switch
       - media_player
+      - automation
+      - binary_sensor
+      - sun
+      - device_tracker
   exclude:
     entities:
      - sensor.last_boot
      - sensor.date
   
+apple_tv: 
+  - host: 192.168.0.171
+    login_id: test
+    name: Wohnzimmer
+
 mobile_app:
 
 # Discover some devices automatically
@@ -133,7 +146,8 @@ device_tracker:
      - 192.168.0.151
      - 192.168.0.166
      - 192.168.0.186
-     - 192.168.0.126  
+     - 192.168.0.171
+     - 192.168.0.126
 #  - platform: icloud
 #    username: !secret tamas_icloud_user
 #    password: !secret tamas_icloud_password
@@ -181,85 +195,47 @@ media_player:
 #    name: FireTV
 #    host: 192.168.0.167
 
+input_text:
+  wake_up_time:
+    name: Wake up time
+    pattern: '[0-2]?[0-9]:[0-5][0-9]'
+    initial: '05:30'
+  sleep_time:
+    name: Sleep time
+    pattern: '[0-2]?[0-9]:[0-5][0-9]'
+    initial: '22:00'
+  general_scene_time:
+    name: Generic time
+    pattern: '[0-2]?[0-9]:[0-5][0-9]'
+    initial: '08:00'
+input_select:
+  scene_home:
+    name: Scene
+    options:
+      - General
+      - Movie
+      - Sleepy
+      - WakeUp
+    initial: 'General'
+
 input_boolean:
-  scene_sleepy_home_on:
-    name: Sleepy Home Scene
-    initial: off
-  scene_movie_on:
-    name: Movie Scene
-    initial: off
-  scene_general_on:
-    name: General Scene
-    initial: on
-  kitchen_shutter_on:
-    name: Konyhai redony automata
-    initial: off
-  livingroom_shutter_on:
-    name: Nappali redony automata
-    initial: on
   extended_shutter_control:
     name: Extra redony beallitasok
     initial: off
   summer_heat_mode:
     name: Nyári kánikula mód
     initial: off
+  auto_ambiance_mode:
+    name: Automata hangulatvilágítás
+    initial: on
+  ambient_stair_spots:
+    name: Lépcső hangulatvilágítás
     
-rest_command:
-  konyhapult_generic_on:
-    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/1/state'
-    method: PUT
-    payload: '{"on": true, "ct":167, "sat": 21, "bri": 255}'
-    content_type:  'application/json; charset=utf-8'
-    verify_ssl: false
-  konyhapult_movie_on:
-    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/1/state'
-    method: PUT
-    payload: '{"on": true, "hue":3000, "bri":150}'
-    content_type:  'application/json; charset=utf-8'
-    verify_ssl: false
-  konyhapult_sleepy_on:
-    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/1/state'
-    method: PUT
-    payload: '{"on": true, "hue":3000, "bri":50}'
-    content_type:  'application/json; charset=utf-8'
-    verify_ssl: false
-  plafon_light_movie:
-    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/4/state'
-    method: PUT
-    payload: '{"on": true, "hue": 2047, "bri": 150 }'
-    content_type:  'application/json'
-    verify_ssl: false
-  fal_light_movie:
-    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/3/state'
-    method: PUT
-    payload: '{"on": true, "hue": 2047, "bri": 150 }'
-    content_type:  'application/json'
-    verify_ssl: false    
-  plafon_light:
-    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/4/state'
-    method: PUT
-    payload: '{"on": {{ state }}, "hue": {{ hue }}, "bri": {{ brightness }} }'
-    content_type:  'application/json'
-    verify_ssl: false
-  fal_light:
-    url: 'http://192.168.0.107:40850/api/9DEFB80151/lights/3/state'
-    method: PUT
-    payload: '{"on": {{ state }}, "hue": {{ hue }}, "bri": {{ brightness }} }'
-    content_type:  'application/json'
-    verify_ssl: false
-
-#shutter:
-#  - platform: statefullshutter
-#    entity_id: shutter.kitchen
-#    name: Konyha redony
-#    switches:
-#      - "switch.ro1_f_r2_4"
-#      - "switch.ro1_l_r2_2"
-
 camera:
   - platform: generic
     name: patvarcam
-    still_image_url: https://patvarutca4.duckdns.org/api/hassio_ingress/ycMNXYe4ccjzcX5wDCo2AoG2hNG2UfX3p1xn2W5Svis/picture/1/current/?_username=admin&_signature=4126904ea62cee05cda1b7a9219c6da7e3f424f1
+    stream_source: rtps://192.168.100.17:8554/2.3gp
+    still_image_url: http://hassio.local:8123/api/hassio_ingress/OSBXFfzy5ExzdnEEEdxp74jxXyw-07ZN6NXj7ESE6jg/picture/1/current/?_username=admin&_signature=4126904ea62cee05cda1b7a9219c6da7e3f424f1
     verify_ssl: false
 
 notify:
@@ -279,4 +255,3 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-cover: !include covers.yaml

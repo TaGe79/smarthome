@@ -25,7 +25,7 @@
     device_class: window
     friendly_name: Hálószoba
 
-  binary_sensor.openclose_10:
+  binary_sensor.openclose_15:
     hidden: false
     device_class: window
     friendly_name: Fürdő kicsi

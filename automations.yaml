@@ -1,94 +1,54 @@
-- id: kitchen_cover_move
-  alias: Konyhai redöny mozgatása
-  trigger:
-  - platform: state
-    entity_id: input_number.kitchen_shutter_state
-  condition:
-    - condition: state
-      entity_id: input_boolean.kitchen_shutter_on
-      state: 'on'
-    - condition: state
-      entity_id: script.kitchen_shutter_up
-      state: 'off'
-    - condition: state
-      entity_id: script.kitchen_shutter_down
-      state: 'off'
-  action:
-  - service: input_number.set_value
-    data_template:
-      entity_id: input_number.kitchen_shutter_delay
-      value: |-
-        {% if states.input_number.kitchen_shutter_state.state | int < states.input_number.kitchen_shutter_current_pos.state | int  %}
-          {{ (states.input_number.kitchen_shutter_current_pos.state | int - states.input_number.kitchen_shutter_state.state | int) * 0.4  // 1 + 1 }}
-        {% else %}
-          {{ (states.input_number.kitchen_shutter_state.state | int - states.input_number.kitchen_shutter_current_pos.state | int) * 0.4  // 1 }}
-        {% endif %}
-  - service: script.turn_on
-    entity_id: script.kitchen_shutter_set_position
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------
 - id: kitchen_cover_stop
   alias: Konyhai redöny stop
   trigger:
-  - platform: event
-    event_type: timer.finished
-    event_data:
-      entity_id: timer.kitchen_shutter
+  - platform: state
+    entity_id: switch.ro1_l_r2_2
+    to: 'on'
+    for: "00:00:42"
+  - platform: state
+    entity_id: switch.ro1_f_r2_4
+    to: 'on'
+    for: "00:00:42"
   action:
-  - service: script.turn_on
-    entity_id: script.kitchen_shutter_stop
+  - service: switch.turn_off
+    entity_id: switch.ro1_l_r2_2
+  - service: switch.turn_off
+    entity_id: switch.ro1_f_r2_4
+
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------
 - id: livingroom_cover_stop
   alias: Nappali redöny stop
   trigger:
-  - platform: event
-    event_type: timer.finished
-    event_data:
-      entity_id: timer.livingroom_shutter
-  action:
-  - service: script.turn_on
-    entity_id: script.livingroom_shutter_stop
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------
-- id: livingroom_cover_move
-  alias: Nappali redöny mozgatása
-  trigger:
   - platform: state
-    entity_id: input_number.livingroom_shutter_state
-  condition:
-    - condition: state
-      entity_id: input_boolean.livingroom_shutter_on
-      state: 'on'
-  action:
-  - service: input_number.set_value
-    data_template:
-      entity_id: input_number.livingroom_shutter_delay
-      # determine wheter the shutter needs to move up~ or downwards
-      value: |-
-        {% if states.input_number.livingroom_shutter_state.state | int < states.input_number.livingroom_shutter_current_pos.state | int  %}
-          {{ (states.input_number.livingroom_shutter_current_pos.state | int - states.input_number.livingroom_shutter_state.state | int) * 0.4  // 1 + 1 }}
-        {% else %}
-          {{ (states.input_number.livingroom_shutter_state.state | int - states.input_number.livingroom_shutter_current_pos.state | int) * 0.4  // 1 }}
-        {% endif %}
-  - service: script.turn_on
-    entity_id: script.livingroom_shutter_set_position
-# -----------------------------------------------------------------------
-# -----------------------------------------------------------------------
-#
-# S C E N E N
-#
-
-# -----------------------------------------------------------------------
-# M O V I E
-# -----------------------------------------------------------------------
-- id : scene_movie
-  alias: Scene Movie
-  trigger:
-  - platform: state
-    entity_id: input_boolean.scene_movie_on
-    from: 'off'
+    entity_id: switch.ro2_l_r2_1
     to: 'on'
+    for: "00:00:42"
+  - platform: state
+    entity_id: switch.ro2_f_r2_3
+    to: 'on'
+    for: "00:00:42"
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro2_l_r2_1
+  - service: switch.turn_off
+    entity_id: switch.ro2_f_r2_3
+    
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+- id: automatic_ambient_lights_on
+  alias: Automatic ambient lights
+  trigger:
+  - platform: state
+    entity_id: sun.sun
+    to: 'below_horizon'
+  - platform: numeric_state
+    entity_id: sensor.lightlevel_7
+    below: 26
   condition:
     condition: and 
     conditions:
@@ -96,25 +56,123 @@
       entity_id: 'group.csalad'
       state: 'home'
     - condition: state
-      entity_id: 'binary_sensor.teraszajto'
-      state: 'off'
+      entity_id: 'input_boolean.auto_ambiance_mode'
+      state: 'on'
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state == "General" }}'      
   action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.scene_sleepy_home_on
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.scene_general_on
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_ceiling
+      brightness: 160
+      rgb_color: [255,255,255]
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_wall
+      brightness: 160
+      rgb_color: [255,255,255]
+  - service: scripts.turn_on
+    entity_id: script.stairs_ambient_lights_on
+      
+- id: automatic_ambient_lights_off
+  alias: Automatic ambient lights out
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.lightlevel_7
+    above: 42
+  condition:
+    condition: and 
+    conditions:
+    - condition: state
+      entity_id: 'light.livingroom_ceiling'
+      state: 'on'
+    - condition: state
+      entity_id: 'light.livingroom_wall'
+      state: 'on'
+    - condition: state
+      entity_id: 'input_boolean.auto_ambiance_mode'
+      state: 'on'
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state == "General" }}'      
+  action:
+  - service: light.turn_off
+    data:
+      entity_id: light.livingroom_ceiling
+  - service: light.turn_off
+    data:
+      entity_id: light.livingroom_wall
+
+- id: stairs_ambioent_off
+  alias: Stairs ambient off
+  trigger:
+  - platform: time
+    at: '21:00:00'
+  action:
+  - service: light.turn_off
+    entity_id: light.stairs
+    
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+#
+# S C E N E N
+#
+
+
+# -----------------------------------------------------------------------
+# M O V I E
+# -----------------------------------------------------------------------
+- id: scene_movie_media
+  alias: Scene Movie on Mediaplayer
+  trigger:
+  - platform: state
+    entity_id: media_player.home_theater
+    to: 'on'
+  - platform: template
+    value_template: "{{ state_attr('media_player.home_theater', 'source') == 'DVD' }}"
+  condition:
+    condition: and
+    conditions: 
+    - condition: template
+      value_template: "{{ state_attr('media_player.home_theater', 'source') == 'DVD' }}"
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: Movie
+  
+- id : scene_movie
+  alias: Scene Movie
+  trigger:
+  - platform: state
+    entity_id: input_select.scene_home
+    to: 'Movie'
+  condition:
+    condition: and 
+    conditions:
+    - condition: state
+      entity_id: 'group.csalad'
+      state: 'home'
+  action:
   - service: switch.turn_off
     entity_id: group.kitchen
   - service:  switch.turn_off
     entity_id: group.living_room
   - service:  automation.turn_off
     entity_id: group.automata_lampak
-  - service: rest_command.plafon_light_movie
-  - service: rest_command.fal_light_movie
-  - service: script.turn_on
-    entity_id: script.livingroom_shutter_down 
-#  - service: script.turn_on
-#    entity_id: script.kitchen_shutter_close
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_ceiling
+      brightness: 160
+      rgb_color: [255,63,0]
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_wall
+      brightness: 160
+      rgb_color: [255,63,0]
+  - service: switch.turn_on
+    entity_id: switch.ro2_l_r2_1
+  - service: switch.turn_on
+    entity_id: switch.ro1_l_r2_2
   - service: media_player.turn_on
     entity_id: media_player.home_theater
   - service: media_player.select_source
@@ -138,14 +196,16 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: input_boolean.scene_movie_on
-        state: 'on'
+        entity_id: input_select.scene_home
+        state: Movie
       - condition: time
-        after: '21:00:00'
+        after: '22:00:00'
         before: '06:00:00'
   action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.scene_sleepy_home_on
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: Sleepy
 
 # -----------------------------------------------------------------------
 # S L E E P Y   H O M E
@@ -154,16 +214,29 @@
   alias: Scene Sleepy Home
   trigger:
   - platform: state
-    entity_id: input_boolean.scene_sleepy_home_on
-    from: 'off'
-    to: 'on'
+    entity_id: input_select.scene_home
+    to: Sleepy
+  - platform: state
+    entity_id: media_player.home_theater
+    from: 'on'
+    to: 'off'
+  - platform: template
+    value_template: '{{ states.input_text.sleep_time.state == states.sensor.time.state }}'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.scene_home
+        state: Generic
+      - condition: time
+        after: '22:00:00'
+        before: '06:00:00'
+      - condition: state
+        entity_id: 'group.csalad'
+        state: 'home'
   action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.scene_movie_on
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.scene_general_on
   - service: media_player.turn_off
-    entity_id: media_player.hometheater
+    entity_id: media_player.home_theater
   - service: switch.turn_off
     entity_id: group.kitchen
   - service:  switch.turn_off
@@ -172,11 +245,63 @@
     entity_id: group.automata_lampak
   - service: light.turn_off
     entity_id: light.halofolyoso
-  - service: light.turn_off
-    entity_id: light.fal
-  - service: light.turn_off
-    entity_id: light.plafon
-   
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_ceiling
+      brightness: 60
+      rgb_color: [255,255,0]
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_wall
+      brightness: 60
+      rgb_color: [255,255,0]
+  - service: timer.start
+    entity_id: timer.timer_sleepy_light_off
+     
+- id: scene_weak_up_family
+  alias: Wake Up everybody
+  trigger:
+  - platform: template
+    value_template: '{{ states.input_text.wake_up_time.state == states.sensor.time.state }}'
+  - platform: state
+    entity_id: input_select.scene_home
+    to: WakeUp
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+      - condition: state
+        entity_id: 'group.csalad'
+        state: 'home'
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: WakeUp
+  - service: light.turn_on
+    data:
+      entity_id: light.stairs_1
+      brightness: 60
+  - service: light.turn_on
+    data:
+      entity_id: light.stairs_2      
+      brightness: 60
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_ceiling
+      brightness: 100
+      rgb_color: [255,255,255]
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_wall
+      brightness: 100
+      rgb_color: [255,255,255]
 
 # -----------------------------------------------------------------------
 # G E N E R A L
@@ -184,21 +309,21 @@
 - id: scene_general
   alias: Scene General
   trigger:
+  - platform: template
+    value_template: '{{ states.input_text.general_scene_time.state == states.sensor.time.state }}'
   - platform: state
-    entity_id: input_boolean.scene_general_on
-    from: 'off'
-    to: 'on'
+    entity_id: input_select.scene_home
+    to: General
   action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.scene_movie_on
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.scene_sleepy_home_on    
-  - service:  automation.turn_on
-    entity_id: group.automata_lampak
   - service: light.turn_off
-    entity_id: light.plafon
+    entity_id: light.livingroom_ceiling
   - service: light.turn_off
-    entity_id: light.fal
+    entity_id: light.livingroom_wall
+  - service: light.turn_off
+    entity_id: light.stairs_1
+  - service: light.turn_off
+    entity_id: light.stairs_2
+    
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------
 - id: scene_general_early_activation
@@ -206,10 +331,24 @@
   trigger: 
   - platform: sun
     event: 'sunrise'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state == "WakeUp" }}'
+    - condition: state
+      entity_id: 'group.csalad'
+      state: 'home'
   action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.scene_general_on
-  
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: Generic
+  - service: switch.turn_on
+    entity_id: switch.ro2_f_r2_3
+  - service: switch.turn_on
+    entity_id: switch.ro1_f_r2_4
+
 # -----------------------------------------------------------------------  
 # S L E E P Y   M O V I N G
 # -----------------------------------------------------------------------
@@ -217,7 +356,7 @@
   alias: Alvajárók a WC-re
   trigger:
   - platform: state
-    entity_id: binary_sensor.halofoyosopir
+    entity_id: binary_sensor.tradfri_motion_sensor
     from: 'off'
     to: 'on'  
   - platform: state
@@ -232,29 +371,26 @@
     entity_id: binary_sensor.np2
     from: 'off'
     to: 'on'
+  - platform: state
+    entity_id: binary_sensor.presence_16
+    from: 'off'
+    to: 'on'
   condition:
     condition: and
     conditions:
     - condition: template
-      value_template: '{{ states.sensor.daylight.attributes.daylight == False }}'
-    - condition: template
-      value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "on" }}'
-    - condition: or
-      conditions:
-      - condition: time
-        after: '22:00:00'
-        before: '06:20:00'
+      value_template: '{{ states.input_select.scene_home.state == "Sleepy" }}'
   action:
   - service: light.turn_on
     data:
-      entity_id: light.plafon
-      brightness: 160
-      rgb_color: [255,63,0]
+      entity_id: light.livingroom_ceiling
+      brightness: 60
+      rgb_color: [255,255,0]
   - service: light.turn_on
     data:
-      entity_id: light.fal
-      brightness: 160
-      rgb_color: [255,63,0]
+      entity_id: light.livingroom_wall
+      brightness: 60
+      rgb_color: [255,255,0]
   - service: timer.start
     entity_id: timer.timer_sleepy_light_off
 # -----------------------------------------------------------------------
@@ -266,11 +402,37 @@
     event_type: timer.finished
     event_data:
       entity_id: timer.timer_sleepy_light_off
+  condition:
+  - condition: state
+    entity_id: binary_sensor.presence_16
+    state: 'off'
   action:
   - service: light.turn_off
-    entity_id: light.plafon
+    entity_id: light.livingroom_ceiling
   - service: light.turn_off
-    entity_id: light.fal
+    entity_id: light.livingroom_wall
+  - service: light.turn_off
+    entity_id: light.stairs_1
+  - service: light.turn_off
+    entity_id: light.stairs_2
+    
+- id: sleepy_home_light_keep_on
+  alias: Alvajárok lámpa még mozog
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.timer_sleepy_light_off
+  condition:
+  - condition: state
+    entity_id: binary_sensor.presence_16
+    state: 'on'
+  action:
+  - service: timer.start
+    entity_id: timer.timer_sleepy_light_off
+    data_template:
+      duration: 00:00:30    
+
 # -----------------------------------------------------------------------
 # B U T T O N S
 # -----------------------------------------------------------------------
@@ -280,29 +442,43 @@
   - platform: event
     event_type: deconz_event
     event_data:
-      id: lumi_sensor_switch
+      id: livingroom_switch_01
+      event: 1004
+  action:
+  - service: switch.turn_off
+    entity_id: group.downstairs
+- id: custom_button_push
+  alias: Xaomi Button Test
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: livingroom_switch_01
       event: 1002
   action:
   - service: input_number.set_value
     data_template:
       entity_id: input_number.light_button_state
-      value: '{{ (states.input_number.light_button_state.state | int + 1) % 4 }}'
+      value : |-
+        {% if states.switch.el2_r1_6.state  == 'off' and states.switch.nl2_r1_2.state == 'off' -%}
+          1
+        {% elif states.switch.el2_r1_6.state  == 'on' and states.switch.nl2_r1_2.state == 'off' -%}
+          2
+        {% elif states.switch.el2_r1_6.state  == 'off' and states.switch.nl2_r1_2.state == 'on' -%}
+          3
+        {% else -%}
+          0
+        {% endif %}
   - service: script.turn_on
     entity_id: script.xaomi_light_switch_off
   - service: script.turn_on
     entity_id: script.xaomi_light_switch
-#   - service: notify.csilla_tamas_phone
-#     data:
-#       title: "Smart Home Alerts"
-#       message: "Something happened at home!"
-#       data:
-#         push:
-#           badge: 5 
 # -----------------------------------------------------------------------
 # K O N Y H A P U L T   M O Z I   K O Z B E N
 # -----------------------------------------------------------------------
 - id: konyhapult_movie_light_on
   alias: Konyhapult világítás mozi közben
+  initial_state: 'on'
   trigger:
   - entity_id: binary_sensor.presence_5
     platform: state
@@ -312,20 +488,23 @@
     entity_id: light.kitchen
     state: 'off'
   - condition: template
-    value_template: '{{ states.input_boolean.scene_movie_on.state == "on" }}'
+    value_template: '{{ states.input_select.scene_home.state == "Movie" }}'
   action:
-  - service: rest_command.konyhapult_movie_on
-#  - service: light.turn_on
-#    data:
-#      entity_id: light.kitchen
-#      brightness: 160
-#      rgb_color: [150,255,150]
+#  - service: rest_command.konyhapult_movie_on
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen
+      brightness: 100
+      rgb_color: [100,100,255]
   - service: timer.start
-    entity_id: timer.timer_konyhapult_movie_off
+    entity_id: timer.timer_konyhapult_off
+    data_template:
+      duration: 00:{{ states("input_number.kitchen_light_off_time_movie") | int }}:00    
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------
 - id: konyhapult_sleepy_light_on
   alias: Konyhapult világítás este
+  initial_state: 'on'
   trigger:
   - entity_id: binary_sensor.presence_5
     platform: state
@@ -335,58 +514,111 @@
     entity_id: light.kitchen
     state: 'off'
   - condition: template
-    value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "on" }}'
+    value_template: '{{ states.input_select.scene_home.state == "Sleepy" }}'
   action:
-  - service: rest_command.konyhapult_sleepy_on
-#  - service: light.turn_on
-#    data:
-#      entity_id: light.kitchen
-#      brightness: 140
-#      rgb_color: [255,255,255]
+#  - service: rest_command.konyhapult_sleepy_on
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen
+      brightness: 100
+      rgb_color: [255,255,255]
   - service: timer.start
-    entity_id: timer.timer_konyhapult_movie_off
+    entity_id: timer.timer_konyhapult_off
+    data_template:
+      duration: 00:{{ states("input_number.kitchen_light_off_time_sleepy") | int }}:00    
+    
 # -----------------------------------------------------------------------
 # K O N Y H A P U L T
 # -----------------------------------------------------------------------
 - id: konyhapult_light_on
-  alias: Konyhapult világítás
+  alias: Konyhapult világítás világosban
+  initial_state: 'on'
   trigger:
   - entity_id: binary_sensor.presence_5
     platform: state
     to: 'on'  
-  condition:  
-  - condition: template
-    value_template: '{{ states.input_boolean.scene_general_on.state == "on" }}'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state == "General" }}'
+    - condition: numeric_state
+      entity_id: sensor.lightlevel_7
+      above: 40
   action:
-#  - service: light.turn_on
-#    data:
-#      entity_id: light.kitchen
-#      brightness: 255
-#      rgb_color: [255,255,255]
-  - service: rest_command.konyhapult_generic_on
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen
+      brightness: 255
+      rgb_color: [255,255,255]
   - service: timer.start
     entity_id: timer.timer_konyhapult_off
+    data_template:
+      duration: 00:{{ states("input_number.kitchen_light_off_time_daylight") | int }}:00
+- id: konyhapult_light_dark_on
+  alias: Konyhapult világítás sötétben
+  initial_state: 'on'
+  trigger:
+  - entity_id: binary_sensor.presence_5
+    platform: state
+    to: 'on'  
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state == "General" }}'
+    - condition: numeric_state
+      entity_id: sensor.lightlevel_7
+      below: 40
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen
+      brightness: 255
+      rgb_color: [255,255,255]
+  - service: timer.start
+    entity_id: timer.timer_konyhapult_off
+    data_template:
+      duration: 00:{{ states(" input_number.kitchen_light_off_time_dark") | int }}:00
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------    
 - id: konyhapult_light_off
   alias: Konyhapult lekapcs
+  initial_state: 'on'  
   trigger:
   - platform: event
     event_type: timer.finished
     event_data:
       entity_id: timer.timer_konyhapult_off
+  condition:
+  - condition: state
+    entity_id: light.kitchen
+    state: 'on'
+  - condition: state
+    entity_id: binary_sensor.presence_5
+    state: 'off'
+  action:
+  - service: light.turn_off
+    entity_id: light.kitchen
+    
+- id: konyhapult_light_still_on
+  alias: Konyhapult egve marad
+  initial_state: 'on'
+  trigger:
   - platform: event
     event_type: timer.finished
     event_data:
-      entity_id: timer.timer_konyhapult_movie_off
+      entity_id: timer.timer_konyhapult_off
   condition:
   - condition: state
     entity_id: light.kitchen
     state: 'on'
   action:
-  - service: light.turn_off
-    entity_id: light.kitchen
-    
+  - service: timer.start
+    entity_id: timer.timer_konyhapult_off
+    data_template:
+      duration: 00:{{ states("input_number.kitchen_light_off_time_daylight") | int }}:00
+      
 # -----------------------------------------------------------------------
 # E T K E Z O
 # -----------------------------------------------------------------------
@@ -402,7 +634,7 @@
   - condition: template
     value_template: '{{ (states.sensor.lightlevel_6.state|int) < 39 }}'
   - condition: template
-    value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'    
+    value_template: '{{ states.input_select.scene_home.state == "General" }}'    
   action:
   - service: timer.start
     entity_id: timer.timer_ep1_lights
@@ -455,7 +687,7 @@
     entity_id: sensor.lightlevel_6
     below: 39
   - condition: template
-    value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'
+    value_template: '{{ states.input_select.scene_home.state == "General" }}'
   action:
   - service: timer.start
     entity_id: timer.timer_np1_lights
@@ -502,7 +734,7 @@
     entity_id: sensor.lightlevel_6
     below: 39
   - condition: template
-    value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'
+    value_template: '{{ states.input_select.scene_home.state == "General" }}'
   action:
   - service: timer.start
     entity_id: timer.timer_np2_lights
@@ -589,7 +821,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.halofoyosopir'
+    entity_id: 'binary_sensor.tradfri_motion_sensor'
     from: 'off'
     to: 'on'
   condition:
@@ -597,16 +829,19 @@
     entity_id: sensor.lightlevel_6
     below: 39    
   - condition: template
-    value_template: '{{ states.sensor.daylight.attributes.daylight == False }}'
-  - condition: template
-    value_template: '{{ states.input_boolean.scene_sleepy_home_on.state == "off" }}'
+    value_template: '{{ states.input_select.scene_home.state == "General" }}'
   - condition: time
     after: '06:20:00'
     before: '22:00:00'
   action:
   - service: light.turn_on
     data:
-      entity_id: light.halofolyoso
+      entity_id: light.foyer
+      brightness: 255
+      kelvin: 2700
+  - service: light.turn_on
+    data:
+      entity_id: light.stairs
       brightness: 255
       kelvin: 2700
   - service: timer.start

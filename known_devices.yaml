@@ -74,7 +74,7 @@ csilla_iphone:
   icon:
   mac: C4:98:80:9F:70:96
   name: Csilla
-  picture:
+  gravatar: kanyocsilla@gmail.com
   track: true
 
 b827eb614476:
@@ -203,5 +203,61 @@ c4_85_08_69_fc_99:
   icon:
   mac: C4:85:08:69:FC:99
   name: c4 85 08 69 fc 99
+  picture:
+  track: true
+
+3c_07_54_1e_36_3a:
+  hide_if_away: false
+  icon:
+  mac: 3C:07:54:1E:36:3A
+  name: 3c 07 54 1e 36 3a
+  picture:
+  track: true
+
+00_15_f2_6a_e0_7d:
+  hide_if_away: false
+  icon:
+  mac: 00:15:F2:6A:E0:7D
+  name: 00 15 f2 6a e0 7d
+  picture:
+  track: true
+
+04_92_26_ca_a6_78:
+  hide_if_away: false
+  icon:
+  mac: 04:92:26:CA:A6:78
+  name: 04 92 26 ca a6 78
+  picture:
+  track: true
+
+2c_1f_23_7a_c4_af:
+  hide_if_away: false
+  icon:
+  mac: 2C:1F:23:7A:C4:AF
+  name: 2c 1f 23 7a c4 af
+  picture:
+  track: true
+
+e0_f8_47_3b_26_aa:
+  hide_if_away: false
+  icon:
+  mac: E0:F8:47:3B:26:AA
+  name: e0 f8 47 3b 26 aa
+  picture:
+  track: true
+
+f4_60_e2_14_0c_26:
+  hide_if_away: false
+  icon:
+  mac: F4:60:E2:14:0C:26
+  name: f4 60 e2 14 0c 26
+  picture:
+  track: true
+
+28_ef_01_91_72_ff:
+  hide_if_away: false
+  icon:
+  mac: 28:EF:01:91:72:FF
+  name: 28 ef 01 91 72 ff
   picture:
   track: true
