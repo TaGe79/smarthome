@@ -71,13 +71,13 @@ views:
                   color_type: blank-card
                 - type: "custom:button-card"
                   color_type: blank-card
-#          - type: conditional
-#            conditions:
-#            - entity: media_player.wohnzimmer
-#              state_not: "off"
-#            card:    
-#              type: media-control
-#              entity: media_player.wohnzimmer
+          - type: conditional
+            conditions:
+            - entity: media_player.home_theater_2
+              state_not: "off"
+            card:    
+              type: media-control
+              entity: media_player.home_theater_2
           - type: weather-forecast
             entity: weather.home
         - type: vertical-stack
@@ -694,6 +694,22 @@ views:
         hours_to_show: 24
         
       - type: custom:mini-graph-card
+        name: Nappali
+        entities: 
+        - entity: sensor.lightlevel_18
+          name: folyosó
+        - entity: sensor.lightlevel_7
+          name: konyha
+        align_state: center
+        show:
+          extrema: true
+          points: true
+        graph: line
+        unit: lux
+        detail: 3
+        hours_to_show: 24
+        
+      - type: custom:mini-graph-card
         name: Fürdőszoba
         entities: 
         - entity: sensor.temperature_12
@@ -842,13 +858,27 @@ views:
          - entity: input_number.kitchen_light_off_time_sleepy
            name: élyszaka
      - type: entities
-       title: Lámpák
+       title: Hangulatvilágítás
        show_header_toggle: false
        entities:
          - type: section
+           label: Automatikus kapcsolás [lux]
+         - entity: input_number.ambient_on_below_lux
+           name: bekapcsol
+         - entity: input_number.ambient_off_above_lux
+           name: kikapcsol
+         - type: section
            label: Lépcső
          - entity: input_boolean.ambient_stair_spots
+           name: automata
          - entity: input_number.stair_ambient_brightness
+           name: fényerő
+         - entity: input_text.stairs_ambient_off_time
+           label: lekapcsolás
+         - type: section
+           label: Nappali
+         - entity: input_number.livingroom_ambient_brightness
+           name: fényerő
      - type: entities
        title: Egyéb
        show_header_toggle: false

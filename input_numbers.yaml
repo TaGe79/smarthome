@@ -1,33 +1,9 @@
-kitchen_shutter_delay:
-  name: __konyha_mozgatasi_ido__
-  min: 0
-  max: 40
+livingroom_ambient_brightness:
+  name: Nappali hangulatvilágítás fényerő
+  min: 10
+  max: 255
   step: 1
-kitchen_shutter_current_pos:
-  name: __konyha_pozicio__
-  min: 0
-  max: 100
-  step: 1
-kitchen_shutter_state:
-  name: kitchen_shutter_state
-  min: 0
-  max: 100 
-  step: 1    
-livingroom_shutter_delay:
-  name: __livingroom_mozgatasi_ido__
-  min: 0
-  max: 40
-  step: 1
-livingroom_shutter_current_pos:
-  name: __livingroom_pozicio__
-  min: 0
-  max: 100
-  step: 1
-livingroom_shutter_state:
-  name: livingroom_shutter_state
-  min: 0
-  max: 100 
-  step: 1    
+  initial: 160
 furdo_szelloztetesi_ido:
   name: furdo_szelloztetesi_ido
   initial: 10
@@ -45,6 +21,16 @@ light_button_state:
   initial: 0
   min: 0
   max: 3
+ambient_on_below_lux:
+  name: Ambient light on below lux
+  initial: 26
+  min: 5
+  max: 50
+ambient_off_above_lux:
+  name: Ambient light off above lux
+  initial: 42
+  min: 20
+  max: 60
 stair_ambient_brightness:
   name: Lépcső hangulatvilágítás
   initial: 20
