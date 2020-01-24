@@ -1,5 +1,8 @@
-  - platform: time_date 
-
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      
   - platform: darksky
     api_key: c9d28654f52c0edfe1d214efdc4c0c79
     language: hu
@@ -36,3 +39,58 @@
       - type: load_5m
       - type: load_15m
       - type: processor_use
+
+  - platform: template
+    sensors:
+      data_received_mb:
+        friendly_name: "Adatforgalom"
+        unit_of_measurement: "MB"
+        value_template: "{{ states('sensor.wireless_broadband_router_bytes_received')|float / (1024*1024) | round(2) }}"
+
+  - platform: history_stats
+    name: downstairs_lamps_daily_stat
+    entity_id: group.downstairs
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+
+  - platform: history_stats
+    name: downstairs_ambient_ceiling_daily_stat
+    entity_id: light.livingroom_ceiling
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+
+  - platform: history_stats
+    name: kitchen_desk_light_daily_stat
+    entity_id: light.kitchen_desk
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+
+  - platform: history_stats
+    name: window_open_daily_stats
+    entity_id: group.bathroom_windows
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+    
+  - platform: history_stats
+    name: stairs_lights_daily_stats
+    entity_id: light.stairs_3
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
+
+  - platform: history_stats
+    name: media_player_daily_stats
+    entity_id: media_player.home_theater
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'

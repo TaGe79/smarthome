@@ -1,0 +1,468 @@
+#---------------------------------------------------------------------
+#- S T A T E
+#---------------------------------------------------------------------
+title: Státusz
+path: state
+panel: false
+cards:
+  - type: horizontal-stack
+    cards:
+#    - type: "custom:button-card"
+#      color_type: blank-card
+    - type: vertical-stack
+      cards:
+      - type: horizontal-stack
+        cards:
+        - type: "custom:button-card"
+          entity: 'group.csalad'
+          aspect_ratio: 1/1
+          show_label: false
+          show_name: false
+          show_icon: false
+          styles:
+            grid:
+              - grid-template-areas: '"csilla tamas" "dalma csongor"'
+              - grid-template-columns: 1fr 1fr
+              - grid-template-rows: 1fr 1fr
+            card:
+              - background-color: white
+              - border-radius: 10%
+              - padding: 2%
+              - color: black
+              - font-size: 14px
+  #              - text-shadow: 0px 0px 5px black
+              - text-transform: capitalize
+            csilla:
+              - align-self: start
+              - justify-self: start
+            tamas:
+                - align-self: end
+                - justify-self: end
+            dalma:
+                - align-self: start
+                - justify-self: start
+            csongor:
+                - align-self: end
+                - justify-selft: end
+            
+          custom_fields:
+            csilla: >
+              [[[
+                var haDate = states['device_tracker.csilla_iphone_ja'].last_changed.replace(/\.[0-9]+\+00:00$/,"Z")
+                var dateLast = new Date(haDate)
+                var here_since=dateLast.toTimeString().replace(/:[0-9][0-9] .*$/, '')
+                var isAtHome = states['device_tracker.csilla_iphone_ja'].state === 'home'
+                var opacity = isAtHome ? 1: 0.3
+              
+                return `<span style="opacity: ${opacity};">
+                <img src="https://s.gravatar.com/avatar/9780c71ae3628178826ae2c854ca79a8?s=40" style="border-radius: 50%;"/>
+                <br><span style="color: #0c0c0c; font-weight: 100;">${here_since}</span>
+                </span>`
+              ]]]
+            tamas: >
+              [[[
+                var haDate = states['device_tracker.iphone_von_tamas'].last_changed.replace(/\.[0-9]+\+00:00$/,"Z")
+                var dateLast = new Date(haDate)
+                var here_since=dateLast.toTimeString().replace(/:[0-9][0-9] .*$/, '')
+
+                var isAtHome = states['device_tracker.iphone_von_tamas'].state === 'home'
+                var opacity = isAtHome ? 1: 0.3
+                
+                return `<span style="opacity: ${opacity};">
+                <img src="https://s.gravatar.com/avatar/5f2a22f25decb15ade5bcf9bfb3fcbfd?s=40" style="border-radius: 50%;"/>
+                <br><span style="color: #0c0c0c; font-weight: 100;">${here_since}</span>
+                </span>`
+              ]]]
+            dalma: >
+              [[[
+                var haDate = states['device_tracker.dalma_iphone'].last_changed.replace(/\.[0-9]+\+00:00$/,"Z")
+                var dateLast = new Date(haDate)
+                var here_since=dateLast.toTimeString().replace(/:[0-9][0-9] .*$/, '')
+
+                var isAtHome = states['device_tracker.dalma_iphone'].state === 'home'
+                var opacity = isAtHome ? 1: 0.3
+
+                return `<span style="opacity: ${opacity};">
+                <img src="https://s.gravatar.com/avatar/aefe085aed7e9f09e6f89108189ff4ac?s=40" style="border-radius: 50%;"/>
+                <br><span style="color: #0c0c0c; font-weight: 100;">${here_since}</span>
+                </span>`
+              ]]]
+            csongor: >
+              [[[
+                var haDate = states['device_tracker.csongor_iphone_ja'].last_changed.replace(/\.[0-9]+\+00:00$/,"Z")
+                var dateLast = new Date(haDate)
+                var here_since=dateLast.toTimeString().replace(/:[0-9][0-9] .*$/, '')
+
+                var isAtHome = states['device_tracker.csongor_iphone_ja'].state === 'home'
+                var opacity = isAtHome ? 1: 0.3
+
+                return `<span style="opacity: ${opacity};">
+                <img src="https://s.gravatar.com/avatar/dbcf6d5d5e19a43d156ba30b253adb62?s=40" style="border-radius: 50%;"/>
+                <br><span style="color: #0c0c0c; font-weight: 100;">${here_since}</span>
+                </span>`
+              ]]]
+
+        - type: custom:button-card
+          entity: 'sensor.load_1m'
+          icon: 'mdi:raspberry-pi'
+          aspect_ratio: 1/1
+          name: HassOS
+          styles:
+            card:
+              - background-color: white
+              - border-radius: 10%
+              - padding: 10%
+              - color: '#0c0c0c'
+              - font-size: 14px
+  #              - text-shadow: 0px 0px 5px black
+              - text-transform: capitalize
+            grid:
+              - grid-template-areas: '"i load" "n n" "cpu cpu" "ram ram" "sd sd"'
+              - grid-template-columns: 1fr 1fr
+              - grid-template-rows: 1fr min-content min-content min-content min-content
+            name:
+              - font-weight: bold
+              - font-size: 15px
+              - color: black
+              - align-self: middle
+              - justify-self: start
+              - padding-bottom: 4px
+            img_cell:
+              - justify-content: start
+              - align-items: start
+              - margin: none
+            icon:
+              - color: >
+                  [[[
+                    if (entity.state < 0.30) return 'lime';
+                    if (entity.state >= 0.30 && entity.state < 0.80) return 'orange';
+                    else return 'red';
+                  ]]]
+              - width: 50%
+              - margin-top: -10%
+            custom_fields:
+              load:
+                - align-self: start
+                - justify-self: end
+              cpu:
+                - padding-bottom: 2px
+                - align-self: middle
+                - justify-self: start
+                - --text-color-sensor: '[[[ if (states["sensor.processor_use"].state > 80) return "red"; else return "#0c0c0c"; ]]]'
+              ram:
+                - padding-bottom: 2px
+                - align-self: middle
+                - justify-self: start
+                - --text-color-sensor: '[[[ if (states["sensor.memory_use_percent"].state > 80) return "red"; else return "#0c0c0c"; ]]]'
+              sd:
+                - align-self: middle
+                - justify-self: start
+                - --text-color-sensor: '[[[ if (states["sensor.disk_use_percent"].state > 60) return "orange"; else return "#0c0c0c"; ]]]'
+          custom_fields:
+            load: >
+              [[[
+                var loadText = Number(entity.state).toFixed(3)
+                return `<ha-icon
+                  icon="mdi:desktop-classic"
+                  style="width: 14px; height: 14px; color: yellow;">
+                  </ha-icon><span>${loadText}</script></span>`
+              ]]]
+            cpu: >
+              [[[
+                return `<ha-icon
+                  icon="mdi:server"
+                  style="width: 14px; height: 14px; color: deepskyblue;">
+                  </ha-icon><span style="color: #c0c0c0">CPU:&nbsp;&nbsp;<span style="color: var(--text-color-sensor);">${states['sensor.processor_use'].state}%</span></span>`
+              ]]]
+            ram: >
+              [[[
+                return `<ha-icon
+                  icon="mdi:memory"
+                  style="width: 14px; height: 14px; color: deepskyblue;">
+                  </ha-icon><span style="color: #c0c0c0">RAM:&nbsp;<span style="color: var(--text-color-sensor);">${states['sensor.memory_use_percent'].state}%</span></span>`
+              ]]]
+            sd: >
+              [[[
+                return `<ha-icon
+                  icon="mdi:harddisk"
+                  style="width: 14px; height: 14px; color: deepskyblue;">
+                  </ha-icon><span style="color: #c0c0c0">SD:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text-color-sensor);">${states['sensor.disk_use_percent'].state}%</span></span>`
+              ]]]
+        - type: "custom:button-card"
+          entity: 'sensor.time'
+          aspect_ratio: 1/1
+          show_label: true
+          show_name: false
+          show_icon: false
+          label: >
+            [[[
+              var clock = states['sensor.time'].state
+              return `${clock}`
+            ]]]
+          styles:
+            grid:
+              - grid-template-areas: '"l l" "date date" "sup sdown"'
+              - grid-template-columns: 1fr 1fr
+              - grid-template-rows: 1fr 1fr min-content
+            card:
+              - background-color: white
+              - border-radius: 10%
+              - padding: 10%
+              - color: black
+              - font-size: 14px
+  #              - text-shadow: 0px 0px 5px black
+              - text-transform: capitalize
+            label:
+              - font-size: 30px
+              - font-weight: 800
+              - text-transform: uppercase
+              - letter-spacing: 0.1em
+              - font-familly: cursive
+              - justify-self: middle
+              - padding: 0px -5px 0px 5px
+            date:
+              - padding: 0px 0px 0px 20px
+              - align-self: middle
+              - justify-self: middle
+            sup:
+                - align-self: start
+                - justify-self: start
+            sdown:
+                - align-self: start
+                - justify-self: start
+            
+          custom_fields:
+            date: >
+              [[[
+                return `<span style="font-size: 20px">${states['sensor.date'].state}</span>`
+              ]]]
+            sup: >
+              [[[
+                var next_dawn = states['sun.sun'].attributes.next_dawn.split("T")[1].substring(0,5)
+                return `<ha-icon
+                  icon="mdi:weather-sunset-up"
+                  style="width: 14px; height: 14px; color: deepskyblue;">
+                  </ha-icon><span style="color: #a0a0a0">${next_dawn}</span>`
+              ]]]
+            sdown: >
+              [[[
+                var next_dusk = states['sun.sun'].attributes.next_dusk.split("T")[1].substring(0,5)
+                return `<span style="color: #a0a0a0">${next_dusk}</span><ha-icon
+                  icon="mdi:weather-sunset-down"
+                  style="width: 14px; height: 14px; color: deepskyblue;">
+                  </ha-icon>`
+              ]]]
+  
+        - type: "custom:button-card"
+          entity: 'media_player.home_theater_2'
+          aspect_ratio: 1/1
+          show_label: true
+          show_name: false
+          show_icon: false
+          label: >
+            [[[
+              var heosPlaying = states['media_player.home_theater_2'].state === 'playing' && states['media_player.home_theater'].attributes.source === 'HEOS Music'
+              var clock = heosPlaying ? states['media_player.home_theater_2'].attributes.media_title : states['media_player.home_theater'].attributes.media_content_type
+              
+              return !!clock ? clock : states['sensor.media_player_daily_stats'].state+' h'
+            ]]]
+          styles:
+            grid:
+              - grid-template-areas: '"playing-state noop source" "album album album" "l l l" "playing-artist playing-artist playing-artist"'
+              - grid-template-columns: min-content 1fr min-content
+              - grid-template-rows: min-content 1fr min-content min-content
+            card:
+              - background-color: white
+              - border-radius: 10%
+              - padding: 10%
+              - color: black
+              - font-size: 14px
+  #              - text-shadow: 0px 0px 5px black
+              - text-transform: capitalize
+            label:
+              - font-size: 16px
+              - font-weight: 400
+              - text-transform: uppercase
+              - letter-spacing: 0.1em
+              - font-familly: cursive
+              - justify-self: middle
+              - padding: 0px -5px 0px 5px
+            playing-artist:
+              - padding: 0px 0px 0px 20px
+              - align-self: middle
+              - justify-self: middle
+            playing-title:
+              - padding: 0px 0px 0px 20px
+              - align-self: middle
+              - justify-self: middle
+          custom_fields:
+            playing-state: >
+              [[[
+                var playing = states['media_player.home_theater_2'].state === 'playing' || 
+                  states['media_player.home_theater'].state === 'on' && states['media_player.home_theater'].attributes.source !== 'HEOS Music'
+                var iconName = playing ? "mdi:play" : "mdi:pause"
+                return `<ha-icon
+                  icon=${iconName}
+                  style="width: 14px; height: 14px; color: deepskyblue;">
+                  </ha-icon>`
+              ]]]
+            source: >
+              [[[
+                if ( states['media_player.home_theater'].state == 'off' ) return ''
+                  
+                var heosPlaying = states['media_player.home_theater_2'].state === 'playing' && states['media_player.home_theater'].attributes.source === 'HEOS Music'
+                var source = states['media_player.home_theater'].attributes.source === 'Tuner' ? "radio" : "movie-open-outline"
+                var sourceIcon = heosPlaying == true ? "mdi:airplay" : "mdi:"+source
+                
+                return `<ha-icon 
+                  icon=${sourceIcon} 
+                  style="width: 14px; height: 14px; color: deepskyblue;">
+                  </ha-icon>`
+              ]]]
+            album: >
+              [[[
+               var heosPlaying = states['media_player.home_theater_2'].state === 'playing' && states['media_player.home_theater'].attributes.source === 'HEOS Music'
+               if ( states['media_player.home_theater'].state == 'off' || !heosPlaying ) return `<img style="width: 64px" src="/local/img/denon.png"/>`
+               var mediaSource = states['media_player.home_theater'].attributes.source
+               return heosPlaying ? `<img style="width: 64px" src=${states['media_player.home_theater_2'].attributes.entity_picture}/>` : mediaSource
+              ]]]
+            playing-artist: >
+              [[[
+                var current_artist = states['media_player.home_theater_2'].attributes.media_artist
+                return `<span style="color: #a0a0a0">${current_artist}</span>`
+              ]]]
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          entities:
+          - entity: sensor.downstairs_lamps_daily_stat
+            name: Világítás
+          show:
+            graph: bar
+          hours_to_show: 168
+          points_per_hour: 1
+          aggregate_func: max
+          group_by: date
+  
+        - type: custom:mini-graph-card
+          entities:
+          - entity: sensor.kitchen_desk_light_daily_stat
+            name: Konyhapult világítás
+          show:
+            graph: bar
+          hours_to_show: 168
+          points_per_hour: 1
+          aggregate_func: max
+          group_by: date
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          entities:
+          - entity: sensor.downstairs_ambient_ceiling_daily_stat
+            name: Hangulatvilágítás
+          show:
+            graph: bar
+          hours_to_show: 168
+          points_per_hour: 1
+          aggregate_func: max
+          group_by: date
+        - type: custom:mini-graph-card
+          entities:
+          - entity: sensor.window_open_daily_stats
+            name: Szellőztetés
+          show:
+            graph: bar
+          hours_to_show: 168
+          points_per_hour: 1
+          aggregate_func: max
+          group_by: date
+  
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: Hőmérséklet kint
+          entities: 
+          - sensor.dark_sky_temperature
+          align_state: center
+          show:
+            extrema: true
+            points: true
+          graph: line
+          unit: C
+          detail: 2
+          hours_to_show: 24
+        - type: custom:mini-graph-card
+          name: Nappali
+          entities: 
+          - sensor.livingroom_multi_sensor_3
+          align_state: center
+          show:
+            extrema: true
+            points: true
+          graph: line
+          unit: C
+          detail: 2
+          hours_to_show: 24
+        - type: custom:mini-graph-card
+          name: Fürdőszoba
+          entities: 
+          - entity: sensor.bathroom_multi_sensor_3
+            name: hőmérséklet
+          - entity: sensor.bathroom_multi_sensor
+            name: páratartalom
+          align_state: center
+          show:
+            extrema: true
+            points: true
+          graph: line
+          unit: C
+          detail: 2
+          hours_to_show: 24
+      
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: Nappali
+          entities: 
+          - entity: sensor.kitchen_desk_motion
+            name: konyha
+          - entity: sensor.kitchen_new
+            name: folyosó
+          align_state: center
+          show:
+            extrema: true
+            points: true
+          graph: line
+          unit: lux
+          detail: 3
+          hours_to_show: 24
+        - type: custom:mini-graph-card
+          name: Internet speed      
+          entities: 
+          - sensor.wireless_broadband_router_kbyte_sec_received
+          align_state: center
+          show:
+            extrema: true
+            points: true
+          graph: line
+          unit: 'kb/sec'
+          detail: 2
+          hours_to_show: 24
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: Adatforgalom
+          entities:
+          - entity: sensor.data_received_mb
+          show:
+            graph: bar
+          hours_to_show: 168
+          points_per_hour: 1
+          aggregate_func: max
+          group_by: date
+          unit: MB
+          detail: 1
+#    - type: vertical-stack
+#      cards:
+#      - type: "custom:button-card"
+#        color_type: blank-card

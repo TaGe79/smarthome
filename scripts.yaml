@@ -50,15 +50,31 @@ ambient_lights_on:
       state: 'on'
     - condition: template
       value_template: '{{ states.input_select.scene_home.state == "General" }}'
-    - condition: state
-      entity_id: 'sun.sun'
-      state: 'below_horizon'
-    - condition: template
-      value_template: '{{ states.sensor.lightlevel_18.state | int < states.input_number.ambient_on_below_lux.state | int }}'
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: 'sun.sun'
+        state: 'below_horizon'
+      - condition: template
+        value_template: '{{ states.sensor.kitchen_new.state | int < states.input_number.ambient_on_below_lux.state | int }}'
   - service: script.turn_on
     entity_id: script.livingroom_ambient_lights_on
   - service: script.turn_on
     entity_id: script.stairs_ambient_lights_on
+  - service: script.turn_on
+    entity_id: script.kitchen_light_ambient
+  
+
+movie_cover_close:
+  alias: Cover down on movie scene
+  sequence:
+  - condition: state
+    entity_id: input_boolean.auto_cover_for_movie_scene
+    state: 'on'
+  - service: switch.turn_on
+    entity_id: switch.ro2_l_r2_1
+  - service: switch.turn_on
+    entity_id: switch.ro1_l_r2_2
 
 livingroom_ambient_lights_on:
   alias: Livingroom ambient lights
@@ -67,12 +83,12 @@ livingroom_ambient_lights_on:
     entity_id: light.livingroom_ceiling
     data_template:
       brightness: '{{ states.input_number.livingroom_ambient_brightness.state | int }}'
-      rgb_color: [255,255,255]
+      rgb_color: [0,255,0]
   - service: light.turn_on
     entity_id: light.livingroom_wall
     data_template:
       brightness: '{{ states.input_number.livingroom_ambient_brightness.state | int }}'
-      rgb_color: [255,255,255]
+      rgb_color: [0,255,0]
 
 stairs_ambient_lights_on:
   alias: Stairs ambient light
@@ -85,3 +101,25 @@ stairs_ambient_lights_on:
     entity_id: light.stairs_2
     data_template:
       brightness: '{{ states.input_number.stair_ambient_brightness.state | int }}'
+
+kitchen_light_ambient:
+  alias: Kitchen desk led
+  sequence:
+  - service: light.turn_on
+    entity_id: light.kitchen_desk
+    data_template:
+      brightness: '{{states.input_number.kitchen_ambient_brightness.state | int }}'
+      rgb_color: 
+      - >
+        {% if states.input_select.scene_home.state == "Movie" %}
+          255
+        {% else %}
+          0
+        {% endif %}
+      - >
+        {% if states.input_select.scene_home.state == "Movie" %}
+          0
+        {% else %}
+          255
+        {% endif %}
+      - 0

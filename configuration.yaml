@@ -23,13 +23,15 @@ homeassistant:
   
   auth_providers:
     - type: homeassistant
-        
+
 lovelace:
    mode: yaml
   
 #    "binary_sensor.*p*":
 #      hidden: true
 system_health:
+
+zeroconf:
 
 ios:
 
@@ -70,7 +72,7 @@ config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-  api_password: !secret legacy_http_password
+  #api_password: !secret legacy_http_password
   #base_url: https://patvarutca4.duckdns.org
   #ssl_certificate: /ssl/fullchain.pem
   #ssl_key: /ssl/privkey.pem
@@ -90,6 +92,8 @@ updater:
   # include_used_components: true
 
 recorder:
+  purge_keep_days: 30
+  purge_interval: 1
   include:
     domains:
       - sensor
@@ -100,6 +104,10 @@ recorder:
       - binary_sensor
       - sun
       - device_tracker
+    entities:
+      - group.csalad
+      - group.downstairs
+      - group.bathroom_windows
   exclude:
     entities:
      - sensor.last_boot
@@ -107,7 +115,7 @@ recorder:
   
 apple_tv: 
   - host: 192.168.0.171
-    login_id: test
+    login_id: 0x426ABEFDB2659F9C
     name: Wohnzimmer
 
 mobile_app:
@@ -120,7 +128,26 @@ conversation:
 
 # Enables support for tracking state changes over time
 history:
-
+  include:
+    domains:
+      - sensor
+      - light
+      - switch
+      - media_player
+      - automation
+      - binary_sensor
+      - sun
+      - device_tracker
+    entities:
+      - group.csalad
+      - group.downstairs
+      - group.bathroom_windows
+  exclude:
+    entities:
+     - sensor.last_boot
+     - sensor.date
+     
+    
 # View all events in a logbook
 logbook:
 
@@ -205,13 +232,14 @@ input_text:
     pattern: '[0-2]?[0-9]:[0-5][0-9]'
     initial: '22:00'
   general_scene_time:
-    name: Generic time
+    name: General time
     pattern: '[0-2]?[0-9]:[0-5][0-9]'
     initial: '08:00'
   stairs_ambient_off_time:
     name: Stairs auto-off
     pattern: '[0-2]?[0-9]:[0-5][0-9]'
     initial: '21:00'
+
 input_select:
   scene_home:
     name: Scene
@@ -234,7 +262,10 @@ input_boolean:
     initial: on
   ambient_stair_spots:
     name: Lépcső hangulatvilágítás
-    
+  auto_cover_for_movie_scene:
+    name: Redőny le mozi kozben
+    initial: on
+
 camera:
   - platform: generic
     name: patvarcam

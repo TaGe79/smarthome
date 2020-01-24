@@ -1,11 +1,4 @@
 
-tamas_iphone:
-  hide_if_away: false
-  mac: 50:BC:96:C5:89:F4
-  name: Tamás
-  gravatar: tgergel@gmail.com
-  track: true
-
 dalma_iphone:
   hide_if_away: false
   mac: 70:3E:AC:16:7D:DC
@@ -69,10 +62,8 @@ bcec5de6b170:
   picture:
   track: false
 
-csilla_iphone:
+csillaphone:
   hide_if_away: false
-  icon:
-  mac: C4:98:80:9F:70:96
   name: Csilla
   gravatar: kanyocsilla@gmail.com
   track: true
@@ -112,8 +103,6 @@ c8d083b96c7b:
 
 tamasphone:
   hide_if_away: false
-  icon:
-  mac:
   name: Tamás iPhone-ja
   gravatar: tgergel@gmail.com
   track: true
@@ -126,14 +115,6 @@ tamasphone:
   picture:
   track: false
 
-csilla_iphoneja:
-  hide_if_away: false
-  icon:
-  mac:
-  name: Csilla iPhone-ja
-  picture:
-  track: true
-
 cc_21_19_00_15_bc:
   hide_if_away: false
   icon:
@@ -142,13 +123,11 @@ cc_21_19_00_15_bc:
   picture:
   track: false
 
-csongor_iphoneja:
-  hide_if_away: false
-  icon:
-  mac:
-  name: Csongor iPhone-ja
-  gravatar: csongor.gergely@icloud.com
-  track: true
+#csongor_iphone_ja:
+#  hide_if_away: false
+#  name: Csongor iPhone-ja
+#  gravatar: csongor.gergely@icloud.com
+#  track: true
 
 e4_e4_ab_77_8e_ea:
   hide_if_away: false
@@ -259,5 +238,117 @@ f4_60_e2_14_0c_26:
   icon:
   mac: 28:EF:01:91:72:FF
   name: 28 ef 01 91 72 ff
+  picture:
+  track: true
+
+5c_cf_7f_a2_c8_82:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:A2:C8:82
+  name: 5c cf 7f a2 c8 82
+  picture:
+  track: true
+
+60_30_d4_74_6f_c8:
+  hide_if_away: false
+  icon:
+  mac: 60:30:D4:74:6F:C8
+  name: 60 30 d4 74 6f c8
+  picture:
+  track: true
+
+a4_cf_12_76_05_70:
+  hide_if_away: false
+  icon:
+  mac: A4:CF:12:76:05:70
+  name: a4 cf 12 76 05 70
+  picture:
+  track: true
+
+d8_0b_9a_d6_eb_aa:
+  hide_if_away: false
+  icon:
+  mac: D8:0B:9A:D6:EB:AA
+  name: d8 0b 9a d6 eb aa
+  picture:
+  track: true
+
+04_b4_29_bf_6b_83:
+  hide_if_away: false
+  icon:
+  mac: 04:B4:29:BF:6B:83
+  name: 04 b4 29 bf 6b 83
+  picture:
+  track: true
+
+a4_cf_12_8e_79_84:
+  hide_if_away: false
+  icon:
+  mac: A4:CF:12:8E:79:84
+  name: a4 cf 12 8e 79 84
+  picture:
+  track: true
+
+08_f4_ab_99_db_29:
+  hide_if_away: false
+  icon:
+  mac: 08:F4:AB:99:DB:29
+  name: 08 f4 ab 99 db 29
+  picture:
+  track: true
+
+ec_fa_bc_58_8b_10:
+  hide_if_away: false
+  icon:
+  mac: EC:FA:BC:58:8B:10
+  name: ec fa bc 58 8b 10
+  picture:
+  track: true
+
+04_ed_33_63_cf_18:
+  hide_if_away: false
+  icon:
+  mac: 04:ED:33:63:CF:18
+  name: 04 ed 33 63 cf 18
+  picture:
+  track: true
+
+50_bc_96_c5_89_f4:
+  hide_if_away: false
+  icon:
+  mac: 50:BC:96:C5:89:F4
+  name: 50 bc 96 c5 89 f4
+  picture:
+  track: true
+
+c4_98_80_9f_70_96:
+  hide_if_away: false
+  icon:
+  mac: C4:98:80:9F:70:96
+  name: c4 98 80 9f 70 96
+  picture:
+  track: true
+
+2c_f0_a2_35_c0_46:
+  hide_if_away: false
+  icon:
+  mac: 2C:F0:A2:35:C0:46
+  name: 2c f0 a2 35 c0 46
+  picture:
+  track: true
+
+e4_e4_ab_0a_7c_75:
+  hide_if_away: false
+  icon:
+  mac: E4:E4:AB:0A:7C:75
+  name: e4 e4 ab 0a 7c 75
+  picture:
+  track: true
+
+96_53_96_aa_74_a6:
+  hide_if_away: false
+  icon:
+  mac: 96:53:96:AA:74:A6
+  name: 96 53 96 aa 74 a6
   picture:
   track: true

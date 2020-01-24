@@ -36,6 +36,14 @@ stair_ambient_brightness:
   initial: 20
   min: 0
   max: 100
+  
+kitchen_ambient_brightness:
+  name: kitchen_ambient_brightness
+  min: 10
+  max: 255
+  step: 1
+  initial: 60
+  
 kitchen_light_off_time_movie:
   name: kitech_light_off_time_movie
   initial: 1

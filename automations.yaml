@@ -46,7 +46,7 @@
     entity_id: sun.sun
     to: 'below_horizon'
   - platform: template
-    value_template: '{{ states.sensor.lightlevel_7.state | int < states.input_number.ambient_on_below_lux.state | int }}'
+    value_template: '{{ states.sensor.kitchen_new.state | int < states.input_number.ambient_on_below_lux.state | int }}'
   - platform: state
     entity_id: input_number.livingroom_ambient_brightness
   - platform: state
@@ -63,7 +63,7 @@
   alias: Automatic ambient lights out
   trigger:
   - platform: template
-    value_template: '{{ states.sensor.lightlevel_7.state | int > states.input_number.ambient_off_above_lux.state | int }}'
+    value_template: '{{ states.sensor.kitchen_new.state | int > states.input_number.ambient_off_above_lux.state | int }}'
   condition:
     condition: and 
     conditions:
@@ -99,7 +99,7 @@
       state: 'on'
   action:
   - service: light.turn_off
-    entity_id: light.stairs
+    entity_id: light.stairs_3
 
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------
@@ -159,10 +159,8 @@
       entity_id: light.livingroom_wall
       brightness: 160
       rgb_color: [255,63,0]
-  - service: switch.turn_on
-    entity_id: switch.ro2_l_r2_1
-  - service: switch.turn_on
-    entity_id: switch.ro1_l_r2_2
+  - service: script.turn_on
+    entity_id: script.movie_cover_close
   - service: media_player.turn_on
     entity_id: media_player.home_theater
   - service: media_player.select_source
@@ -216,17 +214,25 @@
     condition: and
     conditions:
       - condition: state
-        entity_id: input_select.scene_home
-        state: General
+        entity_id: media_player.home_theater
+        state: 'off'
       - condition: time
         after: '22:00:00'
         before: '06:00:00'
       - condition: state
         entity_id: 'group.csalad'
         state: 'home'
+      - condition: state
+        entity_id: binary_sensor.ep1
+        state: 'off'
+        for:
+          minutes: 10
+      - condition: state
+        entity_id: binary_sensor.kitchen_new
+        state: 'off'
+        for:
+          minutes: 10
   action:
-  - service: media_player.turn_off
-    entity_id: media_player.home_theater
   - service: switch.turn_off
     entity_id: group.kitchen
   - service:  switch.turn_off
@@ -321,11 +327,13 @@
   trigger: 
   - platform: sun
     event: 'sunrise'
+  - platform: template
+    value_template: '{{ states.input_text.general_scene_time.state == states.sensor.time.state }}'
   condition:
     condition: and
     conditions:
     - condition: template
-      value_template: '{{ states.input_select.scene_home.state == "WakeUp" }}'
+      value_template: '{{ states.input_select.scene_home.state != "General" }}'
     - condition: state
       entity_id: 'group.csalad'
       state: 'home'
@@ -342,11 +350,11 @@
 # -----------------------------------------------------------------------  
 # S L E E P Y   M O V I N G
 # -----------------------------------------------------------------------
-- id: sleepy_home_walking_bedroom_floor
-  alias: Alvajárók a WC-re
+- id: sleepy_home_lights_on
+  alias: Esti vilagitas
   trigger:
   - platform: state
-    entity_id: binary_sensor.tradfri_motion_sensor
+    entity_id: binary_sensor.folyoso_motion
     from: 'off'
     to: 'on'  
   - platform: state
@@ -362,7 +370,11 @@
     from: 'off'
     to: 'on'
   - platform: state
-    entity_id: binary_sensor.presence_16
+    entity_id: binary_sensor.kitchen_new
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.kitchen_new_2
     from: 'off'
     to: 'on'
   condition:
@@ -381,12 +393,17 @@
       entity_id: light.livingroom_wall
       brightness: 60
       rgb_color: [255,255,0]
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_desk
+      brightness: 60
+      rgb_color: [255,255,0]
   - service: timer.start
     entity_id: timer.timer_sleepy_light_off
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------      
 - id: sleepy_home_light_off
-  alias: Alvajárok lámpa kikapcs
+  alias: Esti vilagitas kikapcs
   trigger:
   - platform: event
     event_type: timer.finished
@@ -394,7 +411,7 @@
       entity_id: timer.timer_sleepy_light_off
   condition:
   - condition: state
-    entity_id: binary_sensor.presence_16
+    entity_id: binary_sensor.kitchen_new
     state: 'off'
   action:
   - service: light.turn_off
@@ -405,6 +422,8 @@
     entity_id: light.stairs_1
   - service: light.turn_off
     entity_id: light.stairs_2
+  - service: light.turn_off
+    entity_id: light.kitchen_desk
     
 - id: sleepy_home_light_keep_on
   alias: Alvajárok lámpa még mozog
@@ -415,7 +434,7 @@
       entity_id: timer.timer_sleepy_light_off
   condition:
   - condition: state
-    entity_id: binary_sensor.presence_16
+    entity_id: binary_sensor.kitchen_new
     state: 'on'
   action:
   - service: timer.start
@@ -470,21 +489,18 @@
   alias: Konyhapult világítás mozi közben
   initial_state: 'on'
   trigger:
-  - entity_id: binary_sensor.presence_5
+  - entity_id: binary_sensor.kitchen_desk_motion
     platform: state
     to: 'on'
   condition:
-  - condition: state
-    entity_id: light.kitchen
-    state: 'off'
   - condition: template
     value_template: '{{ states.input_select.scene_home.state == "Movie" }}'
   action:
 #  - service: rest_command.konyhapult_movie_on
   - service: light.turn_on
     data:
-      entity_id: light.kitchen
-      brightness: 100
+      entity_id: light.kitchen_desk
+      brightness: 150
       rgb_color: [100,100,255]
   - service: timer.start
     entity_id: timer.timer_konyhapult_off
@@ -496,12 +512,12 @@
   alias: Konyhapult világítás este
   initial_state: 'on'
   trigger:
-  - entity_id: binary_sensor.presence_5
+  - entity_id: binary_sensor.kitchen_desk_motion
     platform: state
     to: 'on'
   condition:
   - condition: state
-    entity_id: light.kitchen
+    entity_id: light.kitchen_desk
     state: 'off'
   - condition: template
     value_template: '{{ states.input_select.scene_home.state == "Sleepy" }}'
@@ -509,7 +525,7 @@
 #  - service: rest_command.konyhapult_sleepy_on
   - service: light.turn_on
     data:
-      entity_id: light.kitchen
+      entity_id: light.kitchen_desk
       brightness: 100
       rgb_color: [255,255,255]
   - service: timer.start
@@ -524,21 +540,21 @@
   alias: Konyhapult világítás világosban
   initial_state: 'on'
   trigger:
-  - entity_id: binary_sensor.presence_5
+  - entity_id: binary_sensor.kitchen_desk_motion
     platform: state
     to: 'on'  
   condition:
     condition: and
     conditions:
     - condition: template
-      value_template: '{{ states.input_select.scene_home.state == "General" }}'
+      value_template: '{{ states.input_select.scene_home.state == "General" or states.input_select.scene_home.state == "WakeUp" }}'
     - condition: numeric_state
-      entity_id: sensor.lightlevel_7
+      entity_id: sensor.kitchen_desk_motion_2
       above: 40
   action:
   - service: light.turn_on
     data:
-      entity_id: light.kitchen
+      entity_id: light.kitchen_desk
       brightness: 255
       rgb_color: [255,255,255]
   - service: timer.start
@@ -549,21 +565,21 @@
   alias: Konyhapult világítás sötétben
   initial_state: 'on'
   trigger:
-  - entity_id: binary_sensor.presence_5
+  - entity_id: binary_sensor.kitchen_desk_motion
     platform: state
     to: 'on'  
   condition:
     condition: and
     conditions:
     - condition: template
-      value_template: '{{ states.input_select.scene_home.state == "General" }}'
+      value_template: '{{ states.input_select.scene_home.state == "General" or states.input_select.scene_home.state == "WakeUp" }}'
     - condition: numeric_state
-      entity_id: sensor.lightlevel_7
+      entity_id: sensor.kitchen_desk_motion_2
       below: 40
   action:
   - service: light.turn_on
     data:
-      entity_id: light.kitchen
+      entity_id: light.kitchen_desk
       brightness: 255
       rgb_color: [255,255,255]
   - service: timer.start
@@ -574,6 +590,32 @@
 # -----------------------------------------------------------------------    
 - id: konyhapult_light_off
   alias: Konyhapult lekapcs
+  initial_state: 'on'
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.timer_konyhapult_off
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.livingroom_ceiling
+      state: 'off'
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state != "Sleepy" }}'
+  - condition: state
+    entity_id: light.kitchen_desk
+    state: 'on'
+  - condition: state
+    entity_id: binary_sensor.kitchen_desk_motion
+    state: 'off'
+  action:
+  - service: light.turn_off
+    entity_id: light.kitchen_desk
+    
+- id: konyhapult_ambient_light_off
+  alias: Konyhapult lekapcs
   initial_state: 'on'  
   trigger:
   - platform: event
@@ -582,14 +624,17 @@
       entity_id: timer.timer_konyhapult_off
   condition:
   - condition: state
-    entity_id: light.kitchen
+    entity_id: light.livingroom_ceiling
     state: 'on'
   - condition: state
-    entity_id: binary_sensor.presence_5
+    entity_id: light.kitchen_desk
+    state: 'on'
+  - condition: state
+    entity_id: binary_sensor.kitchen_desk_motion
     state: 'off'
   action:
-  - service: light.turn_off
-    entity_id: light.kitchen
+  - service: script.turn_on
+    entity_id: script.kitchen_light_ambient
     
 - id: konyhapult_light_still_on
   alias: Konyhapult egve marad
@@ -601,7 +646,10 @@
       entity_id: timer.timer_konyhapult_off
   condition:
   - condition: state
-    entity_id: light.kitchen
+    entity_id: light.kitchen_desk
+    state: 'on'  
+  - condition: state
+    entity_id: binary_sensor.kitchen_desk_motion
     state: 'on'
   action:
   - service: timer.start
@@ -781,8 +829,8 @@
     to: 'home'
   condition:  
   - condition: numeric_state
-    entity_id: sensor.lightlevel_18
-    below: 39
+    entity_id: sensor.kitchen_new_2
+    below: 30
   action:
   - service: switch.turn_on
     entity_id: group.downstairs
@@ -811,13 +859,13 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.tradfri_motion_sensor'
+    entity_id: 'binary_sensor.folyoso_motion'
     from: 'off'
     to: 'on'
   condition:
   - condition: numeric_state
-    entity_id: sensor.lightlevel_18
-    below: 10
+    entity_id: sensor.kitchen_new_2
+    below: 30
   - condition: template
     value_template: '{{ states.input_select.scene_home.state == "General" }}'
   - condition: time
@@ -827,7 +875,7 @@
   - service: light.turn_on
     data:
       entity_id: light.foyer
-      brightness: 255
+      brightness: 160
       kelvin: 2700
   - service: timer.start
     entity_id: timer.timer_halo_folyoso_ki
@@ -853,7 +901,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.openclose_9'
+    entity_id: 'binary_sensor.bedroom_window'
     from: 'off'
     to: 'on'
   action:
@@ -868,7 +916,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.openclose_9'
+    entity_id: 'binary_sensor.bedroom_window'
     from: 'on'
     to: 'off'
   action:
@@ -913,7 +961,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.openclose_15'
+    entity_id: 'binary_sensor.bathroom_big_window'
     from: 'off'
     to: 'on'
   action:
@@ -928,7 +976,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.openclose_15'
+    entity_id: 'binary_sensor.bathroom_big_window'
     from: 'on'
     to: 'off'
   action:
@@ -951,7 +999,7 @@
   condition:
   - condition: state
     entity_id: input_boolean.summer_heat_mode
-    state: 'off'      
+    state: 'off'
   action:
   - service: notify.csilla_tamas_phone
     data:
@@ -973,7 +1021,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.openclose_11'
+    entity_id: 'binary_sensor.bathroom_small_window'
     from: 'off'
     to: 'on'
   action:
@@ -988,7 +1036,7 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'binary_sensor.openclose_11'
+    entity_id: 'binary_sensor.bathroom_small_window'
     from: 'on'
     to: 'off'
   action:
@@ -1033,11 +1081,11 @@
   initial_state: 'on'
   trigger:
   - platform: state
-    entity_id: 'device_tracker.csilla_iphoneja'
+    entity_id: 'device_tracker.csilla_iphone_ja'
     from: 'not_home'
     to: 'home'
   - platform: state
-    entity_id: 'device_tracker.csongor_iphoneja'
+    entity_id: 'device_tracker.csongor_iphone_ja'
     from: 'not_home'
     to: 'home'
   - platform: state
@@ -1046,7 +1094,7 @@
     to: 'home'
   condition:  
   - condition: state
-    entity_id: device_tracker.tamas_iphone
+    entity_id: device_tracker.iphone_von_tamas
     state: 'not_home'
   action:
   - service: notify.tamas

@@ -30,16 +30,17 @@ csalad:
     icon: mdi:account-group
     control: hidden
     entities:
-      - device_tracker.csilla_iphoneja
+      - device_tracker.csilla_iphone_ja
       - device_tracker.dalma_iphone
-      - device_tracker.csongor_iphoneja
-      - device_tracker.tamasphone
+      - device_tracker.csongor_iphone_ja
+      - device_tracker.iphone_von_tamas
 
 downstairs:
     name: Also szint
     entities:
       - group.kitchen
       - group.living_room
+      - group.ambient_lights
 
 kitchen:
     name: Konyha    
@@ -55,26 +56,20 @@ living_room:
       - switch.nl2_r1_2
       - switch.nl3_r1_3
 
-#redonyok:
-#    view: true
-#    icon: mdi:view-sequential
-#    entities:
-#      - switch.ro1_lr2_2
-#      - switch.ro1_fr2_4
-#      - switch.ro2_lr2_1
-#      - switch.ro2_fr2_3
-redony:
-    view: true
-    icon: mdi:brightness-6
-    name: Redőnyök
-    control: hidden
+ambient_lights:
+    name: Ambient
     entities:
-      - script.kitchen_schutter_up
-      - script.kitchen_schutter_stop
-      - script.kitchen_schutter_down
-      - script.livingroom_schutter_up
-      - script.livingroom_schutter_stop
-      - script.livingroom_schutter_down
+      - light.livingroom_ceiling
+      - light.livingroom_wall
+      - group.stairs
+      - light.kitchen_desk
+
+stairs:
+    name: Lepcso
+    entities:
+      - light.stairs_1
+      - light.stairs_2
+
 scenes:
     view: true
     icon: mdi:home-circle
@@ -94,12 +89,9 @@ sensors:
       - binary_sensor.ep1
       - binary_sensor.np1
       - binary_sensor.np2
-      - binary_sensor.presence_2_2
-      - binary_sensor.halofoyosopir
-      - binary_sensor.vpir_konyha_mootion
-      - sensor.lightlevel_6
-      - sensor.temperature_3_2
-      - sensor.fsm_state_konyha_mootion
+      - binary_sensor.presence_16
+      - binary_sensor.tradfri_motion_sensor
+      - binary_sensor.presence_5
 
 automata_lampak:
     view: true
@@ -112,3 +104,10 @@ automata_lampak:
       - automation.np1_lights_off
       - automation.np2_lights_on
       - automation.np2_lights_off
+
+bathroom_windows:
+  name: Furdo ablakok
+  control: hidden
+  entities:
+    - binary_sensor.openclose_15
+    - binary_sensor.openclose_11
