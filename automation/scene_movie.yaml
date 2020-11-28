@@ -1,0 +1,97 @@
+- id: scene_movie_media
+  alias: Scene Movie on Mediaplayer
+  trigger:
+  - platform: state
+    entity_id: media_player.home_theater
+    to: 'on'
+    for:
+      seconds: 10
+  - platform: template
+    value_template: '{{ state_attr(''media_player.home_theater'', ''source'') == ''DVD''
+      }}'
+    for:
+      seconds: 10
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ state_attr(''media_player.home_theater'', ''source'') == ''DVD'' }}'
+    - condition: time
+      after: '17:00'
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: Movie
+
+- id: scene_movie
+  alias: Scene Movie
+  trigger:
+  - platform: state
+    entity_id: input_select.scene_home
+    to: Movie
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: group.csalad
+      state: home
+  action:
+  - service: switch.turn_off
+    entity_id: group.kitchen
+  - service: switch.turn_off
+    entity_id: group.living_room
+  - service: automation.turn_off
+    entity_id: group.automata_lampak
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_ceiling
+      brightness: 160
+      rgb_color:
+      - 255
+      - 63
+      - 0
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_wall
+      brightness: 160
+      rgb_color:
+      - 255
+      - 63
+      - 0
+  - service: script.turn_on
+    entity_id: script.movie_cover_close
+  - service: media_player.turn_on
+    entity_id: media_player.home_theater
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.home_theater
+      source: DVD
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.home_theater
+      volume_level: 0.62
+- id: konyhapult_movie_light_on
+  alias: Konyhapult világítás mozi közben
+  trigger:
+  - entity_id: binary_sensor.kitchen_desk_motion
+    platform: state
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ states.input_select.scene_home.state == "Movie" }}'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_desk
+      brightness: 255
+      rgb_color:
+      - 200
+      - 150
+      - 100

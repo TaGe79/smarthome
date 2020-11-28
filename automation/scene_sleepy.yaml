@@ -1,0 +1,123 @@
+- id: scene_sleepy_home
+  alias: Scene Sleepy Home
+  trigger:
+  - platform: state
+    entity_id: input_select.scene_home
+    to: Sleepy
+  - platform: state
+    entity_id: media_player.home_theater
+    from: 'on'
+    to: 'off'
+  - platform: template
+    value_template: '{{ state_attr("input_datetime.sleep_time", "timestamp") | int | timestamp_custom("%H:%M", True) == states.sensor.time.state }}'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: media_player.home_theater
+      state: 'off'
+    - condition: time
+      after: '22:00:00'
+      before: 06:00:00
+    - condition: state
+      entity_id: group.csalad
+      state: home
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: Sleepy
+  - service: switch.turn_off
+    entity_id: group.downstairs
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_ceiling
+      brightness: 60
+      rgb_color:
+      - 255
+      - 255
+      - 0
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_wall
+      brightness: 60
+      rgb_color:
+      - 255
+      - 255
+      - 0
+- id: sleepy_home_lights_on
+  alias: Esti vilagitas
+  trigger:
+  - platform: state
+    entity_id: group.downstairs_movement
+    from: 'off'
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state == "Sleepy" }}'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_ceiling
+      brightness: 60
+      rgb_color:
+      - 255
+      - 255
+      - 0
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_wall
+      brightness: 60
+      rgb_color:
+      - 255
+      - 255
+      - 0
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_desk
+      brightness: 60
+      rgb_color:
+      - 255
+      - 255
+      - 0
+- id: sleepy_home_lights_off
+  alias: Esti vilagitas lekapcs
+  trigger:
+  - entity_id: group.downstairs_movement
+    for:
+      seconds: '{{ states.input_number.sleepy_home_lights_on_time.state | int }}'
+    platform: state
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: '{{ states.input_select.scene_home.state == "Sleepy" }}'
+  action:
+    - service: script.turn_on
+      entity_id: script.downstairs_lights_off
+  # - entity_id: group.downstairs
+  #   service: switch.turn_off
+
+- id: konyhapult_sleepy_light_on
+  alias: Konyhapult világítás este
+  initial_state: 'on'
+  trigger:
+  - entity_id: binary_sensor.kitchen_desk_motion
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.kitchen_desk
+    state: 'off'
+  - condition: template
+    value_template: '{{ states.input_select.scene_home.state == "Sleepy" }}'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_desk
+      brightness: 100
+      rgb_color:
+      - 255
+      - 255
+      - 255

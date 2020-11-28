@@ -1,0 +1,194 @@
+- id: bathroom_automatic_lights_on
+  alias: furdo_automata_vilagitas_bekapcs
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.presence_20
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    # - condition: state
+    #   entity_id: switch.smart_plug_12
+    #   state: 'off'
+    - condition: state
+      entity_id: switch.smart_plug_13
+      state: 'off'
+    - condition: time
+      after: '16:00:00'
+      before: '08:00:00'
+  action:
+  # - service: switch.turn_on
+  #   data:
+  #     entity_id: switch.smart_plug_12
+  - service: switch.turn_on
+    data:
+      entity_id: switch.smart_plug_13
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.automatic_bathroom_lights
+
+- id: bathroom_automatic_lights_off
+  alias: furdo_automata_vilagitas_kikapcs
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.presence_20
+    to: 'off'
+    for:
+      seconds: 30
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.automatic_bathroom_lights
+      state: 'on'
+  action:
+  # - service: switch.turn_off
+  #   data:
+  #     entity_id: switch.smart_plug_12
+  - service: switch.turn_off
+    data:
+      entity_id: switch.smart_plug_13
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.automatic_bathroom_lights
+
+- id: scene_general_early_activation
+  alias: General Scene reggel
+  trigger:
+  - platform: sun
+    event: sunrise
+  - platform: template
+    value_template: '{{ state_attr("input_datetime.general_scene_time", "timestamp") | int | timestamp_custom("%H:%M", True) == states.sensor.time.state }}'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state != "General" }}'
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state != "Working" }}'
+    - condition: state
+      entity_id: group.csalad
+      state: home
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: General
+  - service: switch.turn_on
+    data:
+      entity_id: group.downstairs_covers_up
+
+- id: somebody_came_home
+  alias: valaki hazajott uzenet
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: device_tracker.csilla_iphone_ja
+    from: not_home
+    to: home
+  - platform: state
+    entity_id: device_tracker.csongor_iphone_ja
+    from: not_home
+    to: home
+  - platform: state
+    entity_id: device_tracker.dalma_iphoneja
+    from: not_home
+    to: home
+  condition:
+  - condition: state
+    entity_id: device_tracker.iphone_von_tamas
+    state: not_home
+  action:
+  - service: notify.tamas
+    data:
+      title: C S A L Á D
+      message: Valaki hazaért
+      data:
+        push:
+          sound: US-EN-Morgan-Freeman-Welcome-Home.wav
+          badge: 5
+- id: summer_heat_mode
+  alias: Nyári kánikula mód
+  initial_state: 'on'
+  trigger:
+  - platform: time_pattern
+    minutes: /50
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.dark_sky_temperature
+    above: 24
+  - condition: numeric_state
+    entity_id: sensor.dark_sky_wind_speed
+    below: 10
+  action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.summer_heat_mode
+- id: summer_heat_mode_off
+  alias: Nyári kánikula mód - kikapcs
+  initial_state: 'on'
+  trigger:
+  - platform: time_pattern
+    minutes: /50
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.dark_sky_daytime_high_temperature_1d
+    below: 22
+  - condition: numeric_state
+    entity_id: sensor.dark_sky_wind_speed
+    above: 10
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.summer_heat_mode
+    
+- id: camera_ride_motion_notification
+  alias: Mozgas a haz elott
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_drive
+    to: 'on'
+  action:
+  - service: shell_command.publish_last_camera_image
+
+- id: fkf_kukat_kirakni_notification
+  alias: 'Tedd ki a szemetet'
+  trigger:
+    - platform: time
+      at: '18:00:00'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: sensor.fkf_my_schedule
+      state: '1'
+  action:
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ is_state_attr('sensor.fkf_my_schedule', 'garbage0', 'communal') }}"
+          sequence:
+            - service: notify.csilla_tamas_phone
+              data:
+                title: 'Tedd ki a szemetet!'
+                message: 'A kommunális 🗑 ma ki kell tolni.'
+                data:
+                  channel: Kuka
+                  clickAction: /lovelace/default_view
+        - conditions:
+            - condition: template
+              value_template: "{{ is_state_attr('sensor.fkf_my_schedule', 'garbage0', 'selective') }}"
+          sequence:
+            - service: notify.csilla_tamas_phone
+              data:
+                title: 'Tedd ki a szemetet!'
+                message: 'A szelektív 🗑 ma ki kell tolni.'
+                data:
+                  channel: Kuka
+                  clickAction: /lovelace/default_view
+      default:
+        - service: notify.csilla_tamas_phone
+          data:
+            title: 'Tedd ki a szemetet!'
+            message: 'Az összes 🗑 ki kell ma tolni.'
+            data:
+              channel: Kuka
+              clickAction: /lovelace/default_view

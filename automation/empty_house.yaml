@@ -1,0 +1,40 @@
+- id: noone_at_home
+  alias: Üres a ház
+  trigger:
+  - platform: state
+    entity_id: group.csalad
+    from: home
+    to: not_home
+  action:
+  - service: switch.turn_off
+    entity_id: group.downstairs
+  - service: light.turn_off
+    entity_id: group.all_lights
+- id: valaki_megjott
+  alias: Valaki hazajött
+  trigger:
+  - platform: state
+    entity_id: group.csalad
+    from: not_home
+    to: home
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.kitchen_new_2
+    below: 30
+  action:
+  - service: switch.turn_on
+    entity_id: group.downstairs
+  - service: timer.start
+    entity_id: timer.timer_welcome_home
+- id: valaki_megjott_off
+  alias: Valaki hazajött kikapcs
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      event_id: timer.timer_welcome_home
+  action:
+  - service: switch.turn_off
+    entity_id: group.downstairs
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.scene_general_on

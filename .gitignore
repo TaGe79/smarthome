@@ -6,3 +6,6 @@ home-assistant.log
 .uuid
 .storage
 __pycache__
+custom_components
+www/camera1
+www/img

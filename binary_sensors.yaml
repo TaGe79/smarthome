@@ -3,7 +3,7 @@
       12: EP1
       22: NP1
       27: NP2
-      
+
   - platform: rest
     resource: http://192.168.0.126:8083/ZAutomation/api/v1/devices/ZWayVDev_zway_2-0-113-6-Door-A
     name: Teraszajto
@@ -19,3 +19,10 @@
     password: !secret zwave_password
     authentication: basic
     value_template: '{{ value_json.data.metrics.level }}'
+
+  - platform: mqtt
+    name: "motion (drive)"
+    state_topic: "cameras/motion/drive"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: "motion"

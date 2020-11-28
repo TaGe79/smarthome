@@ -1,26 +1,10 @@
-timer_ep1_lights:
-  duration: '00:01:45'
-timer_np1_lights:
-  duration: '00:01:45'
-timer_np2_lights:
-  duration: '00:00:45'
 timer_halo_folyoso_ki:
   duration: '00:00:30'
 timer_welcome_home:
   duration: '00:02:00'
-timer_sleepy_light_off:
-  duration: '00:00:30'
-timer_konyhapult_movie_off:
-  duration: '00:00:30'
-timer_konyhapult_off:
-  duration: '00:01:30'
-timer_furdo_ablak_nyitva:
-  duration: '00:10:00'
-timer_furdo_nagyablak_nyitva:
-  duration: '00:10:00'
-timer_halo_ablak_nyitva:
-  duration: '00:10:00'
-livingroom_shutter:
-  duration: '00:00:40'
-kitchen_shutter:
-  duration: '00:00:40'
+# timer_furdo_ablak_nyitva:
+#   duration: '00:10:00'
+# timer_furdo_nagyablak_nyitva:
+#   duration: '00:10:00'
+# timer_halo_ablak_nyitva:
+#   duration: '00:10:00'

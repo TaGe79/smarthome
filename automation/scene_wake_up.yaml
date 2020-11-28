@@ -1,0 +1,64 @@
+- id: scene_weak_up_family
+  alias: Wake Up everybody
+  trigger:
+  - platform: template
+    value_template: '{{ state_attr("input_datetime.wake_up_time", "timestamp") | int | timestamp_custom("%H:%M", True) == states.sensor.time.state }}'
+  - platform: state
+    entity_id: input_select.scene_home
+    to: WakeUp
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    - condition: state
+      entity_id: group.csalad
+      state: home
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: WakeUp
+  - service: script.turn_on
+    entity_id: script.morning_cover_open
+
+- id: wakeup_lights
+  trigger:
+  - platform: state
+    entity_id: group.downstairs_movement
+    from: 'off'
+    to: 'on'  
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state == ''WakeUp''}}'
+    - condition: template  
+      value_template: '{{ states.sensor.kitchen_new.state | int < states.input_number.ambient_on_below_lux.state
+      | int }}'
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.stairs
+      brightness: 60
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_ceiling
+      brightness: 100
+      rgb_color:
+      - 50
+      - 255
+      - 255
+  - service: light.turn_on
+    data:
+      entity_id: light.livingroom_wall
+      brightness: 100
+      rgb_color:
+      - 50
+      - 255
+      - 255

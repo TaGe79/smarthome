@@ -1,13 +1,25 @@
+  person.tamas:
+    entity_picture: 'https://www.gravatar.com/avatar/5f2a22f25decb15ade5bcf9bfb3fcbfd.jpg?s=80&d=wavatar'
+
+  person.csilla:
+    entity_picture: 'https://www.gravatar.com/avatar/9780c71ae3628178826ae2c854ca79a8.jpg?s=80&d=wavatar'
+
+  person.dalma:
+    entity_picture: 'https://www.gravatar.com/avatar/aefe085aed7e9f09e6f89108189ff4ac.jpg?s=80&d=wavatar'
+
+  person.csongor:
+    entity_picture: 'https://www.gravatar.com/avatar/dbcf6d5d5e19a43d156ba30b253adb62.jpg?s=80&d=wavatar'
+    
+  person.luca:
+    entity_picture: 'https://www.gravatar.com/avatar/2be5596d218828a12710ad14d72cdaab.jpg?s=80&d=wavatar'
+
   sensor.dark_sky_summary:
     hidden: false
 
   sensor.dark_sky_temperature:
     hidden: false
-    
+
   input_number.kitchen_shutter_state:
-    hidden: true
-    
-  input_number.livingroom_shutter_state:
     hidden: true
 
   binary_sensor.teraszajto:
@@ -48,15 +60,15 @@
   switch.ro2_lr2_1:
     hidden: false
     friendly_name: Konyha-Le
-  
-  switch.ro2_fr2_3:  
+
+  switch.ro2_fr2_3:
     hidden: false
     friendly_name: Konyha-Fel
 
   switch.ro1_fr2_4:
     hidden: false
     friendly_name: Nappali-Fel
-  
+
   switch.ro1_lr2_2:
-    hidden: false  
+    hidden: false
     friendly_name: Nappali-Le

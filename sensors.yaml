@@ -2,7 +2,7 @@
     display_options:
       - 'time'
       - 'date'
-      
+
   - platform: darksky
     api_key: c9d28654f52c0edfe1d214efdc4c0c79
     language: hu
@@ -47,6 +47,19 @@
         unit_of_measurement: "MB"
         value_template: "{{ states('sensor.wireless_broadband_router_bytes_received')|float / (1024*1024) | round(2) }}"
 
+  - platform: template
+    sensors:
+      low_battery:
+        friendly_name: "Low Battery"
+        value_template: >
+          {%- set threshold = 30 -%}
+          {%- set domains = ['light', 'switch', 'sensor', 'zwave'] -%}
+          {%- for domain in domains -%}
+            {%- for item in states[domain] if ((item.attributes.battery_level is defined and item.attributes['battery_level'] | int < threshold) or ("battery" in item.name | lower and ((item.state | int < threshold and item.state|int != 0) or item.state | lower == "low" or item.state | lower == "unknown"))) -%}
+                {{ item.attributes.friendly_name }}{%- if not loop.last %}, {% endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+
   - platform: history_stats
     name: downstairs_lamps_daily_stat
     entity_id: group.downstairs
@@ -78,7 +91,7 @@
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
     end: '{{ now() }}'
-    
+
   - platform: history_stats
     name: stairs_lights_daily_stats
     entity_id: light.stairs_3
@@ -94,3 +107,13 @@
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
     end: '{{ now() }}'
+
+  - platform: fkf_garbage_collection
+    name: 'fkf_my_schedule'
+    zipcode: '1116'
+    publicplace: 'Patvar utca'
+    housenr: '4'
+
+  - platform: fvm_vizminoseg
+
+  - platform: mitemp_bt

@@ -3,16 +3,13 @@ livingroom_ambient_brightness:
   min: 10
   max: 255
   step: 1
-  initial: 160
 furdo_szelloztetesi_ido:
   name: furdo_szelloztetesi_ido
-  initial: 10
   min: 5
   max: 60
   step: 1
 halo_szelloztetesi_ido:
   name: halo_szelloztetesi_ido
-  initial: 10
   min: 5
   max: 60
   step: 1
@@ -33,37 +30,97 @@ ambient_off_above_lux:
   max: 60
 stair_ambient_brightness:
   name: Lépcső hangulatvilágítás
-  initial: 20
   min: 0
   max: 100
-  
+
 kitchen_ambient_brightness:
   name: kitchen_ambient_brightness
   min: 10
   max: 255
   step: 1
   initial: 60
-  
+
+automatic_light_level:
+  name: automatic_light_level
+  min: 0
+  max: 300
+  step: 1
+
+automatic_kitchen_lights_off_time:
+  name: automatic_kitchen_lights_off_time
+  min: 120
+  max: 600
+
+automatic_livingroom_lights_off_time:
+  name: automatic_livingroom_lights_off_time
+  min: 120
+  max: 600
+
 kitchen_light_off_time_movie:
-  name: kitech_light_off_time_movie
-  initial: 1
-  min: 1
-  max: 5
- 
+  name: kitech_light_off_time_movie1
+  min: 30
+  max: 300
+
 kitchen_light_off_time_daylight:
   name: kitchen_light_off_time_daylight
-  initial: 1
-  min: 1
-  max: 5
-  
+  min: 30
+  max: 300
+
 kitchen_light_off_time_dark:
   name: kitchen_light_off_time_dark
-  initial: 3
-  min: 1
-  max: 5
-  
+  min: 30
+  max: 300
+
 kitchen_light_off_time_sleepy:
   name: kitech_light_off_time_sleepy
-  initial: 1
-  min: 1
-  max: 3
+  min: 30
+  max: 300
+
+sleepy_home_lights_on_time:
+  name: sleepy_home_lights_on_time
+  min: 15
+  max: 120
+
+shutter_sidewall_move_time:
+  min: 0
+  max: 25
+  icon: mdi:clock
+shutter_livingroom_move_time:
+  min: 0
+  max: 42
+  icon: mdi:clock
+shutter_kitchen_move_time:
+  min: 0
+  max: 42
+  icon: mdi:clock
+
+shutter_sidewall_move_time_up:
+  min: 0
+  max: 25
+  icon: mdi:clock
+shutter_livingroom_move_time_up:
+  min: 0
+  max: 42
+  icon: mdi:clock
+shutter_kitchen_move_time_up:
+  min: 0
+  max: 42
+  icon: mdi:clock
+
+shutter_sidewall_manual_pos:
+  name: shutter_sidewall_manual_pos
+  min: 0
+  max: 25
+  mode: slider
+shutter_sidewall_pos:
+  name: shutter_sidewall_pos
+  min: 0
+  max: 25
+shutter_livingroom_pos:
+  name: shutter_livingroom_pos
+  min: 0
+  max: 42
+shutter_kitchen_pos:
+  name: shutter_kitchen_pos
+  min: 0
+  max: 42

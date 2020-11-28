@@ -1,0 +1,72 @@
+- id: konyhapult_light_on
+  alias: Konyhapult világítás világosban
+  initial_state: 'on'
+  trigger:
+  - entity_id: binary_sensor.kitchen_desk_motion
+    platform: state
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state != "Sleepy" or states.input_select.scene_home.state
+        != "Movie" }}'
+    - condition: numeric_state
+      entity_id: sensor.kitchen_desk_motion_2
+      above: 40
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_desk
+      brightness: 255
+      rgb_color:
+      - 255
+      - 255
+      - 255
+- id: konyhapult_light_dark_on
+  alias: Konyhapult világítás sötétben
+  initial_state: 'on'
+  trigger:
+  - entity_id: binary_sensor.kitchen_desk_motion
+    platform: state
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state != "Sleepy" or states.input_select.scene_home.state
+        != "Movie" }}'
+    - condition: numeric_state
+      entity_id: sensor.kitchen_desk_motion_2
+      below: 40
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_desk
+      brightness: 255
+      rgb_color:
+      - 255
+      - 255
+      - 255
+- id: kitchen_desk_motion_based_off
+  initial_state: 'on'
+  alias: Konyhapult lekapcs mozgas
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.kitchen_desk_motion
+    to: 'off'
+    for:
+      seconds: "{% if states.input_select.scene_home.state != \"Sleepy\" and states.initial_state.scene_home.state\
+        \ != \"Movie\" -%}\n  {% if states.sensor.kitchen_desk_motion_2.state | int\
+        \ > 40 -%}\n   {{ states('input_number.kitchen_light_off_time_daylight') |\
+        \ int }}\n  {%- else -%}\n   {{ states('input_number.kitchen_light_off_time_dark')\
+        \ | int }}\n  {%- endif %}\n{%- elif states.input_select.scene_home.state\
+        \ == \"Sleepy\" -%}\n  {{ states('input_number.kitchen_light_off_time_sleepy')\
+        \ | int }}\n{%- else -%}\n  {{ states('input_number.kitchen_light_off_time_movie')\
+        \ | int }}\n{%- endif %}\n"
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: "{% if states.light.livingroom_ceiling.state == 'off' or states.input_select.scene_home.state\
+        \ == \"Sleepy\" -%}\n  script.kitchen_light_off\n{%- else -%}\n  script.kitchen_light_ambient\n\
+        {%- endif %}\n"

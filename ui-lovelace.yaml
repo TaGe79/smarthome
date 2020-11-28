@@ -1,16 +1,10 @@
-resources:
-  - url: /local/shutter.js
-    type: js
-  - url: /local/mini-graph-card-bundle.js?v=0.8.2
-    type: module
-  - url: /local/button-card/button-card.js
-    type: module
 views:
-  - !include lovelace/main_view.yaml
   - !include lovelace/mobile_view.yaml
+  - !include lovelace/main_view.yaml
   - !include lovelace/lights_view.yaml
   - !include lovelace/state_view.yaml
-  
+  - !include lovelace/camera_view.yaml
+  - !include lovelace/plants.yaml
 #---------------------------------------------------------------------
 #- M E D I A
 #---------------------------------------------------------------------
@@ -18,9 +12,11 @@ views:
     path: media
     cards:
       - type: media-control
-        entity: media_player.home_theater_2
+        entity: media_player.home_theater
       - type: media-control
-        entity: media_player.wohnzimmer
+        entity: media_player.home_theater_heos
+      - type: media-control
+        entity: media_player.apple_tv_wohnzimmer
 #---------------------------------------------------------------------
 #- S C E N E N
 #---------------------------------------------------------------------
@@ -38,61 +34,79 @@ views:
   - title: Beállítások
     path: settings
     cards:
-     - type: entities
-       title: Szellöztetés
-       show_header_toggle: false
-       entities:
-         - entity: input_number.furdo_szelloztetesi_ido
-           name: Fürdő
-         - entity: input_number.halo_szelloztetesi_ido
-           name: Hálószoba
-     - type: entities
-       title: Időzítés
-       show_header_toggle: false
-       entities:
-         - type: section
-         - entity: input_text.wake_up_time
-           name: Ébredezés [hétköznap]
-         - entity: input_text.general_scene_time
-           name: Nappali mód
-         - entity: input_text.sleep_time
-           name: Elalvás
-         - type: section
-           label: Konyha [perc]
-         - entity: input_number.kitchen_light_off_time_movie
-           name: mozi közben
-         - entity: input_number.kitchen_light_off_time_daylight
-           name: nappal
-         - entity: input_number.kitchen_light_off_time_dark
-           name: sötétben
-         - entity: input_number.kitchen_light_off_time_sleepy
-           name: élyszaka
-     - type: entities
-       title: Hangulatvilágítás
-       show_header_toggle: false
-       entities:
-         - type: section
-           label: Automatikus kapcsolás [lux]
-         - entity: input_number.ambient_on_below_lux
-           name: bekapcsol
-         - entity: input_number.ambient_off_above_lux
-           name: kikapcsol
-         - type: section
-           label: Lépcső
-         - entity: input_boolean.ambient_stair_spots
-           name: automata
-         - entity: input_number.stair_ambient_brightness
-           name: fényerő
-         - entity: input_text.stairs_ambient_off_time
-           label: lekapcsolás
-         - type: section
-           label: Nappali
-         - entity: input_number.livingroom_ambient_brightness
-           name: fényerő
-     - type: entities
-       title: Egyéb
-       show_header_toggle: false
-       entities:
-         - entity: input_boolean.auto_ambiance_mode
-           name: Automatikus hangulatvilágítás
-         - entity: input_boolean.auto_cover_for_movie_scene
+    - type: entities
+      title: Szellöztetés
+      show_header_toggle: false
+      entities:
+        - entity: input_number.furdo_szelloztetesi_ido
+          name: Fürdő
+        - entity: input_number.halo_szelloztetesi_ido
+          name: Hálószoba
+    - type: entities
+      title: Időzítés
+      show_header_toggle: false
+      entities:
+        - type: section
+        - entity: input_datetime.wake_up_time
+          name: Ébredezés [hétköznap]
+        - entity: input_datetime.general_scene_time
+          name: Nappali mód
+        - entity: input_datetime.sleep_time
+          name: Elalvás
+        - type: section
+          label: Konyha [sec]
+        - entity: input_number.kitchen_light_off_time_movie
+          name: mozi közben
+        - entity: input_number.kitchen_light_off_time_daylight
+          name: nappal
+        - entity: input_number.kitchen_light_off_time_dark
+          name: sötétben
+        - entity: input_number.kitchen_light_off_time_sleepy
+          name: élyszaka
+        - type: section
+          label: Automata lámpák
+        - entity: input_number.automatic_light_level
+          name: Maximum fényerő
+        - entity: input_number.automatic_kitchen_lights_off_time
+          name: Étkező kikapcsolás [sec]
+        - entity: input_number.automatic_livingroom_lights_off_time
+          name: Nappali kikapcsolás
+        - type: section
+          label: Világítás élyszakai módban
+        - entity: input_number.sleepy_home_lights_on_time
+          name: bekapcsolva [sec]
+    - type: entities
+      title: Redonyok
+      show_header_toggle: false
+      entities:
+        - entity: input_number.shutter_sidewall_manual_pos
+          name: Ablak
+    - type: entities
+      title: Hangulatvilágítás
+      show_header_toggle: false
+      entities:
+        - type: section
+          label: Automatikus kapcsolás [lux]
+        - entity: input_number.ambient_on_below_lux
+          name: bekapcsol
+        - entity: input_number.ambient_off_above_lux
+          name: kikapcsol
+        - type: section
+          label: Lépcső
+        - entity: input_boolean.ambient_stair_spots
+          name: automata
+        - entity: input_number.stair_ambient_brightness
+          name: fényerő
+        - entity: input_datetime.stairs_ambient_off_time
+          label: lekapcsolás
+        - type: section
+          label: Nappali
+        - entity: input_number.livingroom_ambient_brightness
+          name: fényerő
+    - type: entities
+      title: Egyéb
+      show_header_toggle: false
+      entities:
+        - entity: input_boolean.auto_ambiance_mode
+          name: Automatikus hangulatvilágítás
+        - entity: input_boolean.auto_cover_for_movie_scene

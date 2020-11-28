@@ -1,0 +1,212 @@
+- id: halo_ablakot_bezarni
+  alias: Háló ablakot bzárni
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bedroom_window
+    to: 'on'
+    for:
+      minutes: 10
+  action:
+  - service: notify.csilla_tamas_phone
+    data:
+      title: A B L A K
+      message: Hálóban be kéne csukni az ablakot!
+      data:
+        push:
+          sound: US-EN-Daisy-Master-Bedroom-Window-Open.wav
+          badge: 1
+
+- id: furdo_ablakot_bezarni
+  alias: Fürdőszobában bezárni az ablakot
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bathroom_small_window
+    to: 'on'
+    for:
+      minutes: 10
+  action:
+  - service: notify.csilla_tamas_phone
+    data:
+      title: A B L A K
+      message: Fürdőben be kéne csukni az ablakot!
+      data:
+        push:
+          sound: US-EN-Daisy-Master-Bedroom-Window-Open.wav
+          badge: 1
+
+# - id: halo_ablak_nyitva
+#   alias: Háló ablak
+#   initial_state: 'on'
+#   trigger:
+#   - platform: state
+#     entity_id: binary_sensor.bedroom_window
+#     from: 'off'
+#     to: 'on'
+#   action:
+#   - service: timer.start
+#     entity_id: timer.timer_halo_ablak_nyitva
+#     data_template:
+#       duration: 00:{{ states("input_number.halo_szelloztetesi_ido") | int }}:00
+# - id: halo_ablak_bezarva
+#   alias: Halo ablakot bezartak
+#   initial_state: 'on'
+#   trigger:
+#   - platform: state
+#     entity_id: binary_sensor.bedroom_window
+#     from: 'on'
+#     to: 'off'
+#   action:
+#   - service: timer.cancel
+#     entity_id: timer.timer_halo_ablak_nyitva
+# - id: halo_szelloztetes_lejart
+#   alias: Háló szelloztetés vége
+#   trigger:
+#   - platform: event
+#     event_type: timer.finished
+#     event_data:
+#       entity_id: timer.timer_halo_ablak_nyitva
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.summer_heat_mode
+#     state: 'off'
+#   action:
+#   - service: notify.csilla_tamas_phone
+#     data:
+#       title: A B L A K
+#       message: Hálóban be kéne csukni az ablakot!
+#       data:
+#         push:
+#           sound: US-EN-Daisy-Master-Bedroom-Window-Open.wav
+#           badge: 1
+#   - service: timer.start
+#     entity_id: timer.timer_halo_ablak_nyitva
+#     data_template:
+#       duration: 00:{{ states("input_number.halo_szelloztetesi_ido") | int }}:00
+# - id: halo_szelloztetesi_ido_valtozik
+#   trigger:
+#   - platform: state
+#     entity_id: input_number.halo_szelloztetesi_ido
+#   condition:
+#   - condition: state
+#     entity_id: timer.timer_halo_ablak_nyitva
+#     state: active
+#   action:
+#   - service: timer.cancel
+#     entity_id: timer.timer_halo_ablak_nyitva
+#   - service: timer.start
+#     entity_id: timer.timer_halo_ablak_nyitva
+#     data_template:
+#       duration: 00:{{ states("input_number.halo_szelloztetesi_ido") | int }}:00
+# - id: furdo_kisablak_nyitva
+#   alias: Fürdö kisablak
+#   initial_state: 'on'
+#   trigger:
+#   - platform: state
+#     entity_id: binary_sensor.bathroom_big_window
+#     from: 'off'
+#     to: 'on'
+#   action:
+#   - service: timer.start
+#     entity_id: timer.timer_furdo_ablak_nyitva
+#     data_template:
+#       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
+# - id: furdo_kisablak_bezarva
+#   alias: Furdo kisablakot bezartak
+#   initial_state: 'on'
+#   trigger:
+#   - platform: state
+#     entity_id: binary_sensor.bathroom_big_window
+#     from: 'on'
+#     to: 'off'
+#   action:
+#   - service: timer.cancel
+#     entity_id: timer.timer_furdo_ablak_nyitva
+# - id: furdo_szelloztetes_lejart
+#   alias: Fürdö szelloztetés vége
+#   initial_state: 'on'
+#   trigger:
+#   - platform: event
+#     event_type: timer.finished
+#     event_data:
+#       entity_id: timer.timer_furdo_ablak_nyitva
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.summer_heat_mode
+#     state: 'off'
+#   action:
+#   - service: notify.csilla_tamas_phone
+#     data:
+#       title: A B L A K
+#       message: Fürdőszobában be kéne csukni a kicsi ablakot!
+#       data:
+#         push:
+#           sound: US-EN-Daisy-Master-Bedroom-Window-Open.wav
+#           badge: 1
+#   - service: timer.start
+#     entity_id: timer.timer_furdo_ablak_nyitva
+#     data_template:
+#       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
+# - id: furdo_nagyablak_nyitva
+#   alias: Fürdö nagyablak
+#   initial_state: 'on'
+#   trigger:
+#   - platform: state
+#     entity_id: binary_sensor.bathroom_small_window
+#     from: 'off'
+#     to: 'on'
+#   action:
+#   - service: timer.start
+#     entity_id: timer.timer_furdo_nagyablak_nyitva
+#     data_template:
+#       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
+# - id: furdo_nagyablak_bezarva
+#   alias: Furdo nagyablakot bezartak
+#   initial_state: 'on'
+#   trigger:
+#   - platform: state
+#     entity_id: binary_sensor.bathroom_small_window
+#     from: 'on'
+#     to: 'off'
+#   action:
+#   - service: timer.cancel
+#     entity_id: timer.timer_furdo_nagyablak_nyitva
+# - id: furdo_nagyszelloztetes_lejart
+#   alias: Fürdö nagy-szelloztetés vége
+#   initial_state: 'off'
+#   trigger:
+#   - platform: event
+#     event_type: timer.finished
+#     event_data:
+#       entity_id: timer.timer_furdo_nagyablak_nyitva
+#   condition:
+#   - condition: state
+#     entity_id: input_boolean.summer_heat_mode
+#     state: 'off'
+#   action:
+#   - service: notify.csilla_tamas_phone
+#     data:
+#       title: A B L A K
+#       message: Fürdőszobában be kéne csukni a nagy ablakot!
+#       data:
+#         push:
+#           sound: US-EN-Daisy-Master-Bedroom-Window-Open.wav
+#           badge: 5
+#   - service: timer.start
+#     entity_id: timer.timer_furdo_nagyablak_nyitva
+#     data_template:
+#       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00
+# - id: furdo_szelloztetesi_ido_valtozik
+#   trigger:
+#   - platform: state
+#     entity_id: input_number.furdo_szelloztetesi_ido
+#   condition:
+#   - condition: state
+#     entity_id: timer.timer_furdo_nagyablak_nyitva
+#     state: active
+#   action:
+#   - service: timer.cancel
+#     entity_id: timer.timer_furdo_nagyablak_nyitva
+#   - service: timer.start
+#     entity_id: timer.timer_furdo_nagyablak_nyitva
+#     data_template:
+#       duration: 00:{{ states("input_number.furdo_szelloztetesi_ido") | int }}:00

@@ -1,0 +1,62 @@
+- id: custom_button_double_click_when_lights_on
+  alias: Xiaomi Button Double Click If Lights On
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: livingroom_switch_01
+      event: 1004
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: switch.el2_r1_6
+      state: 'on'
+    - condition: state
+      entity_id: switch.nl2_r1_2
+      state: 'on'
+  action:
+  - service: switch.turn_off
+    entity_id: group.downstairs
+- id: custom_button_double_click_when_lights_off
+  alias: Xiaomi Button Double Click If Lights Off
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: livingroom_switch_01
+      event: 1004
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: switch.el2_r1_6
+      state: 'off'
+    - condition: state
+      entity_id: switch.nl2_r1_2
+      state: 'off'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.el2_r1_6
+  - service: switch.turn_on
+    entity_id: switch.nl2_r1_2
+- id: custom_button_push
+  alias: Xaomi Button Test
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: livingroom_switch_01
+      event: 1002
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.light_button_state
+      value: "{% if states.switch.el2_r1_6.state  == 'off' and states.switch.nl2_r1_2.state\
+        \ == 'off' -%}\n  1\n{% elif states.switch.el2_r1_6.state  == 'on' and states.switch.nl2_r1_2.state\
+        \ == 'off' -%}\n  2\n{% elif states.switch.el2_r1_6.state  == 'off' and states.switch.nl2_r1_2.state\
+        \ == 'on' -%}\n  3\n{% else -%}\n  0\n{% endif %}"
+  - service: script.turn_on
+    entity_id: script.xaomi_light_switch_off
+  - service: script.turn_on
+    entity_id: script.xaomi_light_switch

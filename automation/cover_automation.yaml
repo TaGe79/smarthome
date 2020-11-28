@@ -1,0 +1,391 @@
+- id: sidewall_cover_manual_pos_set_down
+  trigger:
+  - platform: state
+    entity_id: input_number.shutter_sidewall_manual_pos
+  condition:
+  - condition: template
+    value_template: '{{ states.input_number.shutter_sidewall_pos.state | int < states.input_number.shutter_sidewall_manual_pos.state | int }}'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time
+      value: '{{ states.input_number.shutter_sidewall_manual_pos.state | int - states.input_number.shutter_sidewall_pos.state | int }}'
+  - service: switch.turn_on
+    entity_id: switch.ro3_l
+
+- id: sidewall_cover_manual_pos_set_up
+  trigger:
+  - platform: state
+    entity_id: input_number.shutter_sidewall_manual_pos
+  condition:
+  - condition: template
+    value_template: '{{ states.input_number.shutter_sidewall_pos.state | int > states.input_number.shutter_sidewall_manual_pos.state | int }}'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time_up
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int - states.input_number.shutter_sidewall_manual_pos.state | int }}'
+  - service: switch.turn_on
+    entity_id: switch.ro3_f
+
+- id: sidewall_cover_upwards_stop
+  alias: Nappali ablak redöny felfele stop
+  trigger:
+  - platform: state
+    entity_id: switch.ro3_f
+    to: 'on'
+    for:
+      seconds: '{{states(''input_number.shutter_sidewall_move_time_up'') | int}}'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro3_l
+  - service: switch.turn_off
+    entity_id: switch.ro3_f
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_pos
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int - states.input_number.shutter_sidewall_move_time_up.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_manual_pos
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time_up
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time
+      value: '{{ 25 - states.input_number.shutter_sidewall_pos.state | int }}'
+- id: sidewall_cover_downwards_stop
+  alias: Nappali ablak redöny lefele stop
+  trigger:
+  - platform: state
+    entity_id: switch.ro3_l
+    to: 'on'
+    for:
+      seconds: '{{states(''input_number.shutter_sidewall_move_time'') | int}}'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro3_l
+  - service: switch.turn_off
+    entity_id: switch.ro3_f
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_pos
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int + states.input_number.shutter_sidewall_move_time.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_manual_pos
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time
+      value: '{{ 25 - states.input_number.shutter_sidewall_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time_up
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int }}'
+# -- position update after manual stop
+- id: sidewall_cover_move_trigger_time
+  alias: Nappali ablak redony mozgas inditasa
+  trigger:
+  - platform: state
+    entity_id: switch.ro3_l
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: switch.ro3_f
+    from: 'off'
+    to: 'on'
+  action:
+  - service: input_datetime.set_datetime
+    entity_id: input_datetime.sidewall_cover_move_start_time
+    data_template:
+      time: "{{ now().strftime('%H:%M:%S') }}"
+- id: sidewall_cover_downwards_manual_stop_trigger
+  alias: Nappali ablak redony lefele kezzel leallitva
+  trigger:
+  - platform: state
+    entity_id: switch.ro3_l
+    from: 'on'
+    to: 'off'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_pos
+      value: '{% set v = states.input_number.shutter_sidewall_pos.state | int + ((now().timestamp() - strptime(states.sensor.date.state,"%Y-%m-%d").timestamp()) | int - state_attr("input_datetime.sidewall_cover_move_start_time","timestamp") | int ), 25 | int %}{{ v | min }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time
+      value: '{{ 25 - states.input_number.shutter_sidewall_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time_up
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int }}'
+- id: sidewall_cover_upwards_manual_stop_trigger
+  alias: Nappali ablak redony felfele kezzel leallitva
+  trigger:
+  - platform: state
+    entity_id: switch.ro3_f
+    from: 'on'
+    to: 'off'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_pos
+      value: '{% set v = states.input_number.shutter_sidewall_pos.state | int - ((now().timestamp() - strptime(states.sensor.date.state,"%Y-%m-%d").timestamp()) | int - state_attr("input_datetime.sidewall_cover_move_start_time","timestamp") | int ), 0 | int %}{{ v | max }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time
+      value: '{{ 25 - states.input_number.shutter_sidewall_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_sidewall_move_time_up
+      value: '{{ states.input_number.shutter_sidewall_pos.state | int }}'
+
+
+- id: livingroom_cover_upwards_stop
+  alias: Nappali redöny felfele stop
+  trigger:
+  - platform: state
+    entity_id: switch.ro1_f_r2_4
+    to: 'on'
+    for:
+      seconds: '{{states(''input_number.shutter_livingroom_move_time_up'') | int}}'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro1_l_r2_2
+  - service: switch.turn_off
+    entity_id: switch.ro1_f_r2_4
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_pos
+      value: '{{ states.input_number.shutter_livingroom_pos.state | int - states.input_number.shutter_livingroom_move_time_up.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time_up
+      value: '{{ states.input_number.shutter_livingroom_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time
+      value: '{{ 42 - states.input_number.shutter_livingroom_pos.state | int }}'
+- id: livingroom_cover_downwards_stop
+  alias: Nappali redöny lefele stop
+  trigger:
+  - platform: state
+    entity_id: switch.ro1_l_r2_2
+    to: 'on'
+    for:
+      seconds: '{{states(''input_number.shutter_livingroom_move_time'') | int}}'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro1_l_r2_2
+  - service: switch.turn_off
+    entity_id: switch.ro1_f_r2_4
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_pos
+      value: '{{ states.input_number.shutter_livingroom_pos.state | int + states.input_number.shutter_livingroom_move_time.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time
+      value: '{{ 42 - states.input_number.shutter_livingroom_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time_up
+      value: '{{ states.input_number.shutter_livingroom_pos.state | int }}'
+# -- position update after manual stop
+- id: livingroom_cover_move_trigger_time
+  alias: Nappali redony mozgas inditasa
+  trigger:
+  - platform: state
+    entity_id: switch.ro1_l_r2_2
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: switch.ro1_f_r2_4
+    from: 'off'
+    to: 'on'
+  action:
+  - service: input_datetime.set_datetime
+    entity_id: input_datetime.livingroom_cover_move_start_time
+    data_template:
+      time: "{{ now().strftime('%H:%M:%S') }}"
+- id: livingroom_cover_downwards_manual_stop_trigger
+  alias: Nappali redony lefele kezzel leallitva
+  trigger:
+  - platform: state
+    entity_id: switch.ro1_l_r2_2
+    from: 'on'
+    to: 'off'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_pos
+      value: '{% set v = states.input_number.shutter_livingroom_pos.state | int + ((now().timestamp() - strptime(states.sensor.date.state,"%Y-%m-%d").timestamp()) | int - state_attr("input_datetime.livingroom_cover_move_start_time","timestamp") | int ), 42 | int %}{{ v | min }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time
+      value: '{{ 42 - states.input_number.shutter_livingroom_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time_up
+      value: '{{ states.input_number.shutter_livingroom_pos.state | int }}'
+- id: livingroom_cover_upwards_manual_stop_trigger
+  alias: Nappali redony felfele kezzel leallitva
+  trigger:
+  - platform: state
+    entity_id: switch.ro1_f_r2_4
+    from: 'on'
+    to: 'off'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_pos
+      value: '{% set v = states.input_number.shutter_livingroom_pos.state | int - ((now().timestamp() - strptime(states.sensor.date.state,"%Y-%m-%d").timestamp()) | int - state_attr("input_datetime.livingroom_cover_move_start_time","timestamp") | int ), 0 | int %}{{ v | max }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time
+      value: '{{ 42 - states.input_number.shutter_livingroom_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time_up
+      value: '{{ states.input_number.shutter_livingroom_pos.state | int }}'
+
+
+#----------------------------------
+#- K ON Y H A I   R E D O N Y O K -
+#----------------------------------
+- id: kitchen_cover_upwards_stop
+  alias: Konyhai redöny felfele stop
+  trigger:
+  - platform: state
+    entity_id: switch.ro2_f_r2_3
+    to: 'on'
+    for:
+      seconds: '{{states(''input_number.shutter_kitchen_move_time_up'') | int}}'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro2_l_r2_1
+  - service: switch.turn_off
+    entity_id: switch.ro2_f_r2_3
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_pos
+      value: '{{ states.input_number.shutter_kitchen_pos.state | int - states.input_number.shutter_kitchen_move_time_up.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_move_time
+      value: '{{ 42 - states.input_number.shutter_kitchen_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_move_time_up
+      value: '{{ states.input_number.shutter_kitchen_pos.state | int}}'
+- id: kitchen_cover_downwards_stop
+  alias: Konyhai redöny lefele stop
+  trigger:
+  - platform: state
+    entity_id: switch.ro2_l_r2_1
+    to: 'on'
+    for:
+      seconds: '{{states(''input_number.shutter_kitchen_move_time'') | int}}'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro2_l_r2_1
+  - service: switch.turn_off
+    entity_id: switch.ro2_f_r2_3
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_pos
+      value: '{{ states.input_number.shutter_kitchen_pos.state | int + states.input_number.shutter_kitchen_move_time.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_move_time
+      value: '{{ 42 - states.input_number.shutter_kitchen_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_move_time_up
+      value: '{{ states.input_number.shutter_kitchen_pos.state | int }}'
+- id: kitchen_cover_move_trigger_time
+  alias: Konyha redony mozgas inditasa
+  trigger:
+  - platform: state
+    entity_id: switch.ro2_l_r2_1
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: switch.ro2_f_r2_3
+    from: 'off'
+    to: 'on'
+  action:
+  - service: input_datetime.set_datetime
+    entity_id: input_datetime.kitchen_cover_move_start_time
+    data_template:
+      time: "{{ now().strftime('%H:%M:%S') }}"
+- id: kitchen_cover_downwards_manual_stop_trigger
+  alias: Konyhai redony lefele kezzel leallitva
+  trigger:
+  - platform: state
+    entity_id: switch.ro2_l_r2_1
+    from: 'on'
+    to: 'off'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_pos
+      value: '{% set v = states.input_number.shutter_kitchen_pos.state | int + ((now().timestamp() - strptime(states.sensor.date.state,"%Y-%m-%d").timestamp()) | int - state_attr("input_datetime.kitchen_cover_move_start_time","timestamp") | int ), 42 | int %}{{ v | min }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_move_time
+      value: '{{ 42 - states.input_number.shutter_kitchen_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_move_time_up
+      value: '{{ states.input_number.shutter_kitchen_pos.state | int }}'
+- id: kitchen_cover_upwards_manual_stop_trigger
+  alias: Konyhai redony felfele kezzel leallitva
+  trigger:
+  - platform: state
+    entity_id: switch.ro2_f_r2_3
+    from: 'on'
+    to: 'off'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_pos
+      value: '{% set v = states.input_number.shutter_kitchen_pos.state | int - ((now().timestamp() - strptime(states.sensor.date.state,"%Y-%m-%d").timestamp()) | int - state_attr("input_datetime.kitchen_cover_move_start_time","timestamp") | int ), 0 | int %}{{ v | max }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_move_time
+      value: '{{ 42 - states.input_number.shutter_kitchen_pos.state | int }}'
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_kitchen_move_time_up
+      value: '{{ states.input_number.shutter_kitchen_pos.state | int }}'
+
+
+
+- id: summer_shutter_auto_open_kitchen
+  alias: Nyari redony automatikus nyitas konyhaban
+  trigger:
+  - platform: template
+    value_template: '{{ states.input_text.summer_shutter_up_time.state == states.sensor.time.state }}'
+  condition:
+  - condition: template
+    value_template: '{{ states.input_number.shutter_kitchen_pos.state | int > 0 }}'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro2_f_r2_3
+
+- id: summer_shutter_auto_open_livingroom
+  alias: Nyari redony automatikus nyitas nappali
+  trigger:
+  - platform: template
+    value_template: '{{ states.input_text.summer_shutter_up_time.state == states.sensor.time.state }}'
+  condition:
+  - condition: template
+    value_template: '{{ states.input_number.shutter_livingroom_pos.state | int > 0 }}'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.ro1_f_r2_4

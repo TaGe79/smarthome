@@ -6,6 +6,21 @@ dalma_iphone:
   gravatar: dalma.gergely@icloud.com
   track: true
 
+# iphone_von_tamas:
+#   hide_if_away: false
+#   name: Tamás
+#   gravatar: tgergel@gmail.com
+
+# csongor_iphone_ja:
+#   hide_if_away: false
+#   name: Csongor
+#   gravatar: csongor.gergely@icloud.com
+
+# csilla_iphone_ja:
+#   hide_if_away: false
+#   name: Csilla
+#   gravatar: kanyocsilla@gmail.com
+
 home_theater:
   hide_if_away: false
   icon:
@@ -30,13 +45,13 @@ b47c9cb07c16:
   picture:
   track: false
 
-csongor_iphone:
-  hide_if_away: false
-  icon:
-  mac: 78:D7:5F:B0:80:EC
-  name: Csongor
-  gravatar: csongor.gergely@icloud.com
-  track: true
+# csongor_iphone:
+#   hide_if_away: false
+#   icon:
+#   mac: 78:D7:5F:B0:80:EC
+#   name: Csongor
+#   gravatar: csongor.gergely@icloud.com
+#   track: true
 
 kicsi_ipad:
   hide_if_away: false
@@ -61,12 +76,6 @@ bcec5de6b170:
   name: bcec5de6b170
   picture:
   track: false
-
-csillaphone:
-  hide_if_away: false
-  name: Csilla
-  gravatar: kanyocsilla@gmail.com
-  track: true
 
 b827eb614476:
   hide_if_away: false
@@ -101,12 +110,6 @@ c8d083b96c7b:
   picture:
   track: false
 
-tamasphone:
-  hide_if_away: false
-  name: Tamás iPhone-ja
-  gravatar: tgergel@gmail.com
-  track: true
-
 24_18_1d_da_f5_24:
   hide_if_away: false
   icon:
@@ -122,12 +125,6 @@ cc_21_19_00_15_bc:
   name: cc 21 19 00 15 bc
   picture:
   track: false
-
-#csongor_iphone_ja:
-#  hide_if_away: false
-#  name: Csongor iPhone-ja
-#  gravatar: csongor.gergely@icloud.com
-#  track: true
 
 e4_e4_ab_77_8e_ea:
   hide_if_away: false
@@ -350,5 +347,131 @@ e4_e4_ab_0a_7c_75:
   icon:
   mac: 96:53:96:AA:74:A6
   name: 96 53 96 aa 74 a6
+  picture:
+  track: true
+
+04_92_26_ca_a6_7c:
+  icon:
+  mac: 04:92:26:CA:A6:7C
+  name: 04_92_26_ca_a6_7c
+  picture:
+  track: true
+
+20_69_80_3f_33_dc:
+  icon:
+  mac: 20:69:80:3F:33:DC
+  name: 20_69_80_3f_33_dc
+  picture:
+  track: true
+
+20_69_80_2e_75_16:
+  icon:
+  mac: 20:69:80:2E:75:16
+  name: 20_69_80_2e_75_16
+  picture:
+  track: true
+
+12_cc_c9_8d_86_83:
+  icon:
+  mac: 12:CC:C9:8D:86:83
+  name: 12_cc_c9_8d_86_83
+  picture:
+  track: true
+
+92_17_66_61_09_7b:
+  icon:
+  mac: 92:17:66:61:09:7B
+  name: 92_17_66_61_09_7b
+  picture:
+  track: true
+
+12_5d_7e_6c_27_fd:
+  icon:
+  mac: 12:5D:7E:6C:27:FD
+  name: 12_5d_7e_6c_27_fd
+  picture:
+  track: true
+
+d2_dc_b7_4d_d7_25:
+  name: d2_dc_b7_4d_d7_25
+  mac: D2:DC:B7:4D:D7:25
+  icon:
+  picture:
+  track: true
+
+76_7d_63_57_0b_27:
+  name: 76_7d_63_57_0b_27
+  mac: 76:7D:63:57:0B:27
+  icon:
+  picture:
+  track: true
+
+56_a8_70_f0_38_b9:
+  name: 56_a8_70_f0_38_b9
+  mac: 56:A8:70:F0:38:B9
+  icon:
+  picture:
+  track: true
+
+26_a6_ee_38_2b_68:
+  name: 26_a6_ee_38_2b_68
+  mac: 26:A6:EE:38:2B:68
+  icon:
+  picture:
+  track: true
+
+3e_69_ba_24_4d_e5:
+  name: 3e_69_ba_24_4d_e5
+  mac: 3E:69:BA:24:4D:E5
+  icon:
+  picture:
+  track: true
+
+4e_81_f9_69_9e_67:
+  name: 4e_81_f9_69_9e_67
+  mac: 4E:81:F9:69:9E:67
+  icon:
+  picture:
+  track: true
+
+ba_64_13_21_41_45:
+  name: ba_64_13_21_41_45
+  mac: BA:64:13:21:41:45
+  icon:
+  picture:
+  track: true
+
+24_6f_28_8f_29_24:
+  name: 24_6f_28_8f_29_24
+  mac: 24:6F:28:8F:29:24
+  icon:
+  picture:
+  track: true
+
+b8_27_eb_27_d5_57:
+  name: b8_27_eb_27_d5_57
+  mac: B8:27:EB:27:D5:57
+  icon:
+  picture:
+  track: true
+
+62_c2_7e_60_ff_4c:
+  name: 62_c2_7e_60_ff_4c
+  mac: 62:C2:7E:60:FF:4C
+  icon:
+  picture:
+  track: true
+
+3a_b1_cb_95_12_e3:
+  name: 3a_b1_cb_95_12_e3
+  mac: 3A:B1:CB:95:12:E3
+  icon:
+  picture:
+  track: true
+
+b8_2c_a0_b6_d3_1e:
+  name: b8_2c_a0_b6_d3_1e
+  mac: B8:2C:A0:B6:D3:1E
+  icon:
   picture:
   track: true

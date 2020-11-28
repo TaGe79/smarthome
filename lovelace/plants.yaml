@@ -1,0 +1,19 @@
+title: Plants
+path: plants
+panel: true
+cards:
+  - type: custom:layout-card
+    layout: horizontal
+    cards:
+    - type: 'custom:plant-picture-card'
+      entity: plant.anthurium_andraeanum
+      image: /local/img/anthurium_andraeanum.png
+      title: Flamingóvirág
+    - type: 'custom:plant-picture-card'
+      entity: plant.gummibaum
+      image: /local/img/gummibaum.png
+      title: Fikusz
+    - type: 'custom:plant-picture-card'
+      entity: plant.dracanea_fragrans
+      image: /local/img/dracanea_fragrans.png
+      title: Sárkányfű

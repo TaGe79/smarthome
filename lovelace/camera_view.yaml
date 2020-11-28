@@ -1,0 +1,22 @@
+title: Camera
+path: camera
+panel: true
+cards:
+- type: horizontal-stack
+  cards:
+  - type: vertical-stack
+    cards:
+      - type: picture
+        image: https://patvar.duckdns.org/local/camera1/image_1.jpg
+      - type: picture
+        image: https://patvar.duckdns.org/local/camera1/image_3.jpg
+      - type: picture
+        image: https://patvar.duckdns.org/local/camera1/image_5.jpg
+  - type: vertical-stack
+    cards:
+      - type: picture
+        image: https://patvar.duckdns.org/local/camera1/image_2.jpg
+      - type: picture
+        image: https://patvar.duckdns.org/local/camera1/image_4.jpg
+      - type: picture
+        image: https://patvar.duckdns.org/local/camera1/image_6.jpg

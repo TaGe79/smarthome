@@ -10,7 +10,11 @@ xaomi_light_switch_off:
         {% if states.input_number.light_button_state.state | int == 0 -%}
           group.downstairs
         {% elif states.input_number.light_button_state.state | int == 1 -%}
-          group.living_room
+          {% if states.input_select.scene_home.state == 'Working' -%}
+            group.living_room_working
+          {%- else -%}
+            group.living_room
+          {%- endif %}
         {% elif states.input_number.light_button_state.state | int == 2 -%}
           group.kitchen
         {% endif %}
@@ -19,7 +23,7 @@ xaomi_light_switch:
   alias: Villanykapcsolo
   sequence:
    - condition: and
-     conditions:      
+     conditions:
       - condition: numeric_state
         entity_id: input_number.light_button_state
         above: 0
@@ -40,7 +44,7 @@ xaomi_light_switch:
 ambient_lights_on:
   alias: Ambient lights
   sequence:
-  - condition: and 
+  - condition: and
     conditions:
     - condition: state
       entity_id: 'group.csalad'
@@ -49,7 +53,7 @@ ambient_lights_on:
       entity_id: 'input_boolean.auto_ambiance_mode'
       state: 'on'
     - condition: template
-      value_template: '{{ states.input_select.scene_home.state == "General" }}'
+      value_template: '{{ states.input_select.scene_home.state == "General" or states.input_select.scene_home.state == "Working" }}'
     - condition: or
       conditions:
       - condition: state
@@ -63,7 +67,7 @@ ambient_lights_on:
     entity_id: script.stairs_ambient_lights_on
   - service: script.turn_on
     entity_id: script.kitchen_light_ambient
-  
+
 
 movie_cover_close:
   alias: Cover down on movie scene
@@ -75,6 +79,18 @@ movie_cover_close:
     entity_id: switch.ro2_l_r2_1
   - service: switch.turn_on
     entity_id: switch.ro1_l_r2_2
+  - service: switch.turn_on
+    entity_id: switch.ro3_l
+
+morning_cover_open:
+  alias: Cover up int the morning
+  sequence:
+  - service: switch.turn_on
+    entity_id: switch.ro2_f_r2_3
+  - service: switch.turn_on
+    entity_id: switch.ro1_f_r2_4
+  - service: switch.turn_on
+    entity_id: switch.ro3_f
 
 livingroom_ambient_lights_on:
   alias: Livingroom ambient lights
@@ -102,6 +118,26 @@ stairs_ambient_lights_on:
     data_template:
       brightness: '{{ states.input_number.stair_ambient_brightness.state | int }}'
 
+kitchen_light_off:
+  alias: Kitchen light off
+  sequence:
+  - service: light.turn_off
+    entity_id: light.kitchen_desk
+
+downstairs_lights_off:
+  alias: lenti lampak leolt
+  sequence:
+  - service: light.turn_off
+    entity_id: light.livingroom_ceiling
+  - service: light.turn_off
+    entity_id: light.livingroom_wall
+  - service: light.turn_off
+    entity_id: light.kitchen_desk
+  - service: light.turn_off
+    entity_id: light.stairs_1
+  - service: light.turn_off
+    entity_id: light.stairs_2
+
 kitchen_light_ambient:
   alias: Kitchen desk led
   sequence:
@@ -109,7 +145,7 @@ kitchen_light_ambient:
     entity_id: light.kitchen_desk
     data_template:
       brightness: '{{states.input_number.kitchen_ambient_brightness.state | int }}'
-      rgb_color: 
+      rgb_color:
       - >
         {% if states.input_select.scene_home.state == "Movie" %}
           255

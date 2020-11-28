@@ -1,0 +1,29 @@
+- id: flamingovirag_water_required
+  alias: Flamingovirag water required
+  trigger:
+  - entity_id: plant.anthurium_andraeanum
+    platform: numeric_state
+    value_template: '{{ state.attributes.moisture }}'
+    below: 15
+  - entity_id: plant.gummibaum
+    platform: numeric_state
+    value_template: '{{ state.attributes.moisture }}'
+    below: 15  
+  - entity_id: plant.dracanea_fragrans
+    platform: numeric_state
+    value_template: '{{ state.attributes.moisture }}'
+    below: 15 
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      after: '09:00:00'
+      before: '21:00:00'  
+  action:
+  - service: notify.csilla_tamas_phone
+    data:
+      title: '💧💧🌸🌸💧💧'     
+      message: "A {% if trigger.entity_id == 'plant.anthurium_andraeanum' %}flamingóvirágot{% elif trigger.entity_id == 'plant.gummibaum' %}fikuszt{%elif trigger.entity_id == 'plant.dracanea_fragrans' %}sárkányfűt{% endif %} meg kéne locsolni"
+      data:
+        channel: Flower
+        clickAction: /lovelace/plants

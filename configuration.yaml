@@ -20,13 +20,28 @@ homeassistant:
 
     "timer.timer_*":
       hidden: true
-  
+
   auth_providers:
     - type: homeassistant
 
 lovelace:
-   mode: yaml
-  
+  mode: yaml
+  resources:
+    - url: /local/shutter.js
+      type: js
+    - url: /local/mini-graph-card-bundle.js?v=0.9.3
+      type: module
+    - url: /local/button-card/button-card.js?v=0.10.2
+      type: module
+    - url: /local/fkf-garbage-collection-card/dist/fkf-garbage-collection-card.js
+      type: js
+    - url: /local/slider-entity-row.js
+      type: module
+    - url: /hacsfiles/PlantPictureCard/PlantPictureCard.js
+      type: module
+    - url: /local/layout-card.js
+      type: module
+
 #    "binary_sensor.*p*":
 #      hidden: true
 system_health:
@@ -34,13 +49,23 @@ system_health:
 zeroconf:
 
 ios:
+  actions:
+    - name: nappali_lamba
+      background_color: "#00001f"
+      label: 
+        text: "Nappali"
+        color: "#ffffff"
+
+evohome:
+  username: !secret tcc_username
+  password: !secret tcc_password
 
 logger:
-  default: info
+  default: warning
   logs:
     pydeconz: info
     homeassistant.components.deconz: info
-
+    custom_components.mitemp_bt: info
 zone:
   - name: Home
     latitude: 47.440428
@@ -62,7 +87,7 @@ zone:
     longitude: 19.004202
     radius: 50
     icon: mdi:school
-    
+
 # Enables the frontend
 frontend:
   javascript_version: latest
@@ -79,7 +104,7 @@ http:
   #use_x_forwarded_for: true
   #trusted_proxies:
   #  - 127.0.0.1
-  #  - ::1  
+  #  - ::1
   # ssl_profile: intermediate
 
 # Checks for available updates
@@ -93,7 +118,6 @@ updater:
 
 recorder:
   purge_keep_days: 30
-  purge_interval: 1
   include:
     domains:
       - sensor
@@ -104,27 +128,25 @@ recorder:
       - binary_sensor
       - sun
       - device_tracker
+      - input_number
     entities:
       - group.csalad
       - group.downstairs
       - group.bathroom_windows
   exclude:
+    entity_globs:
+      - sensor.weather_*
+      - sensor.dark_sky_*
     entities:
+     - sun.sun
      - sensor.last_boot
      - sensor.date
-  
-apple_tv: 
-  - host: 192.168.0.171
-    login_id: 0x426ABEFDB2659F9C
-    name: Wohnzimmer
+     - sensor.time
 
 mobile_app:
 
 # Discover some devices automatically
 discovery:
-
-# Allows you to issue voice commands from the frontend in enabled browsers
-conversation:
 
 # Enables support for tracking state changes over time
 history:
@@ -134,10 +156,10 @@ history:
       - light
       - switch
       - media_player
-      - automation
       - binary_sensor
       - sun
       - device_tracker
+      - person
     entities:
       - group.csalad
       - group.downstairs
@@ -146,8 +168,8 @@ history:
     entities:
      - sensor.last_boot
      - sensor.date
-     
-    
+
+
 # View all events in a logbook
 logbook:
 
@@ -212,33 +234,60 @@ switch: !include switches.yaml
 #  username: !secret ddns_user
 #  password: !secret ddns_password
 
-media_player:
-  - platform: denonavr
-    host: 192.168.0.151
-    name: Home-Theater
-    show_all_sources: True
+# media_player:
+#   - platform: denonavr
+#     host: 192.168.0.151
+#     name: Home-Theater
+#     show_all_sources: True
+
+# apple_tv_mrp:
+#   - name: Wohnzimmer
+#     host: 192.168.0.171
+#     port: 49153
 
 #  - platform: firetv
 #    name: FireTV
 #    host: 192.168.0.167
 
 input_text:
+  working_shutter_up_time:
+    name: Shutter up while working
+    pattern: '[0-2]?[0-9]:[0-5][0-9]'
+    initial: '11:45'
+  summer_shutter_up_time:
+    name: Shutter up in the summer
+    pattern: '[0-2]?[0-9]:[0-5][0-9]'
+    initial: '11:45'
+
+input_datetime:
   wake_up_time:
     name: Wake up time
-    pattern: '[0-2]?[0-9]:[0-5][0-9]'
-    initial: '05:30'
+    has_date: false
+    has_time: true
   sleep_time:
     name: Sleep time
-    pattern: '[0-2]?[0-9]:[0-5][0-9]'
-    initial: '22:00'
+    has_date: false
+    has_time: true
   general_scene_time:
     name: General time
-    pattern: '[0-2]?[0-9]:[0-5][0-9]'
-    initial: '08:00'
+    has_date: false
+    has_time: true
   stairs_ambient_off_time:
     name: Stairs auto-off
-    pattern: '[0-2]?[0-9]:[0-5][0-9]'
-    initial: '21:00'
+    has_date: false
+    has_time: true
+  sidewall_cover_move_start_time:
+    name: Ablak redony mozgas bekapcs
+    has_date: false
+    has_time: true
+  livingroom_cover_move_start_time:
+    name: Nappali redony mozgas bekapcs
+    has_date: false
+    has_time: true
+  kitchen_cover_move_start_time:
+    name: Konyhai redony mozgas bekapcs
+    has_date: false
+    has_time: true
 
 input_select:
   scene_home:
@@ -248,7 +297,7 @@ input_select:
       - Movie
       - Sleepy
       - WakeUp
-    initial: 'General'
+      - Working
 
 input_boolean:
   extended_shutter_control:
@@ -265,28 +314,71 @@ input_boolean:
   auto_cover_for_movie_scene:
     name: Redőny le mozi kozben
     initial: on
+  automatic_kitchen_light_on:
+    name: Konyhalampa automatikusan kapcsolt
+  automatic_livingroom_light_on:
+    name: Nappali automatikusan kapcsolt
+  automatic_bathroom_lights:
+    name: Automata furdo lampa
 
 camera:
-  - platform: generic
-    name: patvarcam
-    stream_source: rtps://192.168.100.17:8554/2.3gp
-    still_image_url: http://hassio.local:8123/api/hassio_ingress/OSBXFfzy5ExzdnEEEdxp74jxXyw-07ZN6NXj7ESE6jg/picture/1/current/?_username=admin&_signature=4126904ea62cee05cda1b7a9219c6da7e3f424f1
+  - platform: mjpeg
+    name: gpcam
     verify_ssl: false
+    still_image_url: "http://192.168.0.107:8123/api/hassio_ingress/3R2tWgpcUvxr0djlFLs__6TpoJVbjXRAg0MqtDDKNKs/picture/1/current/?_username=admin&_signature=4126904ea62cee05cda1b7a9219c6da7e3f424f1"
+    mjpeg_url: "http://192.168.0.107:8081/"
+    authentication: digest
+    username: !secret camera_surveilance_user
+    password: !secret camera_surveilance_password
 
 notify:
   - name: csilla_tamas_phone
     platform: group
     services:
-      - service: ios_tamasphone
-      - service: ios_csilla_iphoneja
+      - service: mobile_app_iphone_von_tamas
+      - service: mobile_app_csilla_iphone_ja
   - name: tamas
     platform: group
     services:
-      - service: ios_tamasphone
+      - service: mobile_app_iphone_von_tamas
+
+plant:
+  anthurium_andraeanum:
+    sensors:
+      moisture: sensor.mi_m_c47c8d6bae31
+      temperature: sensor.mi_t_c47c8d6bae31
+      conductivity: sensor.mi_c_c47c8d6bae31
+      brightness: sensor.mi_l_c47c8d6bae31
+    min_moisture: 15  
+  gummibaum:
+    sensors:
+      moisture: sensor.mi_moisture_c47c8d6b9d96
+      brightness: sensor.mi_llluminance_c47c8d6b9d96
+      conductivity: sensor.mi_conductivity_c47c8d6b9d96
+      temperature: sensor.mi_temperature_c47c8d6b9d96
+    min_moisture: 15
+  orchidea:
+    sensors:
+      moisture: sensor.mi_moisture_c47c8d6b9e36
+      brightness: sensor.mi_llluminance_c47c8d6b9e36
+      conductivity: sensor.mi_conductivity_c47c8d6b9e36
+      temperature: sensor.mi_temperature_c47c8d6b9e36
+    min_moisture: 0
+  dracanea_fragrans:
+    sensors:
+      moisture: sensor.mi_moisture_c47c8d6b9d4e
+      brightness: sensor.mi_llluminance_c47c8d6b9d4e
+      conductivity: sensor.mi_conductivity_c47c8d6b9d4e
+      temperature: sensor.mi_temperature_c47c8d6b9d4e
+    min_moisture: 15
+
 
 input_number: !include input_numbers.yaml
 timer: !include timers.yaml
 group: !include groups.yaml
-automation: !include automations.yaml
+#automation: !include automations.yaml
+automation: !include_dir_merge_list automation/
 script: !include scripts.yaml
 scene: !include scenes.yaml
+shell_command: !include shell_commands.yaml
+person: !include persons.yaml

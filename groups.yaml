@@ -1,40 +1,39 @@
-default_view:
-    view: true
-    icon: mdi:home
-    entities:
-      - binary_sensor.teraszajto
-      - binary_sensor.openclose_9
-      - binary_sensor.openclose_10
-      - sensor.dark_sky_icon
-      - group.idojaras
-      - group.csalad
-      - group.downstairs
-      - group.kitchen
-      - group.living_room
-      - light.fal
-      - light.plafon
-      - light.halofolyoso
-      - light.konyhapult
 
 idojaras:
     name: Időjárás
     icon: mdi:cloud
-    control: hidden
     entities:
       - sensor.dark_sky_summary_3
       - sensor.dark_sky_temperature
       - weather.dark_sky
-      
+
 csalad:
     name: Család
     icon: mdi:account-group
-    control: hidden
     entities:
-      - device_tracker.csilla_iphone_ja
-      - device_tracker.dalma_iphone
-      - device_tracker.csongor_iphone_ja
-      - device_tracker.iphone_von_tamas
+      - person.csilla
+      - person.dalma
+      - person.csongor
+      - person.tamas
+      - person.luca
 
+downstairs_movement:
+    name: mozgaserzekelok lent
+    entities:
+        - binary_sensor.folyoso_motion
+        - binary_sensor.presence_20
+        - binary_sensor.ep1
+        - binary_sensor.np1
+        - binary_sensor.kitchen_new
+        - binary_sensor.kitchen_desk_motion
+
+downstairs_covers_up:
+    name: Lenti redonyok
+    entities:
+      - switch.ro3_f
+      - switch.ro1_f_r2_4
+      - switch.ro2_f_r2_3
+      
 downstairs:
     name: Also szint
     entities:
@@ -43,7 +42,7 @@ downstairs:
       - group.ambient_lights
 
 kitchen:
-    name: Konyha    
+    name: Konyha
     entities:
       - switch.el1_r1_5
       - switch.el2_r1_6
@@ -56,13 +55,19 @@ living_room:
       - switch.nl2_r1_2
       - switch.nl3_r1_3
 
+living_room_working:
+    name: Nappali ha dolgozom
+    entities:
+      - switch.nl1_r1_1
+      - switch.nl2_r1_2
+
 ambient_lights:
     name: Ambient
     entities:
       - light.livingroom_ceiling
       - light.livingroom_wall
-      - group.stairs
       - light.kitchen_desk
+      - group.stairs
 
 stairs:
     name: Lepcso
@@ -70,44 +75,8 @@ stairs:
       - light.stairs_1
       - light.stairs_2
 
-scenes:
-    view: true
-    icon: mdi:home-circle
-    control: hidden
-    entities:
-      - input_boolean.scene_sleepy_home_on
-      - input_boolean.scene_movie_on
-      - input_boolean.scene_general_on
-      - scene.General
-      - scene.Sleepy_Home
-      - scene.Movie
-      
-sensors:
-    view: true
-    icon: mdi:smoke-detector
-    entities:
-      - binary_sensor.ep1
-      - binary_sensor.np1
-      - binary_sensor.np2
-      - binary_sensor.presence_16
-      - binary_sensor.tradfri_motion_sensor
-      - binary_sensor.presence_5
-
-automata_lampak:
-    view: true
-    name: Automata lámpák
-    control: hidden
-    entities:
-      - automation.ep1_lights_off
-      - automation.ep1_lights_on
-      - automation.np1_lights_on
-      - automation.np1_lights_off
-      - automation.np2_lights_on
-      - automation.np2_lights_off
-
 bathroom_windows:
   name: Furdo ablakok
-  control: hidden
   entities:
-    - binary_sensor.openclose_15
-    - binary_sensor.openclose_11
+    - binary_sensor.bathroom_small_window
+    - binary_sensor.bathroom_big_window

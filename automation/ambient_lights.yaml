@@ -1,0 +1,74 @@
+- id: automatic_ambient_lights_on
+  alias: Automatic ambient lights
+  trigger:
+  - platform: state
+    entity_id: sun.sun
+    to: below_horizon
+  - platform: template
+    value_template: '{{ states.sensor.kitchen_new.state | int < states.input_number.ambient_on_below_lux.state
+      | int }}'
+  - platform: state
+    entity_id: group.downstairs_movement
+    to: 'on'
+  - platform: state
+    entity_id: input_number.livingroom_ambient_brightness
+  - platform: state
+    entity_id: input_number.stair_ambient_brightness
+  - platform: state
+    entity_id: input_number.ambient_off_above_lux
+  - platform: state
+    entity_id: input_number.ambient_on_below_lux
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: '{{ states.sensor.kitchen_new.state | int < states.input_number.ambient_on_below_lux.state
+        | int }}'
+  action:
+  - service: script.turn_on
+    entity_id: script.ambient_lights_on
+
+- id: automatic_ambient_lights_off
+  alias: Automatic ambient lights out
+  trigger:
+  - platform: state
+    entity_id: group.downstairs_movement
+    to: 'off'
+    for:
+      minutes: 10      
+  - platform: template
+    value_template: '{{ states.sensor.kitchen_new.state | int > states.input_number.ambient_off_above_lux.state
+      | int }}'
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: light.livingroom_ceiling
+      state: 'on'
+    - condition: state
+      entity_id: light.livingroom_wall
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.auto_ambiance_mode
+      state: 'on'
+    - condition: template
+      value_template: '{{ states.input_select.scene_home.state != "Movie" }}'
+  action:
+  - service: light.turn_off
+    data:
+      entity_id: light.livingroom_ceiling
+  - service: light.turn_off
+    data:
+      entity_id: light.livingroom_wall
+  - service: light.turn_off
+    data:
+      entity_id: light.stairs
+      
+- id: stairs_ambient_off
+  alias: Stairs ambient off
+  trigger:
+  - platform: template
+    value_template: '{{ state_attr("input_datetime.stairs_ambient_off_time", "timestamp") | int | timestamp_custom("%H:%M", True) == states.sensor.time.state }}'
+  action:
+  - service: light.turn_off
+    entity_id: light.stairs

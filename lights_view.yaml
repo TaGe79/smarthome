@@ -1,0 +1,112 @@
+views:
+    #---------------------------------------------------------------------
+    #- L I G H T S
+    #---------------------------------------------------------------------
+    title: Lámpák
+    path: lights
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: "custom:button-card"
+            color_type: label-card
+            name: Nappali
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.nl1_r1_1
+                icon: mdi:numeric-1-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: switch.nl2_r1_2
+                icon: mdi:numeric-2-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: switch.nl3_r1_3
+                icon: mdi:numeric-3-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: group.living_room
+                show_name: false
+                state:
+                  - value: 'on'
+                    icon: mdi:eye-off
+                  - value: 'off'
+                    icon: mdi:eye
+          - type: "custom:button-card"
+            color_type: label-card
+            name: Konyha
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: switch.el1_r1_5
+                icon: mdi:numeric-1-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: switch.el2_r1_6
+                icon: mdi:numeric-2-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: switch.el3_r1_7
+                icon: mdi:numeric-3-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: group.kitchen
+                show_name: false
+                state:
+                  - value: 'on'
+                    icon: mdi:eye-off
+                  - value: 'off'
+                    icon: mdi:eye
+          - type: "custom:button-card"
+            color_type: label-card
+            name: Terasz
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: light.terasz_1
+                icon: mdi:numeric-1-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: light.terasz_2
+                icon: mdi:numeric-2-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: light.terrace
+                show_name: false
+                state:
+                  - value: 'on'
+                    icon: mdi:eye-off
+                  - value: 'off'
+                    icon: mdi:eye
+          - type: "custom:button-card"
+            color_type: label-card
+            name: Lépcső
+          - type: horizontal-stack
+            cards:
+              - type: "custom:button-card"
+                entity: light.stairs_1
+                icon: mdi:numeric-1-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: light.stairs_2
+                icon: mdi:numeric-2-box-outline
+                show_name: false
+              - type: "custom:button-card"
+                entity: light.stairs_3
+                show_name: false
+                state:
+                  - value: 'on'
+                    icon: mdi:eye-off
+                  - value: 'off'
+                    icon: mdi:eye
+      - type: entities
+        title: Konyha
+        entities:
+          - entity: light.kitchen_desk
+            name: konyhapult
+          - binary_sensor.kitchen_desk_motion
+      - type: entities
+        title: Ambiente
+        entities:
+          - light.livingroom_ceiling
+          - light.livingroom_wall

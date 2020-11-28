@@ -1,0 +1,134 @@
+- id: heos_music_streaming
+  alias: Music while working
+  description: Reduce volume when music gets streamed to home-theatre
+  trigger:
+  - entity_id: media_player.home_theater_heos
+    platform: state
+    to: playing
+    for:
+      seconds: 5
+  - platform: template
+    value_template: '{{ state_attr(''media_player.home_theater_heos'', ''media_content_id'')
+      == ''Airplay'' }}'
+  condition:
+  - condition: template
+    value_template: '{{ states.input_select.scene_home.state == ''Working''}}'
+  action:
+  - data:
+      entity_id: media_player.home_theater
+      volume_level: 0.18
+    service: media_player.volume_set
+- id: working_scene_on
+  alias: Trigger working scene
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: downstairs_switch_01
+      event: 1002
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.scene_home
+      state: General
+    - condition: state
+      entity_id: input_select.scene_home
+      state: WakeUp
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: Working
+- id: working_scene_off
+  alias: Turn working scene off
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: downstairs_switch_01
+      event: 1002
+  condition:
+  - condition: state
+    entity_id: input_select.scene_home
+    state: Working
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.scene_home
+      option: General
+- id: working_light_on
+  alias: Light on in working scene
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.scene_home
+    to: Working
+  - platform: state
+    entity_id: sun.sun
+    to: below_horizon
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+    - condition: state
+      entity_id: input_select.scene_home
+      state: Working
+  action:
+  - service: switch.turn_on
+    entity_id: switch.nl3_r1_3
+- id: working_shutter_down
+  alias: Shutter down in working scene
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.scene_home
+    to: Working
+  condition:
+  - condition: time
+    after: 06:20:00
+    before: '15:00:00'
+  - condition: template
+    value_template: '{{ states.weather.dark_sky.state != "cloudy" }}'
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time
+      value: 15
+  - service: switch.turn_on
+    entity_id: switch.ro1_l_r2_2
+- id: working_shutter_automatically_up
+  alias: Pull up shutter in working scene automatically
+  initial_state: 'on'
+  trigger:
+  - platform: template
+    value_template: '{{ states.input_text.working_shutter_up_time.state == states.sensor.time.state
+      }}'
+  condition:
+  - condition: state
+    entity_id: input_select.scene_home
+    state: Working
+  action:
+  - service: switch.turn_on
+    entity_id: switch.ro1_f_r2_4
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.shutter_livingroom_move_time
+      value: 15
+- id: switch_off_working_scene
+  alias: Switch off working scene
+  initial_state: 'on'
+  trigger:
+  - platform: state
+    entity_id: input_select.scene_home
+    from: Working
+  condition:
+  - condition: template
+    value_template: '{{ states.input_select.scene_home.state != "Movie" }}'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.ro1_f_r2_4
+  - service: switch.turn_off
+    entity_id: switch.nl3_r1_3

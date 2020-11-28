@@ -1,0 +1,11 @@
+- id: "Nappali lights action"
+  alias: "Nappali lights action"
+  initial_state: true
+  trigger:
+    - platform: event
+      event_type: ios.action_fired
+      event_data:
+        actionName: 'nappali_lamba'
+  action:
+    service: switch.turn_on
+    entity_id: switch.nl2_r1_2

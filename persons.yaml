@@ -1,0 +1,30 @@
+- name: Tamas
+  id: tamas
+  user_id: e4de40ef28cb4fcc85ba677ef9de9c43
+  device_trackers:
+    - device_tracker.iphone_von_tamas
+
+- name: Csilla
+  id: csilla
+  user_id: 47545bf46e9b4b7684ac59207a1e242d
+  device_trackers:
+    - device_tracker.csilla_iphone_ja_2
+
+- name: Csongor
+  id: csongor
+  user_id: 64d166f6931b4e1d9c5a61509d21fdb6
+  device_trackers:
+    - device_tracker.csongor_iphone_ja
+
+- name: Dalma
+  id: dalma
+  user_id: d5f44fa1400147288cca162da7fb8328
+  device_trackers:
+    - device_tracker.dalma_iphone_ja
+    - device_tracker.dalma_iphone
+
+- name: Luca
+  id: luca
+  user_id: 7ed79554ece04f39bdd559085be03bc1
+  device_trackers:
+    - device_tracker.luca_iphone_ja
